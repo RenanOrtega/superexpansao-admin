@@ -30,7 +30,7 @@ export function DynamicTable<T extends { id: string }>({
 
   return (
     <>
-      <div className="bg-white shadow-lg rounded">
+      <div className="bg-white shadow-lg rounded border-l-2 border-orange-500">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
