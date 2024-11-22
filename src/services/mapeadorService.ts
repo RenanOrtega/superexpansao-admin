@@ -1,8 +1,8 @@
 import { PaginationResponse } from "@/types/pagination";
 import { Mapeador, MapeadorFormData } from "../types/mapeador";
-import { api } from "./api";
 import endpoints from "./endpoints";
 import { MapeadorFilterParams } from "@/types/filters";
+import api from "./api";
 
 export const mapeadorService = {
   async get(filters: MapeadorFilterParams) {

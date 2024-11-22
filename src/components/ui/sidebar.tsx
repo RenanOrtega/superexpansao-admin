@@ -10,9 +10,9 @@ import {
   ChevronsRight,
   Building,
 } from "lucide-react";
-import { authService } from "../../services/authService";
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 
 const menuItems = [
   {
@@ -53,13 +53,9 @@ const menuItems = [
 ];
 
 const Sidebar = () => {
+  const { user, signOut } = useAuth();
   const [expanded, setExpanded] = useState(true);
   const location = useLocation();
-  const email = localStorage.getItem("userEmail") || "";
-
-  const handleLogout = () => {
-    authService.logout();
-  };
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -120,11 +116,11 @@ const Sidebar = () => {
           <div className="flex justify-between items-center">
             <div>
               <p className="text-sm font-medium">
-                {email || "usuario@email.com"}
+                {user?.email || "usuario@email.com"}
               </p>
             </div>
             <button
-              onClick={handleLogout}
+              onClick={signOut}
               className="text-gray-500 hover:text-red-500 transition-colors"
             >
               <LogOut size={20} />
@@ -132,7 +128,7 @@ const Sidebar = () => {
           </div>
         ) : (
           <button
-            onClick={handleLogout}
+            onClick={signOut}
             className="text-gray-500 hover:text-red-500 transition-colors"
           >
             <LogOut size={20} />

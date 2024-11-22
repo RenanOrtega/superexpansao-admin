@@ -1,26 +1,19 @@
 import { useState } from "react";
-import { LoginCredentials } from "../types/auth";
+import { AuthResponse } from "../types/auth";
 import { useNavigate } from "react-router-dom";
-import { authService } from "../services/authService";
 import { AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
 
 const LoginPage = () => {
-  const [credentials, setCredentials] = useState<LoginCredentials>({
-    email: "",
-    password: "",
-  });
-  const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setCredentials((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { signIn } = useAuth();
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -28,10 +21,20 @@ const LoginPage = () => {
     setIsLoading(true);
 
     try {
-      await authService.login(credentials);
+      const response = await fetch("https://localhost:44314/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data: AuthResponse = await response.json();
+
+      signIn(data.token, data.email);
       navigate("/");
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Credenciais inválidas");
+    } catch (error) {
+      console.error("Erro ao fazer login:", error);
     } finally {
       setIsLoading(false);
     }
@@ -61,8 +64,8 @@ const LoginPage = () => {
               type="email"
               id="email"
               name="email"
-              value={credentials.email}
-              onChange={handleChange}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             />
@@ -79,8 +82,8 @@ const LoginPage = () => {
               type="password"
               id="password"
               name="password"
-              value={credentials.password}
-              onChange={handleChange}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               required
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             />

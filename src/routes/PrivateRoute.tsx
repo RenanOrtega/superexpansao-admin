@@ -1,12 +1,8 @@
-import { Navigate } from "react-router-dom";
-import { authService } from "../services/authService";
+import { Navigate, Outlet } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
-export const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
-  const isAuthenticated = authService.isAuthenticated();
+export function PrivateRoute() {
+  const { isAuthenticated } = useAuth();
 
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
-  }
-
-  return <>{children}</>;
-};
+  return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
+}

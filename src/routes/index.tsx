@@ -3,43 +3,30 @@ import { PrivateRoute } from "./PrivateRoute";
 import LoginPage from "../pages/LoginPage";
 import SidebarLayout from "../components/layouts/SidebarLayout";
 import HomePage from "../pages/HomePage";
-import ConfigurationPage from "../pages/ConfigurationPage";
 import MapeadorPage from "@/pages/MapeadorPage";
 
 const Routes = () => {
   return (
     <ReactRoutes>
       <Route path="/login" element={<LoginPage />} />
-      <Route
-        path="/"
-        element={
-          <PrivateRoute>
+      <Route element={<PrivateRoute />}>
+        <Route
+          path="/"
+          element={
             <SidebarLayout>
               <HomePage />
             </SidebarLayout>
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/mapeadores"
-        element={
-          <PrivateRoute>
+          }
+        />
+        <Route
+          path="/mapeadores"
+          element={
             <SidebarLayout>
               <MapeadorPage />
             </SidebarLayout>
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/configuracoes"
-        element={
-          <PrivateRoute>
-            <SidebarLayout>
-              <ConfigurationPage />
-            </SidebarLayout>
-          </PrivateRoute>
-        }
-      />
+          }
+        />
+      </Route>
     </ReactRoutes>
   );
 };
