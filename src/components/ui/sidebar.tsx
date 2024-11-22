@@ -30,9 +30,9 @@ const menuItems = [
     path: "/pedidos",
   },
   {
-    label: "Motoboys",
+    label: "Mapeadores",
     icon: Bike,
-    path: "/motoboys",
+    path: "/mapeadores",
   },
   {
     label: "Empresas",

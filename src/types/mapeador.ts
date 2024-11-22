@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export interface Motoboy {
+export interface Mapeador {
   id: string;
   name: string;
   telephone: string;
@@ -11,7 +11,7 @@ export interface Motoboy {
   lastMapping: Date;
 }
 
-export const motoboySchema = z.object({
+export const mapeadorSchema = z.object({
   name: z.string().min(1, "Nome é obrigatório"),
   telephone: z.string().regex(/^\(\d{2}\) \d{5}-\d{4}$/, "Telefone inválido"),
   city: z.string().min(1, "Cidade é obrigatória"),
@@ -21,8 +21,8 @@ export const motoboySchema = z.object({
   lastMapping: z.date({ required_error: "Último Mapeamento é obrigatório" }),
 });
 
-export type MotoboyFormData = z.infer<typeof motoboySchema>;
+export type MapeadorFormData = z.infer<typeof mapeadorSchema>;
 
-export interface CreateMotoboyDialogProps {
-  onCreate: (data: MotoboyFormData) => Promise<void>;
+export interface CreateMapeadorDialogProps {
+  onCreate: (data: MapeadorFormData) => Promise<void>;
 }

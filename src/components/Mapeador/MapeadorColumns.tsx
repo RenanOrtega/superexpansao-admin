@@ -1,8 +1,8 @@
+import { Mapeador } from "@/types/mapeador";
 import { ColumnDef } from "@tanstack/react-table";
-import { Motoboy } from "@/types/motoboy";
 import { format } from "date-fns";
 
-export const columns: ColumnDef<Motoboy>[] = [
+export const columns: ColumnDef<Mapeador>[] = [
   {
     header: "Nome",
     accessorKey: "name",

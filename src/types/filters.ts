@@ -4,16 +4,16 @@ export interface GenericFilterParams {
   [key: string]: string | number | undefined;
 }
 
-export interface MotoboyFilterParams extends GenericFilterParams {
+export interface MapeadorFilterParams extends GenericFilterParams {
   name?: string;
   city?: string;
   vehicle?: string;
   lastMapping?: string;
 }
 
-export interface MotoboyFiltersProps {
-  activeFilters: MotoboyFilterParams;
-  onApplyFilters: (filters: MotoboyFilterParams) => void;
+export interface MapeadorFiltersProps {
+  activeFilters: MapeadorFilterParams;
+  onApplyFilters: (filters: MapeadorFilterParams) => void;
 }
 
 export type FilterFunction<T extends GenericFilterParams> = (

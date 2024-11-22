@@ -1,6 +1,6 @@
 const endpoints = {
   login: "/auth/login",
-  motoboy: "/motoboy",
+  mapeador: "/mapeador",
 };
 
 export default endpoints;

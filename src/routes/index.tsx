@@ -4,7 +4,7 @@ import LoginPage from "../pages/LoginPage";
 import SidebarLayout from "../components/layouts/SidebarLayout";
 import HomePage from "../pages/HomePage";
 import ConfigurationPage from "../pages/ConfigurationPage";
-import MotoboyPage from "@/pages/MotoboyPage";
+import MapeadorPage from "@/pages/MapeadorPage";
 
 const Routes = () => {
   return (
@@ -21,11 +21,11 @@ const Routes = () => {
         }
       />
       <Route
-        path="/motoboys"
+        path="/mapeadores"
         element={
           <PrivateRoute>
             <SidebarLayout>
-              <MotoboyPage />
+              <MapeadorPage />
             </SidebarLayout>
           </PrivateRoute>
         }

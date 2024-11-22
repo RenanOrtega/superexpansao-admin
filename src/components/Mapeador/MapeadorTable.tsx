@@ -1,20 +1,20 @@
 import { useEffect, useState } from "react";
 import { PaginationResponse } from "@/types/pagination";
 import { DynamicTable } from "../DynamicTable";
-import { motoboyService } from "@/services/motoboyService";
-import { MotoboyFilterParams } from "@/types/filters";
-import { Motoboy } from "@/types/motoboy";
-import { columns } from "./MotoboyColumns";
+import { MapeadorFilterParams } from "@/types/filters";
 import {
   getCoreRowModel,
   getSortedRowModel,
   SortingState,
   useReactTable,
 } from "@tanstack/react-table";
-import { MotoboyFilters } from "./MotoboyFilters";
+import { Mapeador } from "@/types/mapeador";
+import { mapeadorService } from "@/services/mapeadorService";
+import { MapeadorFilters } from "./MapeadorFilters";
+import { columns } from "./MapeadorColumns";
 
-export function MotoboyTable() {
-  const [data, setData] = useState<PaginationResponse<Motoboy>>({
+export function MapeadorTable() {
+  const [data, setData] = useState<PaginationResponse<Mapeador>>({
     items: [],
     pageNumber: 1,
     pageSize: 10,
@@ -24,7 +24,7 @@ export function MotoboyTable() {
     hasPreviousPage: false,
   });
 
-  const [activeFilters, setActiveFilters] = useState<MotoboyFilterParams>({
+  const [activeFilters, setActiveFilters] = useState<MapeadorFilterParams>({
     pageNumber: 1,
     pageSize: 10,
   });
@@ -34,7 +34,7 @@ export function MotoboyTable() {
 
   const fetchData = async () => {
     try {
-      const response = await motoboyService.get(activeFilters);
+      const response = await mapeadorService.get(activeFilters);
       setData(response);
       setError(null);
     } catch (error) {
@@ -56,7 +56,7 @@ export function MotoboyTable() {
     }));
   };
 
-  const table = useReactTable<Motoboy>({
+  const table = useReactTable<Mapeador>({
     data: data.items,
     columns,
     state: {
@@ -77,16 +77,16 @@ export function MotoboyTable() {
     <>
       <div className="mb-5 flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold">Motoboys</h1>
-          <p className="text-sm text-gray-600">Gerenciamento de motoboys.</p>
+          <h1 className="text-2xl font-bold">Mapeadores</h1>
+          <p className="text-sm text-gray-600">Gerenciamento de mapeadores.</p>
         </div>
       </div>
-      <MotoboyFilters
+      <MapeadorFilters
         activeFilters={activeFilters}
         onApplyFilters={setActiveFilters}
       />
       {error && <div className="text-red-500">{error}</div>}
-      <DynamicTable<Motoboy>
+      <DynamicTable<Mapeador>
         table={table}
         onDelete={() => {}}
         onEdit={() => {}}
