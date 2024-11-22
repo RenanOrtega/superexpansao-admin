@@ -18,11 +18,18 @@ export const mapeadorSchema = z.object({
   vehicle: z.string().min(1, "Veículo é obrigatório"),
   pix: z.string().optional(),
   observations: z.string().optional(),
-  lastMapping: z.date({ required_error: "Último Mapeamento é obrigatório" }),
+  lastMapping: z.coerce.date({
+    required_error: "Último Mapeamento é obrigatório",
+  }),
 });
 
 export type MapeadorFormData = z.infer<typeof mapeadorSchema>;
 
 export interface CreateMapeadorDialogProps {
   onCreate: (data: MapeadorFormData) => Promise<void>;
+}
+
+export interface UpdateMapeadorDialogProps {
+  originalItem: Mapeador;
+  onUpdate: (data: MapeadorFormData) => void;
 }

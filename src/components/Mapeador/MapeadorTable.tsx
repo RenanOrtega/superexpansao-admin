@@ -8,10 +8,11 @@ import {
   SortingState,
   useReactTable,
 } from "@tanstack/react-table";
-import { Mapeador } from "@/types/mapeador";
+import { Mapeador, mapeadorSchema } from "@/types/mapeador";
 import { mapeadorService } from "@/services/mapeadorService";
-import { MapeadorFilters } from "./MapeadorFilters";
+import { MapeadorActions } from "./MapeadorActions";
 import { columns } from "./MapeadorColumns";
+import { MapeadorEditDialog } from "./MapeadorEditDialog";
 
 export function MapeadorTable() {
   const [data, setData] = useState<PaginationResponse<Mapeador>>({
@@ -47,6 +48,37 @@ export function MapeadorTable() {
     fetchData();
   }, [activeFilters]);
 
+  const handleUpdate = async (id: string, updatedMapeador: Mapeador) => {
+    try {
+      await mapeadorService.update(id, updatedMapeador);
+      setData((prevData) => ({
+        ...prevData,
+        items: prevData.items.map((item) =>
+          item.id === id ? updatedMapeador : item
+        ),
+      }));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    try {
+      await mapeadorService.delete(id);
+      setData((prevData) => {
+        const updatedItems = prevData.items.filter((item) => item.id !== id);
+        return {
+          ...prevData,
+          items: updatedItems,
+          totalItems: prevData.totalItems - 1,
+          totalPages: Math.ceil((prevData.totalItems - 1) / prevData.pageSize),
+        };
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handlePageChange = (newPage: number) => {
     if (newPage < 1 || newPage > data.totalPages) return;
 
@@ -81,20 +113,26 @@ export function MapeadorTable() {
           <p className="text-sm text-gray-600">Gerenciamento de mapeadores.</p>
         </div>
       </div>
-      <MapeadorFilters
+      <MapeadorActions
         activeFilters={activeFilters}
         onApplyFilters={setActiveFilters}
       />
       {error && <div className="text-red-500">{error}</div>}
       <DynamicTable<Mapeador>
         table={table}
-        onDelete={() => {}}
-        onEdit={() => {}}
+        onDelete={handleDelete}
         onPageChange={handlePageChange}
         totalPages={data.totalPages}
         pageNumber={data.pageNumber}
         hasNextPage={data.hasNextPage}
         hasPreviousPage={data.hasPreviousPage}
+        renderEditDialog={(item) => (
+          <MapeadorEditDialog
+            item={item}
+            onUpdate={(newMapeador) => handleUpdate(item.id, newMapeador)}
+            schema={mapeadorSchema}
+          />
+        )}
       />
     </>
   );

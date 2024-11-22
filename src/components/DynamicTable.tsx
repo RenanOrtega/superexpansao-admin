@@ -10,18 +10,19 @@ import { DynamicTableProps } from "@/types/table";
 import { flexRender } from "@tanstack/react-table";
 import { Button } from "./ui/button";
 import { Trash2 } from "lucide-react";
-import { EditDialog } from "./EditDialog";
 
 export function DynamicTable<T extends { id: string }>({
   table,
   onDelete,
-  onEdit,
   onPageChange,
   totalPages,
   pageNumber,
   hasNextPage,
   hasPreviousPage,
-}: DynamicTableProps<T>) {
+  renderEditDialog,
+}: DynamicTableProps<T> & {
+  renderEditDialog: (item: T) => React.ReactNode;
+}) {
   const handlePageChange = (newPage: number) => {
     if (newPage < 1 || newPage > totalPages) return;
     onPageChange(newPage);
@@ -62,12 +63,7 @@ export function DynamicTable<T extends { id: string }>({
                   </TableCell>
                 ))}
                 <TableCell className="flex">
-                  <EditDialog
-                    item={row.original}
-                    onEdit={async (editedItem) =>
-                      onEdit(row.original.id, editedItem)
-                    }
-                  />
+                  {renderEditDialog(row.original)}
                   <Button
                     variant="ghost"
                     size="icon"

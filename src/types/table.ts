@@ -3,7 +3,6 @@ import { Table } from "@tanstack/react-table";
 export interface DynamicTableProps<T> {
   table: Table<T>;
   onDelete: (id: string) => void;
-  onEdit: (id: string, editedItem: T) => void;
   onPageChange: (page: number) => void;
   totalPages: number;
   pageNumber: number;

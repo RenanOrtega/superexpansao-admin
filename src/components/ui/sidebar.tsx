@@ -8,6 +8,7 @@ import {
   Home,
   ChevronsLeft,
   ChevronsRight,
+  Building,
 } from "lucide-react";
 import { authService } from "../../services/authService";
 import { Link, useLocation } from "react-router-dom";
@@ -25,6 +26,11 @@ const menuItems = [
     path: "/proprietarios",
   },
   {
+    label: "Cemitério",
+    icon: Building,
+    path: "/cemiterio",
+  },
+  {
     label: "Pedidos",
     icon: ShoppingCart,
     path: "/pedidos",
@@ -35,9 +41,9 @@ const menuItems = [
     path: "/mapeadores",
   },
   {
-    label: "Empresas",
+    label: "Clientes",
     icon: Building2,
-    path: "/empresas",
+    path: "/clientes",
   },
   {
     label: "Configurações",

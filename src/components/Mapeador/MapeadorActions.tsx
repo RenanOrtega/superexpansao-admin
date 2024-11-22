@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { MapeadorFiltersProps } from "@/types/filters";
-import { MapeadorCreateForm } from "./MapeadorCreateForm";
+import { MapeadorCreateDialog } from "./MapeadorCreateDialog";
 import { MapeadorFormData } from "@/types/mapeador";
 import { mapeadorService } from "@/services/mapeadorService";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
@@ -18,9 +18,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { CreateDialog } from "../CreateDialog";
 
-export function MapeadorFilters({
+export function MapeadorActions({
   activeFilters,
   onApplyFilters,
 }: MapeadorFiltersProps) {
@@ -55,6 +54,7 @@ export function MapeadorFilters({
   const handleCreateMapeador = async (data: MapeadorFormData) => {
     try {
       const createdMapeador = await mapeadorService.create(data);
+      onApplyFilters({ ...activeFilters, ...filterForm, pageNumber: 1 });
       console.log("Mapeador criado com sucesso:", createdMapeador);
     } catch (error) {
       console.error("Erro ao criar mapeador:", error);
@@ -132,11 +132,9 @@ export function MapeadorFilters({
       </div>
       <div className="flex flex-col sm:flex-row justify-between gap-2">
         <div>
-          <CreateDialog title="Novo Mapeador">
-            <MapeadorCreateForm
-              onCreate={handleCreateMapeador}
-            ></MapeadorCreateForm>
-          </CreateDialog>
+          <MapeadorCreateDialog
+            onCreate={handleCreateMapeador}
+          ></MapeadorCreateDialog>
         </div>
         <div className="flex flex-col sm:flex-row gap-2">
           <Button
