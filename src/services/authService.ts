@@ -1,10 +1,11 @@
 import { LoginCredentials } from "../types/auth";
 import { api } from "./api";
+import endpoints from "./endpoints";
 
 export const authService = {
   async login(credentials: LoginCredentials) {
     try {
-      const response = await api.post(`/login`, credentials);
+      const response = await api.post(endpoints.login, credentials);
 
       if (response.data.token) {
         localStorage.setItem("token", response.data.token);
