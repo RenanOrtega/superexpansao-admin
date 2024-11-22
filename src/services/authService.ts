@@ -1,12 +1,10 @@
-import axios from "axios";
 import { LoginCredentials } from "../types/auth";
-
-const API_URL = "https://localhost:44314/api/auth";
+import { api } from "./api";
 
 export const authService = {
   async login(credentials: LoginCredentials) {
     try {
-      const response = await axios.post(`${API_URL}/login`, credentials);
+      const response = await api.post(`/login`, credentials);
 
       if (response.data.token) {
         localStorage.setItem("token", response.data.token);
