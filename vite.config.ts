@@ -10,4 +10,7 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  define: {
+    __VITE_API_BASE_URL__: process.env.VITE_API_BASE_URL,
+  },
 });
