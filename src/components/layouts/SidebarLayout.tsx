@@ -1,12 +1,12 @@
-import React from "react";
 import Sidebar from "../ui/sidebar";
+import { Outlet } from "react-router-dom";
 
-const SidebarLayout = ({ children }: { children: React.ReactNode }) => {
+const SidebarLayout = () => {
   return (
     <div className="flex h-screen overflow-hidden">
       <Sidebar />
       <main className="flex-grow p-6 bg-gray-100 overflow-y-auto">
-        {children}
+        <Outlet />
       </main>
     </div>
   );

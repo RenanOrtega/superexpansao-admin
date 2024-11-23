@@ -9,23 +9,12 @@ const Routes = () => {
   return (
     <ReactRoutes>
       <Route path="/login" element={<LoginPage />} />
+
       <Route element={<PrivateRoute />}>
-        <Route
-          path="/"
-          element={
-            <SidebarLayout>
-              <HomePage />
-            </SidebarLayout>
-          }
-        />
-        <Route
-          path="/mapeadores"
-          element={
-            <SidebarLayout>
-              <MapeadorPage />
-            </SidebarLayout>
-          }
-        />
+        <Route element={<SidebarLayout />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/mapeadores" element={<MapeadorPage />} />
+        </Route>
       </Route>
     </ReactRoutes>
   );
