@@ -4,8 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
-import api from "@/services/api";
-import endpoints from "@/services/endpoints";
 import { authService } from "@/services/authService";
 
 const LoginPage = () => {
@@ -24,7 +22,6 @@ const LoginPage = () => {
     setIsLoading(true);
 
     try {
-      api.post(endpoints.login);
       const data: AuthResponse = await authService.login({ email, password });
 
       signIn(data.token, data.email);
