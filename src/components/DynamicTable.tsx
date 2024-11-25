@@ -91,7 +91,8 @@ export function DynamicTable<T extends { id: string }>({
         <span className="flex items-center gap-1 text-center">
           <div>Página</div>
           <strong>
-            {pageNumber} de {totalPages}
+            {/* Testar total pages. */}
+            {pageNumber} de {totalPages === 0 ? 1 : totalPages}
           </strong>
         </span>
         <Button

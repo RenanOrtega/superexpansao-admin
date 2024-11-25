@@ -1,7 +1,7 @@
 export interface GenericFilterParams {
   pageNumber?: number;
   pageSize?: number;
-  [key: string]: string | number | undefined;
+  [key: string]: string | number | Date | undefined;
 }
 
 export interface MapeadorFilterParams extends GenericFilterParams {
@@ -9,6 +9,20 @@ export interface MapeadorFilterParams extends GenericFilterParams {
   city?: string;
   vehicle?: string;
   lastMapping?: string;
+}
+
+export interface ProprietarioFilterParams extends GenericFilterParams {
+  name?: string;
+  source?: string;
+  telephone?: string;
+  address?: string;
+  neighboor?: string;
+  city?: string;
+  state?: string;
+  email?: string;
+  updatedAt?: Date;
+  createdAt?: Date;
+  updatedBy?: string;
 }
 
 export interface MapeadorFiltersProps {
