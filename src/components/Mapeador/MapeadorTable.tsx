@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
 import { PaginationResponse } from "@/types/pagination";
 import { DynamicTable } from "../DynamicTable";
-import { MapeadorFilterParams } from "@/types/filters";
 import {
   getCoreRowModel,
   getSortedRowModel,
   SortingState,
   useReactTable,
 } from "@tanstack/react-table";
-import { Mapeador, mapeadorSchema } from "@/types/mapeador";
+import { Mapeador, mapeadorSchema } from "@/types/Mapeador";
 import { mapeadorService } from "@/services/mapeadorService";
 import { MapeadorActions } from "./MapeadorActions";
 import { columns } from "./MapeadorColumns";
 import { MapeadorEditDialog } from "./MapeadorEditDialog";
+import { MapeadorFilterParams } from "@/types/Mapeador/filters";
 
 export function MapeadorTable() {
   const [data, setData] = useState<PaginationResponse<Mapeador>>({

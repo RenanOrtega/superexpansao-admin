@@ -1,8 +1,8 @@
 import { PaginationResponse } from "@/types/pagination";
 import endpoints from "./endpoints";
-import { ProprietarioFilterParams } from "@/types/filters";
 import api from "./api";
-import { Proprietario, ProprietarioFormData } from "@/types/proprietario";
+import { Proprietario, ProprietarioFormData } from "@/types/Proprietario";
+import { ProprietarioFilterParams } from "@/types/Proprietario/filters";
 
 export const proprietarioService = {
   async get(filters: ProprietarioFilterParams) {

@@ -4,11 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { CalendarIcon, Plus } from "lucide-react";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { Calendar } from "../ui/calendar";
-import { format } from "date-fns";
-import { cn } from "@/lib/utils";
+import { Plus } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -18,20 +14,13 @@ import {
   FormMessage,
 } from "../ui/form";
 import InputMask from "react-input-mask";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
-import { mapeadorSchema } from "@/types/mapeador";
+import { mapeadorSchema } from "@/types/Mapeador";
 import { DialogForm } from "../DialogForm";
 import { useState } from "react";
 import {
   CreateProprietarioDialogProps,
   ProprietarioFormData,
-} from "@/types/proprietario";
+} from "@/types/Proprietario";
 
 export function ProprietarioCreateDialog({
   onCreate,

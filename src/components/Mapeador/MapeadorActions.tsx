@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { MapeadorFiltersProps } from "@/types/filters";
 import { MapeadorCreateDialog } from "./MapeadorCreateDialog";
-import { MapeadorFormData } from "@/types/mapeador";
+import { MapeadorFormData } from "@/types/Mapeador";
 import { mapeadorService } from "@/services/mapeadorService";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { cn } from "@/lib/utils";
@@ -18,6 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { MapeadorFiltersProps } from "@/types/Mapeador/filters";
 
 export function MapeadorActions({
   activeFilters,

@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { ProprietarioFiltersProps } from "@/types/filters";
 import { ProprietarioCreateDialog } from "./ProprietarioCreateDialog";
-import { ProprietarioFormData } from "@/types/proprietario";
+import { ProprietarioFormData } from "@/types/Proprietario";
 import { proprietarioService } from "@/services/proprietarioService";
+import { ProprietarioFiltersProps } from "@/types/Proprietario/filters";
 
 export function ProprietarioActions({
   activeFilters,
