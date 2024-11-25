@@ -4,6 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
+import api from "@/services/api";
+import endpoints from "@/services/endpoints";
+import { authService } from "@/services/authService";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -21,15 +24,8 @@ const LoginPage = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch("https://localhost:44314/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data: AuthResponse = await response.json();
+      api.post(endpoints.login);
+      const data: AuthResponse = await authService.login({ email, password });
 
       signIn(data.token, data.email);
       navigate("/");
