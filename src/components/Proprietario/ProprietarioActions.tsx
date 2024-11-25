@@ -1,38 +1,19 @@
 import { useState } from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { MapeadorFiltersProps } from "@/types/filters";
-import { MapeadorFormData } from "@/types/mapeador";
-import { mapeadorService } from "@/services/mapeadorService";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { cn } from "@/lib/utils";
-import { CalendarIcon } from "lucide-react";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
-import { Calendar } from "../ui/calendar";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
+import { ProprietarioFiltersProps } from "@/types/filters";
 import { ProprietarioCreateDialog } from "./ProprietarioCreateDialog";
+import { ProprietarioFormData } from "@/types/proprietario";
+import { proprietarioService } from "@/services/proprietarioService";
 
 export function ProprietarioActions({
   activeFilters,
   onApplyFilters,
-}: MapeadorFiltersProps) {
+}: ProprietarioFiltersProps) {
   const [filterForm, setFilterForm] = useState({
     name: activeFilters.name || "",
     city: activeFilters.city || "",
-    vehicle: activeFilters.vehicle || "",
-    lastMapping: activeFilters.lastMapping || "",
   });
-
-  const [date, setDate] = useState<Date | undefined>(
-    activeFilters.lastMapping ? new Date(activeFilters.lastMapping) : undefined
-  );
 
   const handleFilterFormChange = (key: string, value: string) => {
     setFilterForm((prev) => ({
@@ -42,8 +23,7 @@ export function ProprietarioActions({
   };
 
   const handleClearFilters = () => {
-    setDate(undefined);
-    setFilterForm({ name: "", city: "", vehicle: "", lastMapping: "" });
+    setFilterForm({ name: "", city: "" });
     onApplyFilters({ pageNumber: 1, pageSize: 10 });
   };
 
@@ -51,22 +31,14 @@ export function ProprietarioActions({
     onApplyFilters({ ...activeFilters, ...filterForm, pageNumber: 1 });
   };
 
-  const handleCreateMapeador = async (data: MapeadorFormData) => {
+  const handleCreateProprietario = async (data: ProprietarioFormData) => {
     try {
-      const createdMapeador = await mapeadorService.create(data);
+      const createdProprieatario = await proprietarioService.create(data);
       onApplyFilters({ ...activeFilters, ...filterForm, pageNumber: 1 });
-      console.log("Mapeador criado com sucesso:", createdMapeador);
+      console.log("Proprieatario criado com sucesso:", createdProprieatario);
     } catch (error) {
-      console.error("Erro ao criar mapeador:", error);
+      console.error("Erro ao criar proprietario:", error);
     }
-  };
-
-  const handleDateSelect = (selectedDate?: Date) => {
-    setDate(selectedDate);
-    handleFilterFormChange(
-      "lastMapping",
-      selectedDate ? format(selectedDate, "yyyy-MM-dd") : ""
-    );
   };
 
   return (
@@ -84,56 +56,11 @@ export function ProprietarioActions({
           value={filterForm.city}
           onChange={(e) => handleFilterFormChange("city", e.target.value)}
         />
-        <div className="flex-1">
-          <Select
-            onValueChange={(e) => handleFilterFormChange("vehicle", e)}
-            value={filterForm.vehicle}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Filtre por veículo" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem className="cursor-pointer" value="Moto">
-                Moto
-              </SelectItem>
-              <SelectItem className="cursor-pointer" value="Carro">
-                Carro
-              </SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-        <Popover>
-          <PopoverTrigger asChild className="flex-1">
-            <Button
-              variant={"outline"}
-              className={cn(
-                "justify-start text-left font-normal",
-                !date && "text-muted-foreground"
-              )}
-            >
-              <CalendarIcon className="h-4 w-4" />
-              {date ? (
-                format(date, "PPP", { locale: ptBR })
-              ) : (
-                <span>Filtrar por data</span>
-              )}
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-auto p-0">
-            <Calendar
-              mode="single"
-              selected={date}
-              onSelect={handleDateSelect}
-              initialFocus
-              locale={ptBR}
-            />
-          </PopoverContent>
-        </Popover>
       </div>
       <div className="flex flex-col sm:flex-row justify-between gap-2">
         <div>
           <ProprietarioCreateDialog
-            onCreate={handleCreateMapeador}
+            onCreate={handleCreateProprietario}
           ></ProprietarioCreateDialog>
         </div>
         <div className="flex flex-col sm:flex-row gap-2">

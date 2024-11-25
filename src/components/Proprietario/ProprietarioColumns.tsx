@@ -40,20 +40,20 @@ export const columns: ColumnDef<Proprietario>[] = [
   },
   {
     header: "Data atualização",
-    accessorKey: "UpdatedAt",
-    cell: ({ row }) => format(row.getValue("lastMapping"), "dd/MM/yyyy"),
+    accessorKey: "updatedAt",
+    // cell: ({ row }) => format(row.getValue("updatedAt"), "dd/MM/yyyy"),
   },
   {
     header: "Data cadastro",
-    accessorKey: "CreatedAt",
-    cell: ({ row }) => format(row.getValue("lastMapping"), "dd/MM/yyyy"),
+    accessorKey: "createdAt",
+    cell: ({ row }) => format(row.getValue("createdAt"), "dd/MM/yyyy"),
   },
   {
     header: "Atualizado por",
-    accessorKey: "UpdatedBy",
+    accessorKey: "updatedBy",
   },
   {
     header: "Observações",
-    accessorKey: "Observations",
+    accessorKey: "observations",
   },
 ];

@@ -25,32 +25,37 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import {
-  CreateMapeadorDialogProps,
-  MapeadorFormData,
-  mapeadorSchema,
-} from "@/types/mapeador";
+import { mapeadorSchema } from "@/types/mapeador";
 import { DialogForm } from "../DialogForm";
 import { useState } from "react";
+import {
+  CreateProprietarioDialogProps,
+  ProprietarioFormData,
+} from "@/types/proprietario";
 
 export function ProprietarioCreateDialog({
   onCreate,
-}: CreateMapeadorDialogProps) {
-  const form = useForm<MapeadorFormData>({
+}: CreateProprietarioDialogProps) {
+  const form = useForm<ProprietarioFormData>({
     resolver: zodResolver(mapeadorSchema),
     defaultValues: {
       name: "",
       telephone: "",
+      address: "",
+      email: "",
       city: "",
-      vehicle: "",
-      pix: "",
+      neighboor: "",
+      source: "",
+      state: "",
+      updatedBy: "",
       observations: "",
-      lastMapping: undefined,
+      createdAt: undefined,
+      updatedAt: undefined,
     },
   });
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const onSubmit = async (data: MapeadorFormData) => {
+  const onSubmit = async (data: ProprietarioFormData) => {
     try {
       await onCreate(data);
       form.reset();
@@ -81,7 +86,22 @@ export function ProprietarioCreateDialog({
               <FormItem>
                 <FormLabel>Nome</FormLabel>
                 <FormControl>
-                  <Input placeholder="Nome do Mapeador" {...field} />
+                  <Input placeholder="Nome do Proprieatrio" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Source */}
+          <FormField
+            control={form.control}
+            name="source"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Fonte</FormLabel>
+                <FormControl>
+                  <Input placeholder="Fonte" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -112,6 +132,36 @@ export function ProprietarioCreateDialog({
             )}
           />
 
+          {/* Address */}
+          <FormField
+            control={form.control}
+            name="address"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Endereço</FormLabel>
+                <FormControl>
+                  <Input placeholder="Endereço" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Neighboor */}
+          <FormField
+            control={form.control}
+            name="neighboor"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Bairro</FormLabel>
+                <FormControl>
+                  <Input placeholder="Bairro" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
           {/* City */}
           <FormField
             control={form.control}
@@ -127,84 +177,31 @@ export function ProprietarioCreateDialog({
             )}
           />
 
-          {/* Vehicle */}
+          {/* Estado */}
           <FormField
             control={form.control}
-            name="vehicle"
+            name="state"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Veículo</FormLabel>
+                <FormLabel>Estado</FormLabel>
                 <FormControl>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Selecione um veículo" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem className="cursor-pointer" value="Moto">
-                        Moto
-                      </SelectItem>
-                      <SelectItem className="cursor-pointer" value="Carro">
-                        Carro
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <Input placeholder="Estado" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
 
-          {/* PIX */}
+          {/* Email */}
           <FormField
             control={form.control}
-            name="pix"
+            name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>PIX</FormLabel>
+                <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="Chave PIX (opcional)" {...field} />
+                  <Input placeholder="Email" {...field} />
                 </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* Last Mapping */}
-          <FormField
-            control={form.control}
-            name="lastMapping"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Último Mapeamento</FormLabel>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant="outline"
-                        className={cn(
-                          "w-full justify-start text-left font-normal",
-                          !field.value && "text-muted-foreground"
-                        )}
-                      >
-                        {field.value
-                          ? format(field.value, "dd/MM/yyyy")
-                          : "Selecione uma data"}
-                        <CalendarIcon className="ml-2 h-4 w-4" />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0">
-                    <Calendar
-                      mode="single"
-                      selected={field.value}
-                      onSelect={field.onChange}
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
                 <FormMessage />
               </FormItem>
             )}

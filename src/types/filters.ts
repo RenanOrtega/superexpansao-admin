@@ -25,6 +25,11 @@ export interface ProprietarioFilterParams extends GenericFilterParams {
   updatedBy?: string;
 }
 
+export interface ProprietarioFiltersProps {
+  activeFilters: ProprietarioFilterParams;
+  onApplyFilters: (filters: ProprietarioFilterParams) => void;
+}
+
 export interface MapeadorFiltersProps {
   activeFilters: MapeadorFilterParams;
   onApplyFilters: (filters: MapeadorFilterParams) => void;
