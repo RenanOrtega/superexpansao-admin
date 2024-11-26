@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { PaginationResponse } from "@/types/pagination";
 import { DynamicTable } from "../DynamicTable";
-import { ProprietarioFilterParams } from "@/types/filters";
 import {
   getCoreRowModel,
   getSortedRowModel,
@@ -11,8 +10,9 @@ import {
 import { ProprietarioActions } from "./ProprietarioActions";
 import { columns } from "./ProprietarioColumns";
 import { ProprietarioEditDialog } from "./ProprietarioEditDialog";
-import { Proprietario, proprietarioSchema } from "@/types/proprietario";
+import { Proprietario, proprietarioSchema } from "@/types/Proprietario";
 import { proprietarioService } from "@/services/proprietarioService";
+import { ProprietarioFilterParams } from "@/types/Proprietario/filters";
 
 export function ProprietarioTable() {
   const [data, setData] = useState<PaginationResponse<Proprietario>>({

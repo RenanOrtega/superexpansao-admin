@@ -28,7 +28,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { Proprietario, proprietarioSchema } from "@/types/proprietario";
+import { Proprietario, proprietarioSchema } from "@/types/Proprietario";
 
 type ProprietarioEditDialogProps = {
   item: Proprietario;

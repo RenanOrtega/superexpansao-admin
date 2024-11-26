@@ -1,4 +1,4 @@
-import { Proprietario } from "@/types/proprietario";
+import { Proprietario } from "@/types/Proprietario";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 
