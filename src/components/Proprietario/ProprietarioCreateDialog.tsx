@@ -14,32 +14,29 @@ import {
   FormMessage,
 } from "../ui/form";
 import InputMask from "react-input-mask";
-import { mapeadorSchema } from "@/types/Mapeador";
 import { DialogForm } from "../DialogForm";
 import { useState } from "react";
 import {
   CreateProprietarioDialogProps,
   ProprietarioFormData,
+  proprietarioSchema,
 } from "@/types/Proprietario";
 
 export function ProprietarioCreateDialog({
   onCreate,
 }: CreateProprietarioDialogProps) {
   const form = useForm<ProprietarioFormData>({
-    resolver: zodResolver(mapeadorSchema),
+    resolver: zodResolver(proprietarioSchema),
     defaultValues: {
       name: "",
+      source: "",
       telephone: "",
       address: "",
-      email: "",
-      city: "",
       neighboor: "",
-      source: "",
+      city: "",
       state: "",
-      updatedBy: "",
+      email: "",
       observations: "",
-      createdAt: undefined,
-      updatedAt: undefined,
     },
   });
   const [isDialogOpen, setIsDialogOpen] = useState(false);

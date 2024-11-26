@@ -13,6 +13,7 @@ export function ProprietarioActions({
   const [filterForm, setFilterForm] = useState({
     name: activeFilters.name || "",
     city: activeFilters.city || "",
+    source: activeFilters.source || "",
   });
 
   const handleFilterFormChange = (key: string, value: string) => {
@@ -23,7 +24,7 @@ export function ProprietarioActions({
   };
 
   const handleClearFilters = () => {
-    setFilterForm({ name: "", city: "" });
+    setFilterForm({ name: "", city: "", source: "" });
     onApplyFilters({ pageNumber: 1, pageSize: 10 });
   };
 
@@ -49,6 +50,12 @@ export function ProprietarioActions({
           placeholder="Filtrar por nome"
           value={filterForm.name}
           onChange={(e) => handleFilterFormChange("name", e.target.value)}
+        />
+        <Input
+          className="flex-1"
+          placeholder="Filtrar por fonte"
+          value={filterForm.source}
+          onChange={(e) => handleFilterFormChange("source", e.target.value)}
         />
         <Input
           className="flex-1"

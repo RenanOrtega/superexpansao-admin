@@ -25,13 +25,6 @@ export const proprietarioSchema = z.object({
   city: z.string().min(1, "Cidade é obrigatória"),
   state: z.string().min(1, "Estado é obrigatória"),
   email: z.string().min(1, "Email é obrigatória"),
-  updatedAt: z.coerce.date({
-    required_error: "Data de atualização é obrigatório",
-  }),
-  createdAt: z.coerce.date({
-    required_error: "Data de criação é obrigatório",
-  }),
-  updatedBy: z.string().min(1, "Atualizado por é obrigatória"),
   observations: z.string().optional(),
 });
 
