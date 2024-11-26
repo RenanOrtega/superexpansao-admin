@@ -17,7 +17,7 @@ import * as z from "zod";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Mapeador, mapeadorSchema } from "@/types/mapeador";
+import { Mapeador, mapeadorSchema } from "@/types/Mapeador";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Calendar } from "../ui/calendar";
 import { DialogForm } from "../DialogForm";
