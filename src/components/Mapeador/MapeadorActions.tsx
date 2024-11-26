@@ -115,7 +115,7 @@ export function MapeadorActions({
               {date ? (
                 format(date, "PPP", { locale: ptBR })
               ) : (
-                <span>Filtrar por data</span>
+                <span>Filtrar por mapeamento</span>
               )}
             </Button>
           </PopoverTrigger>

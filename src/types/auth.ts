@@ -9,5 +9,6 @@ export interface User {
 
 export interface AuthResponse {
   token: string;
-  email: string;
+  refreshToken: string;
+  tokenExpiration: Date;
 }
