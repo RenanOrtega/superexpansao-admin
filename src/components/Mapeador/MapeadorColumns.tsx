@@ -1,4 +1,4 @@
-import { Mapeador } from "@/types/mapeador";
+import { Mapeador } from "@/types/Mapeador";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 
