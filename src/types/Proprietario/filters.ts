@@ -9,8 +9,8 @@ export interface ProprietarioFilterParams extends GenericFilterParams {
   city?: string;
   state?: string;
   email?: string;
-  updatedAt?: Date;
-  createdAt?: Date;
+  updatedAt?: string;
+  createdAt?: string;
   updatedBy?: string;
 }
 
