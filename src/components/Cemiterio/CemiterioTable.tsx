@@ -7,15 +7,15 @@ import {
   SortingState,
   useReactTable,
 } from "@tanstack/react-table";
-import { ProprietarioActions } from "./ProprietarioActions";
-import { columns } from "./ProprietarioColumns";
-import { ProprietarioEditDialog } from "./ProprietarioEditDialog";
-import { Proprietario, proprietarioSchema } from "@/types/Proprietario";
-import { proprietarioService } from "@/services/proprietarioService";
-import { ProprietarioFilterParams } from "@/types/Proprietario/filters";
+import { Cemiterio, cemiterioSchema } from "@/types/Cemiterio";
+import { columns } from "./CemiterioColumns";
+import { CemiterioFilterParams } from "@/types/Cemiterio/filters";
+import { cemiterioService } from "@/services/cemiterioService";
+import { CemiterioActions } from "./CemiterioActions";
+import { CemiterioEditDialog } from "./CemiterioEditDialog";
 
-export function ProprietarioTable() {
-  const [data, setData] = useState<PaginationResponse<Proprietario>>({
+export function CemiterioTable() {
+  const [data, setData] = useState<PaginationResponse<Cemiterio>>({
     items: [],
     pageNumber: 1,
     pageSize: 10,
@@ -25,7 +25,7 @@ export function ProprietarioTable() {
     hasPreviousPage: false,
   });
 
-  const [activeFilters, setActiveFilters] = useState<ProprietarioFilterParams>({
+  const [activeFilters, setActiveFilters] = useState<CemiterioFilterParams>({
     pageNumber: 1,
     pageSize: 10,
   });
@@ -35,7 +35,7 @@ export function ProprietarioTable() {
 
   const fetchData = async () => {
     try {
-      const response = await proprietarioService.get(activeFilters);
+      const response = await cemiterioService.get(activeFilters);
       setData(response);
       setError(null);
     } catch (error) {
@@ -48,13 +48,13 @@ export function ProprietarioTable() {
     fetchData();
   }, [activeFilters]);
 
-  const handleUpdate = async (id: string, newFields: Proprietario) => {
+  const handleUpdate = async (id: string, updatedCemiterio: Cemiterio) => {
     try {
-      var proprietarioUpdated = await proprietarioService.update(id, newFields);
+      await cemiterioService.update(id, updatedCemiterio);
       setData((prevData) => ({
         ...prevData,
         items: prevData.items.map((item) =>
-          item.id === id ? proprietarioUpdated : item
+          item.id === id ? updatedCemiterio : item
         ),
       }));
     } catch (error) {
@@ -64,7 +64,7 @@ export function ProprietarioTable() {
 
   const handleDelete = async (id: string) => {
     try {
-      await proprietarioService.delete(id);
+      await cemiterioService.delete(id);
       setData((prevData) => {
         const updatedItems = prevData.items.filter((item) => item.id !== id);
         return {
@@ -88,7 +88,7 @@ export function ProprietarioTable() {
     }));
   };
 
-  const table = useReactTable<Proprietario>({
+  const table = useReactTable<Cemiterio>({
     data: data.items,
     columns,
     state: {
@@ -109,18 +109,16 @@ export function ProprietarioTable() {
     <>
       <div className="mb-5 flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold">Proprietarios</h1>
-          <p className="text-sm text-gray-600">
-            Gerenciamento de proprietarios.
-          </p>
+          <h1 className="text-2xl font-bold">Cemitério</h1>
+          <p className="text-sm text-gray-600">Gerenciamento do cemitério.</p>
         </div>
       </div>
-      <ProprietarioActions
+      <CemiterioActions
         activeFilters={activeFilters}
         onApplyFilters={setActiveFilters}
       />
       {error && <div className="text-red-500">{error}</div>}
-      <DynamicTable<Proprietario>
+      <DynamicTable<Cemiterio>
         table={table}
         onDelete={handleDelete}
         onPageChange={handlePageChange}
@@ -129,12 +127,10 @@ export function ProprietarioTable() {
         hasNextPage={data.hasNextPage}
         hasPreviousPage={data.hasPreviousPage}
         renderEditDialog={(item) => (
-          <ProprietarioEditDialog
+          <CemiterioEditDialog
             item={item}
-            onUpdate={(newProprietario) =>
-              handleUpdate(item.id, newProprietario)
-            }
-            schema={proprietarioSchema}
+            onUpdate={(newCemiterio) => handleUpdate(item.id, newCemiterio)}
+            schema={cemiterioSchema}
           />
         )}
       />

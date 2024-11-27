@@ -41,16 +41,26 @@ export const columns: ColumnDef<Proprietario>[] = [
   {
     header: "Data atualização",
     accessorKey: "updatedAt",
-    // cell: ({ row }) => format(row.getValue("updatedAt"), "dd/MM/yyyy"),
+    cell: ({ row }) => {
+      const updatedAt: string = row.getValue("updatedAt");
+      return updatedAt ? format(updatedAt, "dd/MM/yyyy") : "-";
+    },
   },
   {
     header: "Data cadastro",
     accessorKey: "createdAt",
-    cell: ({ row }) => format(row.getValue("createdAt"), "dd/MM/yyyy"),
+    cell: ({ row }) => {
+      const createdAt: string = row.getValue("createdAt");
+      return createdAt ? format(createdAt, "dd/MM/yyyy") : "-";
+    },
   },
   {
     header: "Atualizado por",
     accessorKey: "updatedBy",
+    cell: ({ row }) => {
+      const updatedBy: string = row.getValue("updatedBy");
+      return updatedBy ? updatedBy : "-";
+    },
   },
   {
     header: "Observações",

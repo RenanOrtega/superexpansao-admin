@@ -15,24 +15,24 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { DialogForm } from "../DialogForm";
-import { Proprietario, proprietarioSchema } from "@/types/Proprietario";
+import { Cemiterio, cemiterioSchema } from "@/types/Cemiterio";
 
-type ProprietarioEditDialogProps = {
-  item: Proprietario;
-  onUpdate: (updatedItem: Proprietario) => void;
+type CemiterioEditDialogProps = {
+  item: Cemiterio;
+  onUpdate: (updatedItem: Cemiterio) => void;
   schema?: z.ZodType;
   fields?: Array<{
-    name: keyof z.infer<typeof proprietarioSchema>;
+    name: keyof z.infer<typeof cemiterioSchema>;
     label: string;
     type?: "text";
     options?: { value: string; label: string }[];
   }>;
 };
 
-export function ProprietarioEditDialog({
+export function CemiterioEditDialog({
   item,
   onUpdate,
-  schema = proprietarioSchema,
+  schema = cemiterioSchema,
   fields = [
     { name: "name", label: "Nome", type: "text" },
     { name: "source", label: "Fonte", type: "text" },
@@ -44,7 +44,7 @@ export function ProprietarioEditDialog({
     { name: "email", label: "Email", type: "text" },
     { name: "observations", label: "Observações", type: "text" },
   ],
-}: ProprietarioEditDialogProps) {
+}: CemiterioEditDialogProps) {
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -67,7 +67,7 @@ export function ProprietarioEditDialog({
   };
 
   const renderField = (field: {
-    name: keyof z.infer<typeof proprietarioSchema>;
+    name: keyof z.infer<typeof cemiterioSchema>;
     label: string;
     type?: "text";
     key?: string;
