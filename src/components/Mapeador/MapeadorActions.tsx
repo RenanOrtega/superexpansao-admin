@@ -48,10 +48,12 @@ export function MapeadorActions({
     setDate(undefined);
     setFilterForm({ name: "", city: "", vehicle: "", lastMapping: "" });
     onApplyFilters({ pageNumber: 1, pageSize: 10 });
+    setIsDialogOpen(false);
   };
 
   const handleApplyFilters = () => {
     onApplyFilters({ ...activeFilters, ...filterForm, pageNumber: 1 });
+    setIsDialogOpen(false);
   };
 
   const handleCreateMapeador = async (data: MapeadorFormData) => {
