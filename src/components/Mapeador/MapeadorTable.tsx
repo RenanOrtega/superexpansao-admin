@@ -48,13 +48,13 @@ export function MapeadorTable() {
     fetchData();
   }, [activeFilters]);
 
-  const handleUpdate = async (id: string, updatedMapeador: Mapeador) => {
+  const handleUpdate = async (id: string, newFields: Mapeador) => {
     try {
-      await mapeadorService.update(id, updatedMapeador);
+      var mapeadorUpdated = await mapeadorService.update(id, newFields);
       setData((prevData) => ({
         ...prevData,
         items: prevData.items.map((item) =>
-          item.id === id ? updatedMapeador : item
+          item.id === id ? mapeadorUpdated : item
         ),
       }));
     } catch (error) {

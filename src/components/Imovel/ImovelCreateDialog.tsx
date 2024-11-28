@@ -17,16 +17,14 @@ import InputMask from "react-input-mask";
 import { DialogForm } from "../DialogForm";
 import { useState } from "react";
 import {
-  CreateCemiterioDialogProps,
-  CemiterioFormData,
-  cemiterioSchema,
-} from "@/types/Cemiterio";
+  CreateImovelDialogProps,
+  ImovelFormData,
+  imovelSchema,
+} from "@/types/Imovel";
 
-export function CemiterioCreateDialog({
-  onCreate,
-}: CreateCemiterioDialogProps) {
-  const form = useForm<CemiterioFormData>({
-    resolver: zodResolver(cemiterioSchema),
+export function ImovelCreateDialog({ onCreate }: CreateImovelDialogProps) {
+  const form = useForm<ImovelFormData>({
+    resolver: zodResolver(imovelSchema),
     defaultValues: {
       name: "",
       source: "",
@@ -41,7 +39,7 @@ export function CemiterioCreateDialog({
   });
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const onSubmit = async (data: CemiterioFormData) => {
+  const onSubmit = async (data: ImovelFormData) => {
     try {
       await onCreate(data);
       form.reset();

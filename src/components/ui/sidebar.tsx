@@ -26,9 +26,9 @@ const menuItems = [
     path: "/proprietarios",
   },
   {
-    label: "Cemitério",
+    label: "Imóveis",
     icon: Building,
-    path: "/cemiterio",
+    path: "/imovel",
   },
   {
     label: "Pedidos",

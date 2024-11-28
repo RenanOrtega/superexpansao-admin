@@ -9,6 +9,9 @@ export interface Mapeador {
   observations: string;
   pix: string;
   lastMapping: Date;
+  updatedAt: Date;
+  createdAt: Date;
+  updatedBy: string;
 }
 
 export const mapeadorSchema = z.object({

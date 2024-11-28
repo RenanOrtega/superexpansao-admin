@@ -72,6 +72,10 @@ export function MapeadorEditDialog({
         item.lastMapping instanceof Date
           ? item.lastMapping
           : new Date(item.lastMapping),
+      createdAt:
+        item.createdAt instanceof Date
+          ? item.createdAt
+          : new Date(item.createdAt),
     },
   });
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -80,6 +84,7 @@ export function MapeadorEditDialog({
     onUpdate({
       ...values,
       id: item.id,
+      createdAt: item.createdAt,
     });
     setIsDialogOpen(false);
   };

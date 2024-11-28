@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export interface Cemiterio {
+export interface Imovel {
   id: string;
   name: string;
   source: string;
@@ -16,7 +16,7 @@ export interface Cemiterio {
   observations: string;
 }
 
-export const cemiterioSchema = z.object({
+export const imovelSchema = z.object({
   name: z.string().min(1, "Nome é obrigatório"),
   source: z.string().min(1, "Fonte é obrigatório"),
   telephone: z.string().regex(/^\(\d{2}\) \d{5}-\d{4}$/, "Telefone inválido"),
@@ -28,13 +28,13 @@ export const cemiterioSchema = z.object({
   observations: z.string().optional(),
 });
 
-export type CemiterioFormData = z.infer<typeof cemiterioSchema>;
+export type ImovelFormData = z.infer<typeof imovelSchema>;
 
-export interface CreateCemiterioDialogProps {
-  onCreate: (data: CemiterioFormData) => Promise<void>;
+export interface CreateImovelDialogProps {
+  onCreate: (data: ImovelFormData) => Promise<void>;
 }
 
-export interface UpdateCemiterioDialogProps {
-  originalItem: Cemiterio;
-  onUpdate: (data: CemiterioFormData) => void;
+export interface UpdateImovelDialogProps {
+  originalItem: Imovel;
+  onUpdate: (data: ImovelFormData) => void;
 }

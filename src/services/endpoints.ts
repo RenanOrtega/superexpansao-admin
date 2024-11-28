@@ -2,7 +2,7 @@ const endpoints = {
   login: "/auth/login",
   mapeador: "/mapeador",
   proprietario: "/proprietario",
-  cemiterio: "/cemiterio",
+  imovel: "/imovel",
 };
 
 export default endpoints;

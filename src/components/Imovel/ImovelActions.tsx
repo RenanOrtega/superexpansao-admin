@@ -1,28 +1,17 @@
 import { useState } from "react";
-import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "../ui/accordion";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { cn } from "@/lib/utils";
-import { CalendarIcon, Filter } from "lucide-react";
-import { Calendar } from "../ui/calendar";
+import { Filter } from "lucide-react";
 import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
 import { DialogForm } from "../DialogForm";
-import { CemiterioFiltersProps } from "@/types/Cemiterio/filters";
-import { CemiterioFormData } from "@/types/Cemiterio";
-import { cemiterioService } from "@/services/cemiterioService";
-import { CemiterioCreateDialog } from "./CemiterioCreateDialog";
+import { ImovelFiltersProps } from "@/types/Imovel/filters";
+import { ImovelFormData } from "@/types/Imovel";
+import { imovelService } from "@/services/imovelService";
+import { ImovelCreateDialog } from "./ImovelCreateDialog";
 
-export function CemiterioActions({
+export function ImovelActions({
   activeFilters,
   onApplyFilters,
-}: CemiterioFiltersProps) {
+}: ImovelFiltersProps) {
   const [filterForm, setFilterForm] = useState({
     name: activeFilters.name || "",
     source: activeFilters.source || "",
@@ -78,13 +67,13 @@ export function CemiterioActions({
     setIsDialogOpen(false);
   };
 
-  const handleCreateCemiterio = async (data: CemiterioFormData) => {
+  const handleCreateImovel = async (data: ImovelFormData) => {
     try {
-      const createdCemiterio = await cemiterioService.create(data);
+      const createdImovel = await imovelService.create(data);
       onApplyFilters({ ...activeFilters, ...filterForm, pageNumber: 1 });
-      console.log("Cemiterio criado com sucesso:", createdCemiterio);
+      console.log("Imovel criado com sucesso:", createdImovel);
     } catch (error) {
-      console.error("Erro ao criar cemiterio:", error);
+      console.error("Erro ao criar imovel:", error);
     }
   };
 
@@ -108,9 +97,9 @@ export function CemiterioActions({
     <div className="w-full space-y-4 md:space-y-0 mb-5">
       <div className="flex flex-col sm:flex-row justify-between gap-2">
         <div>
-          <CemiterioCreateDialog
-            onCreate={handleCreateCemiterio}
-          ></CemiterioCreateDialog>
+          <ImovelCreateDialog
+            onCreate={handleCreateImovel}
+          ></ImovelCreateDialog>
         </div>
         <div className="flex flex-col sm:flex-row gap-2">
           <DialogForm

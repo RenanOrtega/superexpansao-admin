@@ -1,6 +1,6 @@
 import { GenericFilterParams } from "../filters";
 
-export interface CemiterioFilterParams extends GenericFilterParams {
+export interface ImovelFilterParams extends GenericFilterParams {
   name?: string;
   source?: string;
   telephone?: string;
@@ -14,7 +14,7 @@ export interface CemiterioFilterParams extends GenericFilterParams {
   updatedBy?: string;
 }
 
-export interface CemiterioFiltersProps {
-  activeFilters: CemiterioFilterParams;
-  onApplyFilters: (filters: CemiterioFilterParams) => void;
+export interface ImovelFiltersProps {
+  activeFilters: ImovelFilterParams;
+  onApplyFilters: (filters: ImovelFilterParams) => void;
 }

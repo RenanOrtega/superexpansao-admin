@@ -7,15 +7,15 @@ import {
   SortingState,
   useReactTable,
 } from "@tanstack/react-table";
-import { Cemiterio, cemiterioSchema } from "@/types/Cemiterio";
-import { columns } from "./CemiterioColumns";
-import { CemiterioFilterParams } from "@/types/Cemiterio/filters";
-import { cemiterioService } from "@/services/cemiterioService";
-import { CemiterioActions } from "./CemiterioActions";
-import { CemiterioEditDialog } from "./CemiterioEditDialog";
+import { Imovel, imovelSchema } from "@/types/Imovel";
+import { ImovelFilterParams } from "@/types/Imovel/filters";
+import { ImovelActions } from "./ImovelActions";
+import { imovelService } from "@/services/imovelService";
+import { columns } from "./ImovelColumns";
+import { ImovelEditDialog } from "./ImovelEditDialog";
 
-export function CemiterioTable() {
-  const [data, setData] = useState<PaginationResponse<Cemiterio>>({
+export function ImovelTable() {
+  const [data, setData] = useState<PaginationResponse<Imovel>>({
     items: [],
     pageNumber: 1,
     pageSize: 10,
@@ -25,7 +25,7 @@ export function CemiterioTable() {
     hasPreviousPage: false,
   });
 
-  const [activeFilters, setActiveFilters] = useState<CemiterioFilterParams>({
+  const [activeFilters, setActiveFilters] = useState<ImovelFilterParams>({
     pageNumber: 1,
     pageSize: 10,
   });
@@ -35,7 +35,7 @@ export function CemiterioTable() {
 
   const fetchData = async () => {
     try {
-      const response = await cemiterioService.get(activeFilters);
+      const response = await imovelService.get(activeFilters);
       setData(response);
       setError(null);
     } catch (error) {
@@ -48,13 +48,13 @@ export function CemiterioTable() {
     fetchData();
   }, [activeFilters]);
 
-  const handleUpdate = async (id: string, updatedCemiterio: Cemiterio) => {
+  const handleUpdate = async (id: string, updatedImovel: Imovel) => {
     try {
-      await cemiterioService.update(id, updatedCemiterio);
+      await imovelService.update(id, updatedImovel);
       setData((prevData) => ({
         ...prevData,
         items: prevData.items.map((item) =>
-          item.id === id ? updatedCemiterio : item
+          item.id === id ? updatedImovel : item
         ),
       }));
     } catch (error) {
@@ -64,7 +64,7 @@ export function CemiterioTable() {
 
   const handleDelete = async (id: string) => {
     try {
-      await cemiterioService.delete(id);
+      await imovelService.delete(id);
       setData((prevData) => {
         const updatedItems = prevData.items.filter((item) => item.id !== id);
         return {
@@ -88,7 +88,7 @@ export function CemiterioTable() {
     }));
   };
 
-  const table = useReactTable<Cemiterio>({
+  const table = useReactTable<Imovel>({
     data: data.items,
     columns,
     state: {
@@ -109,16 +109,16 @@ export function CemiterioTable() {
     <>
       <div className="mb-5 flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold">Cemitério</h1>
-          <p className="text-sm text-gray-600">Gerenciamento do cemitério.</p>
+          <h1 className="text-2xl font-bold">Imóveis</h1>
+          <p className="text-sm text-gray-600">Gerenciamento do Imóvel.</p>
         </div>
       </div>
-      <CemiterioActions
+      <ImovelActions
         activeFilters={activeFilters}
         onApplyFilters={setActiveFilters}
       />
       {error && <div className="text-red-500">{error}</div>}
-      <DynamicTable<Cemiterio>
+      <DynamicTable<Imovel>
         table={table}
         onDelete={handleDelete}
         onPageChange={handlePageChange}
@@ -127,10 +127,10 @@ export function CemiterioTable() {
         hasNextPage={data.hasNextPage}
         hasPreviousPage={data.hasPreviousPage}
         renderEditDialog={(item) => (
-          <CemiterioEditDialog
+          <ImovelEditDialog
             item={item}
-            onUpdate={(newCemiterio) => handleUpdate(item.id, newCemiterio)}
-            schema={cemiterioSchema}
+            onUpdate={(newImovel) => handleUpdate(item.id, newImovel)}
+            schema={imovelSchema}
           />
         )}
       />

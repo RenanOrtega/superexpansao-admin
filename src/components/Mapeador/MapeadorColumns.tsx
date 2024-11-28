@@ -35,4 +35,28 @@ export const columns: ColumnDef<Mapeador>[] = [
     header: "Observações",
     accessorKey: "observations",
   },
+  {
+    header: "Data atualização",
+    accessorKey: "updatedAt",
+    cell: ({ row }) => {
+      const updatedAt: string = row.getValue("updatedAt");
+      return updatedAt ? format(updatedAt, "dd/MM/yyyy") : "-";
+    },
+  },
+  {
+    header: "Data cadastro",
+    accessorKey: "createdAt",
+    cell: ({ row }) => {
+      const createdAt: string = row.getValue("createdAt");
+      return createdAt ? format(createdAt, "dd/MM/yyyy") : "-";
+    },
+  },
+  {
+    header: "Atualizado por",
+    accessorKey: "updatedBy",
+    cell: ({ row }) => {
+      const updatedBy: string = row.getValue("updatedBy");
+      return updatedBy ? updatedBy : "-";
+    },
+  },
 ];

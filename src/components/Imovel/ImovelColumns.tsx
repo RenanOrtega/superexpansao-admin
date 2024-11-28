@@ -1,8 +1,8 @@
-import { Cemiterio } from "@/types/Cemiterio";
+import { Imovel } from "@/types/Imovel";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 
-export const columns: ColumnDef<Cemiterio>[] = [
+export const columns: ColumnDef<Imovel>[] = [
   {
     header: "Endereço",
     accessorKey: "address",
