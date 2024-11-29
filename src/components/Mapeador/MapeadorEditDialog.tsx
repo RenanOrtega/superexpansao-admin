@@ -98,9 +98,6 @@ export function MapeadorEditDialog({
   }) => {
     switch (field.type) {
       case "select":
-        {
-          console.log(field);
-        }
         return (
           <FormField
             control={form.control}

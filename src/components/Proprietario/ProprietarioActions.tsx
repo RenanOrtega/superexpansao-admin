@@ -18,6 +18,7 @@ import { Calendar } from "../ui/calendar";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { DialogForm } from "../DialogForm";
+import { Label } from "../ui/label";
 
 export function ProprietarioActions({
   activeFilters,
@@ -131,34 +132,50 @@ export function ProprietarioActions({
                   <AccordionTrigger>Dados Pessoais</AccordionTrigger>
                   <AccordionContent className="m-3">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <Input
-                        placeholder="Nome"
-                        value={filterForm.name}
-                        onChange={(e) =>
-                          handleFilterFormChange("name", e.target.value)
-                        }
-                      />
-                      <Input
-                        placeholder="Telefone"
-                        value={filterForm.telephone}
-                        onChange={(e) =>
-                          handleFilterFormChange("telephone", e.target.value)
-                        }
-                      />
-                      <Input
-                        placeholder="Email"
-                        value={filterForm.email}
-                        onChange={(e) =>
-                          handleFilterFormChange("email", e.target.value)
-                        }
-                      />
-                      <Input
-                        placeholder="Fonte"
-                        value={filterForm.source}
-                        onChange={(e) =>
-                          handleFilterFormChange("source", e.target.value)
-                        }
-                      />
+                      <div>
+                        <Label>Nome</Label>
+                        <Input
+                          className="mt-1"
+                          placeholder="Nome"
+                          value={filterForm.name}
+                          onChange={(e) =>
+                            handleFilterFormChange("name", e.target.value)
+                          }
+                        />
+                      </div>
+                      <div>
+                        <Label>Telefone</Label>
+                        <Input
+                          className="mt-1"
+                          placeholder="Telefone"
+                          value={filterForm.telephone}
+                          onChange={(e) =>
+                            handleFilterFormChange("telephone", e.target.value)
+                          }
+                        />
+                      </div>
+                      <div>
+                        <Label>Email</Label>
+                        <Input
+                          className="mt-1"
+                          placeholder="Email"
+                          value={filterForm.email}
+                          onChange={(e) =>
+                            handleFilterFormChange("email", e.target.value)
+                          }
+                        />
+                      </div>
+                      <div>
+                        <Label>Fonte</Label>
+                        <Input
+                          className="mt-1"
+                          placeholder="Fonte"
+                          value={filterForm.source}
+                          onChange={(e) =>
+                            handleFilterFormChange("source", e.target.value)
+                          }
+                        />
+                      </div>
                     </div>
                   </AccordionContent>
                 </AccordionItem>
@@ -175,27 +192,38 @@ export function ProprietarioActions({
                           handleFilterFormChange("address", e.target.value)
                         }
                       />
-                      <Input
-                        placeholder="Bairro"
-                        value={filterForm.neighboor}
-                        onChange={(e) =>
-                          handleFilterFormChange("neighboor", e.target.value)
-                        }
-                      />
-                      <Input
-                        placeholder="Cidade"
-                        value={filterForm.city}
-                        onChange={(e) =>
-                          handleFilterFormChange("city", e.target.value)
-                        }
-                      />
-                      <Input
-                        placeholder="Estado"
-                        value={filterForm.state}
-                        onChange={(e) =>
-                          handleFilterFormChange("state", e.target.value)
-                        }
-                      />
+                      <div>
+                        <Label>Bairro</Label>
+                        <Input
+                          className="mt-1"
+                          placeholder="Bairro"
+                          value={filterForm.neighboor}
+                          onChange={(e) =>
+                            handleFilterFormChange("neighboor", e.target.value)
+                          }
+                        />
+                      </div>
+                      <div>
+                        <Label>Cidade</Label>
+                        <Input
+                          className="mt-1"
+                          placeholder="Cidade"
+                          value={filterForm.city}
+                          onChange={(e) =>
+                            handleFilterFormChange("city", e.target.value)
+                          }
+                        />
+                      </div>
+                      <div>
+                        <Label>Estado</Label>
+                        <Input
+                          placeholder="Estado"
+                          value={filterForm.state}
+                          onChange={(e) =>
+                            handleFilterFormChange("state", e.target.value)
+                          }
+                        />
+                      </div>
                     </div>
                   </AccordionContent>
                 </AccordionItem>
@@ -206,6 +234,7 @@ export function ProprietarioActions({
                   <AccordionContent className="m-3">
                     <div className="flex flex-col gap-3">
                       <Popover>
+                        <Label>Data de criação</Label>
                         <PopoverTrigger asChild className="flex-1">
                           <Button
                             variant={"outline"}
@@ -233,6 +262,7 @@ export function ProprietarioActions({
                         </PopoverContent>
                       </Popover>
                       <Popover>
+                        <Label>Data de atualização</Label>
                         <PopoverTrigger asChild className="flex-1">
                           <Button
                             variant={"outline"}
@@ -259,6 +289,7 @@ export function ProprietarioActions({
                           />
                         </PopoverContent>
                       </Popover>
+                      <Label>Atualizado por</Label>
                       <Input
                         placeholder="Atualizado por"
                         value={filterForm.updatedBy}

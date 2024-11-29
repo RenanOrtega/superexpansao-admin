@@ -2,30 +2,41 @@ import { z } from "zod";
 
 export interface Imovel {
   id: string;
-  name: string;
-  source: string;
-  telephone: string;
-  address: string;
-  neighboor: string;
+  addresss: string;
+  neighboorhoud: string;
   city: string;
   state: string;
-  email: string;
+  zone: string;
+  propertyProfile: string;
+  link: string;
+  availability: string;
+  rentValue: number;
+  saleValue: number;
+  iptuValue: number;
+  searchMeterage: number;
+  totalArea: number;
+  realEstate: string;
   updatedAt: Date;
   createdAt: Date;
   updatedBy: string;
-  observations: string;
 }
 
 export const imovelSchema = z.object({
-  name: z.string().min(1, "Nome é obrigatório"),
-  source: z.string().min(1, "Fonte é obrigatório"),
-  telephone: z.string().regex(/^\(\d{2}\) \d{5}-\d{4}$/, "Telefone inválido"),
   address: z.string().min(1, "Endereço é obrigatório"),
-  neighboor: z.string().min(1, "Bairro é obrigatório"),
-  city: z.string().min(1, "Cidade é obrigatória"),
-  state: z.string().min(1, "Estado é obrigatória"),
-  email: z.string().min(1, "Email é obrigatória"),
-  observations: z.string().optional(),
+  neighborhood: z.string().min(1, "Bairro é obrigatório"),
+  city: z.string().min(1, "Cidade é obrigatório"),
+  state: z.string().min(1, "Estado é obrigatório"),
+  zone: z.string().min(1, "Zona é obrigatório"),
+  propertyProfile: z.string().min(1, "Perfil do Imóvel é obrigatório"),
+  proprietarioId: z.string().min(1, "Proprietario é obrigatório"),
+  link: z.string().min(1, "Link é obrigatório"),
+  availability: z.string().min(1, "Disponibilidade é obrigatório"),
+  rentValue: z.coerce.number().min(1, "Valor do aluguel é obrigatório"),
+  saleValue: z.coerce.number().min(1, "Valor de Venda é obrigatório"),
+  iptuValue: z.coerce.number().min(1, "Valor de Venda é obrigatório"),
+  searchMeterage: z.coerce.number().min(1, "Metragem de busca é obrigatório"),
+  totalArea: z.coerce.number().min(1, "Area total é obrigatório"),
+  realEstate: z.string().min(1, "Imobiliaria é obrigatório"),
 });
 
 export type ImovelFormData = z.infer<typeof imovelSchema>;

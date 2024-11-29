@@ -11,8 +11,8 @@ export const columns: ColumnDef<Proprietario>[] = [
     ),
   },
   {
-    header: "Fonte",
-    accessorKey: "source",
+    header: "Email",
+    accessorKey: "email",
   },
   {
     header: "Telefone",
@@ -35,8 +35,8 @@ export const columns: ColumnDef<Proprietario>[] = [
     accessorKey: "state",
   },
   {
-    header: "Email",
-    accessorKey: "email",
+    header: "Fonte",
+    accessorKey: "source",
   },
   {
     header: "Data atualização",
