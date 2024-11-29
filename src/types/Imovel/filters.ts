@@ -1,17 +1,27 @@
 import { GenericFilterParams } from "../filters";
 
 export interface ImovelFilterParams extends GenericFilterParams {
-  name?: string;
-  source?: string;
-  telephone?: string;
   address?: string;
-  neighboor?: string;
+  neighborhood?: string;
   city?: string;
   state?: string;
-  email?: string;
+  zone?: string;
+  propertyProfile?: string;
+  availability?: string;
+  minRentValue?: number;
+  maxRentValue?: number;
+  minSaleValue?: number;
+  maxSaleValue?: number;
+  minIptuValue?: number;
+  maxIptuValue?: number;
+  minSearchMeterage?: number;
+  maxSearchMeterage?: number;
+  minTotalArea?: number;
+  maxTotalArea?: number;
+  realEstate?: string;
+  proprietarioId?: string;
   updatedAt?: string;
   createdAt?: string;
-  updatedBy?: string;
 }
 
 export interface ImovelFiltersProps {

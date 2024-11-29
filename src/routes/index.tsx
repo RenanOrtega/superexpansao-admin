@@ -6,6 +6,7 @@ import HomePage from "../pages/HomePage";
 import MapeadorPage from "@/pages/MapeadorPage";
 import ProprietarioPage from "@/pages/ProprietarioPage";
 import ImovelPage from "@/pages/ImovelPage";
+import PedidoPage from "@/pages/PedidoPage";
 
 const Routes = () => {
   return (
@@ -17,6 +18,7 @@ const Routes = () => {
           <Route path="/mapeadores" element={<MapeadorPage />} />
           <Route path="/proprietarios" element={<ProprietarioPage />} />
           <Route path="/imovel" element={<ImovelPage />} />
+          <Route path="/pedidos" element={<PedidoPage />} />
         </Route>
       </Route>
     </ReactRoutes>

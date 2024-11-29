@@ -3,6 +3,7 @@ const endpoints = {
   mapeador: "/mapeador",
   proprietario: "/proprietario",
   imovel: "/imovel",
+  pedido: "/pedido",
 };
 
 export default endpoints;
