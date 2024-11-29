@@ -32,6 +32,7 @@ import {
 } from "@/types/Mapeador";
 import { DialogForm } from "../DialogForm";
 import { useState } from "react";
+import { CustomFormField } from "../CustomFormField";
 
 export function MapeadorCreateDialog({ onCreate }: CreateMapeadorDialogProps) {
   const form = useForm<MapeadorFormData>({
@@ -71,22 +72,12 @@ export function MapeadorCreateDialog({ onCreate }: CreateMapeadorDialogProps) {
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          {/* Name */}
-          <FormField
+          <CustomFormField
             control={form.control}
             name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Nome</FormLabel>
-                <FormControl>
-                  <Input placeholder="Nome do Mapeador" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            label="Nome"
+            placeholder="Nome do Mapeador"
           />
-
-          {/* Telephone */}
           <FormField
             control={form.control}
             name="telephone"
@@ -109,23 +100,12 @@ export function MapeadorCreateDialog({ onCreate }: CreateMapeadorDialogProps) {
               </FormItem>
             )}
           />
-
-          {/* City */}
-          <FormField
+          <CustomFormField
             control={form.control}
             name="city"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Cidade</FormLabel>
-                <FormControl>
-                  <Input placeholder="Cidade" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            label="Cidade"
+            placeholder="Cidade"
           />
-
-          {/* Vehicle */}
           <FormField
             control={form.control}
             name="vehicle"
@@ -154,23 +134,12 @@ export function MapeadorCreateDialog({ onCreate }: CreateMapeadorDialogProps) {
               </FormItem>
             )}
           />
-
-          {/* PIX */}
-          <FormField
+          <CustomFormField
             control={form.control}
             name="pix"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>PIX</FormLabel>
-                <FormControl>
-                  <Input placeholder="Chave PIX (opcional)" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            label="PIX"
+            placeholder="Chave PIX"
           />
-
-          {/* Last Mapping */}
           <FormField
             control={form.control}
             name="lastMapping"
@@ -207,22 +176,12 @@ export function MapeadorCreateDialog({ onCreate }: CreateMapeadorDialogProps) {
               </FormItem>
             )}
           />
-
-          {/* Observations */}
-          <FormField
+          <CustomFormField
             control={form.control}
             name="observations"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Observações</FormLabel>
-                <FormControl>
-                  <Input placeholder="Observações (opcional)" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            label="Observações"
+            placeholder="Observações"
           />
-
           <Button type="submit">Enviar</Button>
         </form>
       </Form>

@@ -21,6 +21,7 @@ import {
   ProprietarioFormData,
   proprietarioSchema,
 } from "@/types/Proprietario";
+import { CustomFormField } from "../CustomFormField";
 
 export function ProprietarioCreateDialog({
   onCreate,
@@ -64,36 +65,18 @@ export function ProprietarioCreateDialog({
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          {/* Name */}
-          <FormField
+          <CustomFormField
             control={form.control}
             name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Nome</FormLabel>
-                <FormControl>
-                  <Input placeholder="Nome do Proprieatrio" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            label="Nome"
+            placeholder="Nome do Proprieatrio"
           />
-
-          {/* Source */}
-          <FormField
+          <CustomFormField
             control={form.control}
             name="source"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Fonte</FormLabel>
-                <FormControl>
-                  <Input placeholder="Fonte" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            label="Fonte"
+            placeholder="Fonte"
           />
-
           {/* Telephone */}
           <FormField
             control={form.control}
@@ -117,97 +100,42 @@ export function ProprietarioCreateDialog({
               </FormItem>
             )}
           />
-
-          {/* Address */}
-          <FormField
+          <CustomFormField
             control={form.control}
             name="address"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Endereço</FormLabel>
-                <FormControl>
-                  <Input placeholder="Endereço" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            label="Endereço"
+            placeholder="Endereço"
           />
-
-          {/* Neighboor */}
-          <FormField
+          <CustomFormField
             control={form.control}
             name="neighboor"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Bairro</FormLabel>
-                <FormControl>
-                  <Input placeholder="Bairro" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            label="Bairro"
+            placeholder="Bairro"
           />
-
-          {/* City */}
-          <FormField
+          <CustomFormField
             control={form.control}
             name="city"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Cidade</FormLabel>
-                <FormControl>
-                  <Input placeholder="Cidade" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            label="Cidade"
+            placeholder="Cidade"
           />
-
-          {/* Estado */}
-          <FormField
+          <CustomFormField
             control={form.control}
             name="state"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Estado</FormLabel>
-                <FormControl>
-                  <Input placeholder="Estado" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            label="Estado"
+            placeholder="Estado"
           />
-
-          {/* Email */}
-          <FormField
+          <CustomFormField
             control={form.control}
             name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input placeholder="Email" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            label="Email"
+            placeholder="Email"
           />
-
-          {/* Observations */}
-          <FormField
+          <CustomFormField
             control={form.control}
             name="observations"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Observações</FormLabel>
-                <FormControl>
-                  <Input placeholder="Observações (opcional)" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            label="Observações"
+            placeholder="Observações"
           />
-
           <Button type="submit">Enviar</Button>
         </form>
       </Form>

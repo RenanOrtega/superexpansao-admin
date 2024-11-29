@@ -1,10 +1,7 @@
-"use client";
-
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import { DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Plus } from "lucide-react";
+import { Pencil, Plus } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -12,18 +9,19 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
+} from "@/components/ui/form";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogForm } from "../DialogForm";
-import { useState } from "react";
 import {
   CreateImovelDialogProps,
   ImovelFormData,
   imovelSchema,
 } from "@/types/Imovel";
-import { Tabs } from "../ui/tabs";
-import { TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
+import { CustomFormField } from "../CustomFormField";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import { ProprietarioCombobox } from "../Proprietario/ProprietarioCombobox";
 import { proprietarioService } from "@/services/proprietarioService";
-import { ProprietarioCombobox } from "@/components/Proprietario/ProprietarioCombobox";
 
 export function ImovelCreateDialog({ onCreate }: CreateImovelDialogProps) {
   const form = useForm<ImovelFormData>({
@@ -68,9 +66,9 @@ export function ImovelCreateDialog({ onCreate }: CreateImovelDialogProps) {
 
   return (
     <DialogForm
-      title="Novo imóvel"
       open={isDialogOpen}
       onOpenChange={handleDialogChange}
+      title="Novo imóvel"
       trigger={
         <Button className="w-full sm:w-auto" variant="outline">
           <Plus className="mr-2 h-4 w-4" /> Novo imóvel
@@ -79,107 +77,49 @@ export function ImovelCreateDialog({ onCreate }: CreateImovelDialogProps) {
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <Tabs defaultValue="address">
-            <TabsList className="flex justify-between mb-5">
-              <TabsTrigger
-                value="address"
-                className="py-2 text-gray-700 border-b-2 border-transparent hover:text-gray-900 hover:border-gray-900 focus:outline-none focus:border-gray-900 transition duration-200"
-                autoFocus
-              >
-                Endereço
-              </TabsTrigger>
-              <TabsTrigger
-                value="property"
-                className="py-2 text-gray-700 border-b-2 border-transparent hover:text-gray-900 hover:border-gray-900 focus:outline-none focus:border-gray-900 transition duration-200"
-              >
-                Propriedade
-              </TabsTrigger>
-              <TabsTrigger
-                value="financial"
-                className="py-2 text-gray-700 border-b-2 border-transparent hover:text-gray-900 hover:border-gray-900 focus:outline-none focus:border-gray-900 transition duration-200"
-              >
-                Valores
-              </TabsTrigger>
+          <Tabs defaultValue="location">
+            <TabsList className="grid w-full grid-cols-3">
+              <TabsTrigger value="location">Localização</TabsTrigger>
+              <TabsTrigger value="details">Detalhes</TabsTrigger>
+              <TabsTrigger value="financial">Financeiro</TabsTrigger>
             </TabsList>
-            <TabsContent value="address" className="flex flex-col gap-3">
-              {/* Address */}
-              <FormField
+            <TabsContent value="location" className="flex flex-col gap-3">
+              <CustomFormField
                 control={form.control}
                 name="address"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Endereço</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Endereço do Imóvel" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                label="Endereço"
+                placeholder="Endereço do Imóvel"
               />
               <div className="flex gap-3">
-                {/* City */}
-                <FormField
+                <CustomFormField
                   control={form.control}
                   name="city"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Cidade</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Cidade" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  label="Cidade"
+                  placeholder="Cidade"
                 />
-                {/* State */}
-                <FormField
+                <CustomFormField
                   control={form.control}
                   name="state"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Estado</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Estado" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  label="Estado"
+                  placeholder="Estado"
                 />
               </div>
               <div className="flex gap-3">
-                {/* neighborhood */}
-                <FormField
+                <CustomFormField
                   control={form.control}
                   name="neighborhood"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Bairro</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Bairro" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  label="Bairro"
+                  placeholder="Bairro"
                 />
-
-                {/* City */}
-                <FormField
+                <CustomFormField
                   control={form.control}
                   name="zone"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Zona</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Zona" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  label="Zona"
+                  placeholder="Zona"
                 />
               </div>
             </TabsContent>
-            <TabsContent value="property" className="flex flex-col gap-3">
-              {/* proprietarioId */}
+            <TabsContent value="details" className="flex flex-col gap-3">
               <FormField
                 name="proprietarioId"
                 control={form.control}
@@ -198,200 +138,93 @@ export function ImovelCreateDialog({ onCreate }: CreateImovelDialogProps) {
                   </FormItem>
                 )}
               />
-
-              {/* availability */}
-              <FormField
+              <CustomFormField
                 control={form.control}
                 name="availability"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Disponibilidade</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Disponibilidade" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                label="Disponibilidade"
+                type="text"
+                placeholder="Disponibilidade"
               />
-              {/* Link */}
-              <FormField
+              <CustomFormField
                 control={form.control}
                 name="link"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Link</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Link" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                label="Link"
+                type="text"
+                placeholder="Link"
               />
-              {/* propertyProfile */}
-              <FormField
+              <CustomFormField
                 control={form.control}
                 name="propertyProfile"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Perfil</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Perfil do Imóvel" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                label="Perfil"
+                type="text"
+                placeholder="Perfil do Imóvel"
               />
-              {/* realEstate */}
-              <FormField
+              <CustomFormField
                 control={form.control}
                 name="realEstate"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Imobiliaria</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Imobiliaria" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                label="Imobiliaria"
+                type="text"
+                placeholder="Imobiliaria"
               />
               <div className="flex gap-3">
-                {/* searchMeterage */}
-                <FormField
+                <CustomFormField
                   control={form.control}
                   name="searchMeterage"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Metragem de busca</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          placeholder="Metragem"
-                          {...field}
-                          value={field.value ?? ""}
-                          onChange={(e) => {
-                            const value =
-                              e.target.value === ""
-                                ? undefined
-                                : Number(e.target.value);
-                            field.onChange(value);
-                          }}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  label="Metragem de busca"
+                  type="number"
+                  placeholder="Metragem"
+                  onChange={(value) => {
+                    return value === "" ? undefined : Number(value);
+                  }}
                 />
-                {/* totalArea */}
-                <FormField
+                <CustomFormField
                   control={form.control}
                   name="totalArea"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Total da area</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          placeholder="Total da area"
-                          {...field}
-                          value={field.value ?? ""}
-                          onChange={(e) => {
-                            const value =
-                              e.target.value === ""
-                                ? undefined
-                                : Number(e.target.value);
-                            field.onChange(value);
-                          }}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  label="Total da area"
+                  type="number"
+                  placeholder="Total da area"
+                  onChange={(value) => {
+                    return value === "" ? undefined : Number(value);
+                  }}
                 />
               </div>
             </TabsContent>
             <TabsContent value="financial" className="flex flex-col gap-3">
-              {/* iptuValue */}
-              <FormField
+              <CustomFormField
                 control={form.control}
                 name="iptuValue"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Valor do IPTU</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        placeholder="IPTU"
-                        {...field}
-                        value={field.value ?? ""}
-                        onChange={(e) => {
-                          const value =
-                            e.target.value === ""
-                              ? undefined
-                              : Number(e.target.value);
-                          field.onChange(value);
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                label="Valor do IPTU"
+                type="number"
+                placeholder="IPTU"
+                onChange={(value) => {
+                  return value === "" ? undefined : Number(value);
+                }}
               />
-              {/* rentValue */}
-              <FormField
+              <CustomFormField
                 control={form.control}
                 name="rentValue"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Valor do aluguel</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        placeholder="Valor do Alguel"
-                        {...field}
-                        value={field.value ?? ""}
-                        onChange={(e) => {
-                          const value =
-                            e.target.value === ""
-                              ? undefined
-                              : Number(e.target.value);
-                          field.onChange(value);
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                label="Valor do Aluguel"
+                type="number"
+                placeholder="Valor do Aluguel"
+                onChange={(value) => {
+                  return value === "" ? undefined : Number(value);
+                }}
               />
-              {/* saleValue */}
-              <FormField
+              <CustomFormField
                 control={form.control}
                 name="saleValue"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Valor de venda</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        placeholder="Valor de Venda"
-                        {...field}
-                        value={field.value ?? ""}
-                        onChange={(e) => {
-                          const value =
-                            e.target.value === ""
-                              ? undefined
-                              : Number(e.target.value);
-                          field.onChange(value);
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                label="Valor de Venda"
+                type="number"
+                placeholder="Valor de Venda"
+                onChange={(value) => {
+                  return value === "" ? undefined : Number(value);
+                }}
               />
             </TabsContent>
           </Tabs>
-          <Button type="submit">Enviar</Button>
+          <DialogFooter>
+            <Button type="submit">Enviar</Button>
+          </DialogFooter>
         </form>
       </Form>
     </DialogForm>

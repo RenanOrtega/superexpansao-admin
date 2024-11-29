@@ -48,13 +48,13 @@ export function ImovelTable() {
     fetchData();
   }, [activeFilters]);
 
-  const handleUpdate = async (id: string, updatedImovel: Imovel) => {
+  const handleUpdate = async (id: string, newFields: Imovel) => {
     try {
-      await imovelService.update(id, updatedImovel);
+      var imovelUpdated = await imovelService.update(id, newFields);
       setData((prevData) => ({
         ...prevData,
         items: prevData.items.map((item) =>
-          item.id === id ? updatedImovel : item
+          item.id === id ? imovelUpdated : item
         ),
       }));
     } catch (error) {
