@@ -23,7 +23,6 @@ import {
 import { Tabs } from "../ui/tabs";
 import { TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
 import { ProprietarioCombobox } from "../Proprietario/ProprietarioComboBox";
-import { Proprietario } from "@/types/Proprietario";
 import { proprietarioService } from "@/services/proprietarioService";
 
 export function ImovelCreateDialog({ onCreate }: CreateImovelDialogProps) {
