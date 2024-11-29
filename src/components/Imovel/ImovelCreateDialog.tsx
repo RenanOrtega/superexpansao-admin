@@ -22,8 +22,8 @@ import {
 } from "@/types/Imovel";
 import { Tabs } from "../ui/tabs";
 import { TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
-import { ProprietarioCombobox } from "../Proprietario/ProprietarioComboBox";
 import { proprietarioService } from "@/services/proprietarioService";
+import { ProprietarioCombobox } from "../Proprietario/ProprietarioComboBox";
 
 export function ImovelCreateDialog({ onCreate }: CreateImovelDialogProps) {
   const form = useForm<ImovelFormData>({
