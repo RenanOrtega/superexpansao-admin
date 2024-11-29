@@ -23,7 +23,7 @@ import {
 import { Tabs } from "../ui/tabs";
 import { TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
 import { proprietarioService } from "@/services/proprietarioService";
-import { ProprietarioCombobox } from "../Proprietario/ProprietarioComboBox";
+import { ProprietarioCombobox } from "@/components/Proprietario/ProprietarioCombobox";
 
 export function ImovelCreateDialog({ onCreate }: CreateImovelDialogProps) {
   const form = useForm<ImovelFormData>({
