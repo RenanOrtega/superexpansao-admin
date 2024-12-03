@@ -23,8 +23,7 @@ const LoginPage = () => {
 
     try {
       const data: AuthResponse = await authService.login({ email, password });
-
-      signIn(data.token, email);
+      signIn(data.accessToken, email);
       navigate("/");
     } catch (error) {
       console.error("Erro ao fazer login:", error);

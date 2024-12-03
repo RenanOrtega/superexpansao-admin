@@ -23,9 +23,21 @@ api.interceptors.request.use(
 );
 
 api.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    console.log("API Error:", error);
+  (response: any) => response,
+  async (error: { config: any; response: { status: number } }) => {
+    console.log(error);
+    if (error.response?.status === 401 && error.config.url.includes("/login")) {
+      return Promise.reject(error);
+    }
+
+    const originalRequest = error.config;
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      localStorage.removeItem("auth:token");
+      window.location.href = "/login";
+    }
+
     return Promise.reject(error);
   }
 );

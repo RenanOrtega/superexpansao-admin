@@ -7,7 +7,7 @@ import {
   SortingState,
   useReactTable,
 } from "@tanstack/react-table";
-import { User, userSchema, userUpdateSchema } from "@/types/User";
+import { User, userUpdateSchema } from "@/types/User";
 import { UserFilterParams } from "@/types/User/filters";
 import { userService } from "@/services/userService";
 import { columns } from "./UserColumns";

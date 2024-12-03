@@ -1,6 +1,7 @@
 import { User } from "@/types/User";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
+import CustomTag from "../CustomTag";
 
 export const columns: ColumnDef<User>[] = [
   {
@@ -28,11 +29,7 @@ export const columns: ColumnDef<User>[] = [
 
       const backgroundColor = roleStyles[role] || "bg-gray-200";
 
-      return (
-        <span className={`px-2 py-1 rounded-full text-xs ${backgroundColor}`}>
-          {role}
-        </span>
-      );
+      return <CustomTag text={role} className={backgroundColor} />;
     },
   },
   {

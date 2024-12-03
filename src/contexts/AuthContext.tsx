@@ -54,7 +54,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signIn = (token: string) => {
     try {
       const decodedToken = jwtDecode<DecodedToken>(token);
-
       setUser({
         name: decodedToken.unique_name,
         email: decodedToken.email,

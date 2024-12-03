@@ -6,9 +6,7 @@ export interface LoginCredentials {
 }
 
 export interface AuthResponse {
-  token: string;
-  refreshToken: string;
-  tokenExpiration: Date;
+  accessToken: string;
 }
 
 export interface DecodedToken {
