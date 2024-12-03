@@ -1,8 +1,8 @@
-import { Mapeador } from "@/types/Mapeador";
+import { User } from "@/types/User";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 
-export const columns: ColumnDef<Mapeador>[] = [
+export const columns: ColumnDef<User>[] = [
   {
     header: "Nome",
     accessorKey: "name",
@@ -11,22 +11,19 @@ export const columns: ColumnDef<Mapeador>[] = [
     ),
   },
   {
-    header: "Telefone",
-    accessorKey: "telephone",
+    header: "Email",
+    accessorKey: "email",
   },
   {
-    header: "Cidade",
-    accessorKey: "city",
-  },
-  {
-    header: "Veículo",
-    accessorKey: "vehicle",
+    header: "Permissão",
+    accessorKey: "role",
     cell: ({ row }) => {
-      const role: string = row.getValue("vehicle");
+      const role: string = row.getValue("role");
 
       const roleStyles: { [key: string]: string } = {
-        Moto: "bg-red-500 text-white",
-        Carro: "bg-blue-500 text-white",
+        Admin: "bg-red-500 text-white",
+        Moderador: "bg-blue-500 text-white",
+        Padrão: "bg-teal-500 text-white",
       };
 
       const backgroundColor = roleStyles[role] || "bg-gray-200";
@@ -37,19 +34,6 @@ export const columns: ColumnDef<Mapeador>[] = [
         </span>
       );
     },
-  },
-  {
-    header: "Pix",
-    accessorKey: "pix",
-  },
-  {
-    header: "Último Mapeamento",
-    accessorKey: "lastMapping",
-    cell: ({ row }) => format(row.getValue("lastMapping"), "dd/MM/yyyy"),
-  },
-  {
-    header: "Observações",
-    accessorKey: "observations",
   },
   {
     header: "Data atualização",

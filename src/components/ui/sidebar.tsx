@@ -54,6 +54,7 @@ const menuItems = [
 
 const Sidebar = () => {
   const { user, signOut } = useAuth();
+
   const [expanded, setExpanded] = useState(true);
   const location = useLocation();
 
@@ -87,27 +88,31 @@ const Sidebar = () => {
 
       <nav className="flex-grow">
         <ul>
-          {menuItems.map((item) => (
-            <Link to={item.path} key={item.path}>
-              <li
-                className={`flex items-center justify-center p-2 m-2 font-medium rounded-md cursor-pointer group
+          {menuItems
+            .filter((item) =>
+              item.label === "Configurações" ? user?.role === "Admin" : true
+            )
+            .map((item) => (
+              <Link to={item.path} key={item.path}>
+                <li
+                  className={`flex items-center justify-center p-2 m-2 font-medium rounded-md cursor-pointer group
                 ${
                   isActive(item.path)
                     ? "bg-gradient-to-tr from-orange-200 to-orange-100 text-orange-800"
                     : "hover:bg-indigo-50 text-gray-600"
                 }`}
-              >
-                <item.icon size={20} />
-                <span
-                  className={`transition-all ${
-                    expanded ? "w-52 ml-3" : "hidden"
-                  }`}
                 >
-                  {item.label}
-                </span>
-              </li>
-            </Link>
-          ))}
+                  <item.icon size={20} />
+                  <span
+                    className={`transition-all ${
+                      expanded ? "w-52 ml-3" : "hidden"
+                    }`}
+                  >
+                    {item.label}
+                  </span>
+                </li>
+              </Link>
+            ))}
         </ul>
       </nav>
 

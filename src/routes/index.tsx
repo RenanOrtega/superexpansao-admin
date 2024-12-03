@@ -7,6 +7,8 @@ import MapeadorPage from "@/pages/MapeadorPage";
 import ProprietarioPage from "@/pages/ProprietarioPage";
 import ImovelPage from "@/pages/ImovelPage";
 import PedidoPage from "@/pages/PedidoPage";
+import ConfigurationPage from "@/pages/ConfigurationPage";
+import { ProtectedRoute } from "./ProtectedRoute";
 
 const Routes = () => {
   return (
@@ -19,6 +21,9 @@ const Routes = () => {
           <Route path="/proprietarios" element={<ProprietarioPage />} />
           <Route path="/imovel" element={<ImovelPage />} />
           <Route path="/pedidos" element={<PedidoPage />} />
+          <Route element={<ProtectedRoute allowedRoles={["Admin"]} />}>
+            <Route path="/configuracoes" element={<ConfigurationPage />} />
+          </Route>
         </Route>
       </Route>
     </ReactRoutes>

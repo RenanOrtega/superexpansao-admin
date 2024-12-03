@@ -13,7 +13,7 @@ interface CustomFormField<T extends FieldValues> {
   name: Path<T>;
   label: string;
   placeholder?: string;
-  type?: "text" | "number";
+  type?: "text" | "number" | "password";
   className?: string;
   onChange?: (value: string | number | undefined) => any;
 }

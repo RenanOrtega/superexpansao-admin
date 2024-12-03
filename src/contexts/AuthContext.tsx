@@ -5,16 +5,9 @@ import {
   useEffect,
   ReactNode,
 } from "react";
-import { User } from "../types/auth";
-
-interface AuthContextType {
-  user: User | null;
-  token: string | null;
-  signIn: (token: string, userEmail: string) => void;
-  signOut: () => void;
-  isAuthenticated: boolean;
-  loading: boolean;
-}
+import { AuthContextType, DecodedToken } from "../types/auth";
+import { jwtDecode } from "jwt-decode";
+import { UserSession } from "@/types/User";
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
@@ -34,34 +27,48 @@ export function useAuth(): AuthContextType {
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<UserSession | null>(null);
   const [token, setToken] = useState<string | null>(null);
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("auth:token");
-    const storedUser = localStorage.getItem("auth:user");
 
-    if (storedToken && storedUser) {
-      setToken(storedToken);
-      setUser(JSON.parse(storedUser));
+    if (storedToken) {
+      try {
+        const decodedToken = jwtDecode<DecodedToken>(storedToken);
+        setToken(storedToken);
+        setUser({
+          name: decodedToken.unique_name,
+          email: decodedToken.email,
+          role: decodedToken.role,
+        });
+      } catch (error) {
+        signOut();
+      }
     }
-
     setLoading(false);
   }, []);
 
-  const signIn = (token: string, userEmail: string) => {
-    localStorage.setItem("auth:token", token);
-    localStorage.setItem("auth:user", JSON.stringify({ email: userEmail }));
+  const signIn = (token: string) => {
+    try {
+      const decodedToken = jwtDecode<DecodedToken>(token);
 
-    setToken(token);
-    setUser({ email: userEmail });
+      setUser({
+        name: decodedToken.unique_name,
+        email: decodedToken.email,
+        role: decodedToken.role,
+      });
+      setToken(token);
+      localStorage.setItem("auth:token", token);
+    } catch (error) {
+      signOut();
+    }
   };
 
   const signOut = () => {
     localStorage.removeItem("auth:token");
-    localStorage.removeItem("auth:user");
-
     setToken(null);
     setUser(null);
   };

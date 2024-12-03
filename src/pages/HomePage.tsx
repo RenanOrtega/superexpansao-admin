@@ -7,7 +7,7 @@ const HomePage = () => {
   return (
     <div className="flex flex-col">
       <h1 className="text-2xl">
-        Bem-vindo, <span className="text-orange-700">{user?.email}</span>
+        Bem-vindo, <span className="text-orange-700">{user?.name}</span>
       </h1>
       <div className="flex gap-3 mt-5">
         <HomeCard />
