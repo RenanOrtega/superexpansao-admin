@@ -13,6 +13,7 @@ export const columns: ColumnDef<Imovel>[] = [
   {
     header: "Bairro",
     accessorKey: "neighborhood",
+    meta: { isVisible: false },
   },
   {
     header: "Cidade",
@@ -30,10 +31,10 @@ export const columns: ColumnDef<Imovel>[] = [
     header: "Perfil do Proprietario",
     accessorKey: "propertyProfile",
   },
-  {
-    header: "Link",
-    accessorKey: "link",
-  },
+  // {
+  //   header: "Link",
+  //   accessorKey: "link",
+  // },
   {
     header: "Disponibilidade",
     accessorKey: "availability",

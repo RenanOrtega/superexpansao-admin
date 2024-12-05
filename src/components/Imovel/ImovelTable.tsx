@@ -7,12 +7,11 @@ import {
   SortingState,
   useReactTable,
 } from "@tanstack/react-table";
-import { Imovel, imovelSchema } from "@/types/Imovel";
+import { Imovel } from "@/types/Imovel";
 import { ImovelFilterParams } from "@/types/Imovel/filters";
 import { ImovelActions } from "./ImovelActions";
 import { imovelService } from "@/services/imovelService";
 import { columns } from "./ImovelColumns";
-import { ImovelEditDialog } from "./ImovelEditDialog";
 
 export function ImovelTable() {
   const [data, setData] = useState<PaginationResponse<Imovel>>({
@@ -47,20 +46,6 @@ export function ImovelTable() {
   useEffect(() => {
     fetchData();
   }, [activeFilters]);
-
-  const handleUpdate = async (id: string, newFields: Imovel) => {
-    try {
-      var imovelUpdated = await imovelService.update(id, newFields);
-      setData((prevData) => ({
-        ...prevData,
-        items: prevData.items.map((item) =>
-          item.id === id ? imovelUpdated : item
-        ),
-      }));
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const handleDelete = async (id: string) => {
     try {
@@ -126,13 +111,7 @@ export function ImovelTable() {
         pageNumber={data.pageNumber}
         hasNextPage={data.hasNextPage}
         hasPreviousPage={data.hasPreviousPage}
-        renderEditDialog={(item) => (
-          <ImovelEditDialog
-            item={item}
-            onUpdate={(newImovel) => handleUpdate(item.id, newImovel)}
-            schema={imovelSchema}
-          />
-        )}
+        path="imoveis"
       />
     </>
   );

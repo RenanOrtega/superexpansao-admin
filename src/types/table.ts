@@ -8,6 +8,7 @@ export interface DynamicTableProps<T> {
   pageNumber: number;
   hasNextPage: boolean;
   hasPreviousPage: boolean;
+  path: string;
 }
 
 export interface EditDialogProps<T> {

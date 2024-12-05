@@ -28,7 +28,7 @@ const menuItems = [
   {
     label: "Imóveis",
     icon: Building,
-    path: "/imovel",
+    path: "/imoveis",
   },
   {
     label: "Pedidos",
@@ -58,7 +58,12 @@ const Sidebar = () => {
   const [expanded, setExpanded] = useState(true);
   const location = useLocation();
 
-  const isActive = (path: string) => location.pathname === path;
+  const isActive = (path: string) => {
+    if (path === "/") {
+      return location.pathname === "/";
+    }
+    return location.pathname.startsWith(path);
+  };
 
   return (
     <aside

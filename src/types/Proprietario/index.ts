@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { Imovel } from "../Imovel";
 
 export interface Proprietario {
   id: string;
@@ -16,6 +17,10 @@ export interface Proprietario {
   observations: string;
 }
 
+export interface ProprietarioWithImoveis extends Proprietario {
+  imoveis: Imovel[];
+}
+
 export const proprietarioSchema = z.object({
   name: z.string().min(1, "Nome é obrigatório"),
   source: z.string().min(1, "Fonte é obrigatório"),
@@ -24,7 +29,7 @@ export const proprietarioSchema = z.object({
   neighboor: z.string().min(1, "Bairro é obrigatório"),
   city: z.string().min(1, "Cidade é obrigatória"),
   state: z.string().min(1, "Estado é obrigatória"),
-  email: z.string().min(1, "Email é obrigatória"),
+  email: z.union([z.literal(""), z.string().email("E-mail inválido")]),
   observations: z.string().optional(),
 });
 

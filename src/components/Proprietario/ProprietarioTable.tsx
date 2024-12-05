@@ -9,8 +9,7 @@ import {
 } from "@tanstack/react-table";
 import { ProprietarioActions } from "./ProprietarioActions";
 import { columns } from "./ProprietarioColumns";
-import { ProprietarioEditDialog } from "./ProprietarioEditDialog";
-import { Proprietario, proprietarioSchema } from "@/types/Proprietario";
+import { Proprietario } from "@/types/Proprietario";
 import { proprietarioService } from "@/services/proprietarioService";
 import { ProprietarioFilterParams } from "@/types/Proprietario/filters";
 
@@ -47,20 +46,6 @@ export function ProprietarioTable() {
   useEffect(() => {
     fetchData();
   }, [activeFilters]);
-
-  const handleUpdate = async (id: string, newFields: Proprietario) => {
-    try {
-      var proprietarioUpdated = await proprietarioService.update(id, newFields);
-      setData((prevData) => ({
-        ...prevData,
-        items: prevData.items.map((item) =>
-          item.id === id ? proprietarioUpdated : item
-        ),
-      }));
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const handleDelete = async (id: string) => {
     try {
@@ -128,15 +113,7 @@ export function ProprietarioTable() {
         pageNumber={data.pageNumber}
         hasNextPage={data.hasNextPage}
         hasPreviousPage={data.hasPreviousPage}
-        renderEditDialog={(item) => (
-          <ProprietarioEditDialog
-            item={item}
-            onUpdate={(newProprietario) =>
-              handleUpdate(item.id, newProprietario)
-            }
-            schema={proprietarioSchema}
-          />
-        )}
+        path="proprietarios"
       />
     </>
   );

@@ -7,11 +7,10 @@ import {
   SortingState,
   useReactTable,
 } from "@tanstack/react-table";
-import { Mapeador, mapeadorSchema } from "@/types/Mapeador";
+import { Mapeador } from "@/types/Mapeador";
 import { mapeadorService } from "@/services/mapeadorService";
 import { MapeadorActions } from "./MapeadorActions";
 import { columns } from "./MapeadorColumns";
-import { MapeadorEditDialog } from "./MapeadorEditDialog";
 import { MapeadorFilterParams } from "@/types/Mapeador/filters";
 
 export function MapeadorTable() {
@@ -47,20 +46,6 @@ export function MapeadorTable() {
   useEffect(() => {
     fetchData();
   }, [activeFilters]);
-
-  const handleUpdate = async (id: string, newFields: Mapeador) => {
-    try {
-      var mapeadorUpdated = await mapeadorService.update(id, newFields);
-      setData((prevData) => ({
-        ...prevData,
-        items: prevData.items.map((item) =>
-          item.id === id ? mapeadorUpdated : item
-        ),
-      }));
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const handleDelete = async (id: string) => {
     try {
@@ -126,13 +111,7 @@ export function MapeadorTable() {
         pageNumber={data.pageNumber}
         hasNextPage={data.hasNextPage}
         hasPreviousPage={data.hasPreviousPage}
-        renderEditDialog={(item) => (
-          <MapeadorEditDialog
-            item={item}
-            onUpdate={(newMapeador) => handleUpdate(item.id, newMapeador)}
-            schema={mapeadorSchema}
-          />
-        )}
+        path="mapeador"
       />
     </>
   );

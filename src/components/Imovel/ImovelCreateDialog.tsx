@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Pencil, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -21,7 +21,6 @@ import {
 import { CustomFormField } from "../CustomFormField";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { ProprietarioCombobox } from "../Proprietario/ProprietarioCombobox";
-import { proprietarioService } from "@/services/proprietarioService";
 
 export function ImovelCreateDialog({ onCreate }: CreateImovelDialogProps) {
   const form = useForm<ImovelFormData>({
@@ -37,6 +36,11 @@ export function ImovelCreateDialog({ onCreate }: CreateImovelDialogProps) {
       link: "",
       propertyProfile: "",
       realEstate: "",
+      iptuValue: 0,
+      rentValue: 0,
+      saleValue: 0,
+      searchMeterage: 0,
+      totalArea: 0,
     },
   });
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -57,11 +61,6 @@ export function ImovelCreateDialog({ onCreate }: CreateImovelDialogProps) {
     } catch (error) {
       console.error(error);
     }
-  };
-
-  const fetchProprietarios = async () => {
-    const response = await proprietarioService.get({});
-    return response.items;
   };
 
   return (
@@ -129,7 +128,7 @@ export function ImovelCreateDialog({ onCreate }: CreateImovelDialogProps) {
                       <FormLabel>Proprietario</FormLabel>
                       <FormControl>
                         <ProprietarioCombobox
-                          fetchProprietarios={fetchProprietarios}
+                          // fetchProprietarios={fetchProprietarios}
                           field={field}
                         />
                       </FormControl>

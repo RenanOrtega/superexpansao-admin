@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export interface Imovel {
   id: string;
-  addresss: string;
+  address: string;
   neighboorhoud: string;
   city: string;
   state: string;
@@ -32,11 +32,11 @@ export const imovelSchema = z.object({
   link: z.string().min(1, "Link é obrigatório"),
   availability: z.string().min(1, "Disponibilidade é obrigatório"),
   rentValue: z.coerce.number().min(1, "Valor do aluguel é obrigatório"),
-  saleValue: z.coerce.number().min(1, "Valor de Venda é obrigatório"),
-  iptuValue: z.coerce.number().min(1, "Valor de Venda é obrigatório"),
+  saleValue: z.coerce.number().optional(),
+  iptuValue: z.coerce.number().optional(),
   searchMeterage: z.coerce.number().min(1, "Metragem de busca é obrigatório"),
   totalArea: z.coerce.number().min(1, "Area total é obrigatório"),
-  realEstate: z.string().min(1, "Imobiliaria é obrigatório"),
+  realEstate: z.string().optional(),
 });
 
 export type ImovelFormData = z.infer<typeof imovelSchema>;

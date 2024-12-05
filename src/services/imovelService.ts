@@ -36,7 +36,7 @@ export const imovelService = {
     await api.delete(`${endpoints.imovel}/${id}`);
   },
 
-  async getById(id: string) {
+  async getById(id: string | undefined) {
     const response = await api.get<Imovel>(`${endpoints.imovel}/${id}`);
 
     return response.data;

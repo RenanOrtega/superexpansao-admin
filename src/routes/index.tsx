@@ -9,6 +9,8 @@ import ImovelPage from "@/pages/ImovelPage";
 import PedidoPage from "@/pages/PedidoPage";
 import ConfigurationPage from "@/pages/ConfigurationPage";
 import { ProtectedRoute } from "./ProtectedRoute";
+import { ProprietarioDetails } from "@/components/Proprietario/ProprietarioDetails";
+import { ImovelDetails } from "@/components/Imovel/ImovelDetails";
 
 const Routes = () => {
   return (
@@ -19,7 +21,9 @@ const Routes = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="/mapeadores" element={<MapeadorPage />} />
           <Route path="/proprietarios" element={<ProprietarioPage />} />
-          <Route path="/imovel" element={<ImovelPage />} />
+          <Route path="/proprietarios/:id" element={<ProprietarioDetails />} />
+          <Route path="/imoveis" element={<ImovelPage />} />
+          <Route path="/imoveis/:id" element={<ImovelDetails />} />
           <Route path="/pedidos" element={<PedidoPage />} />
           <Route element={<ProtectedRoute allowedRoles={["Admin"]} />}>
             <Route path="/configuracoes" element={<ConfigurationPage />} />

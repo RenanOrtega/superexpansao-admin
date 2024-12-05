@@ -7,7 +7,7 @@ import {
   SortingState,
   useReactTable,
 } from "@tanstack/react-table";
-import { Pedido, pedidoSchema } from "@/types/Pedido";
+import { Pedido } from "@/types/Pedido";
 import { pedidoService } from "@/services/pedidoService";
 import { PedidoFilterParams } from "@/types/Pedido/filters";
 import { columns } from "./PedidoColumns";
@@ -45,20 +45,6 @@ export function PedidoTable() {
   useEffect(() => {
     fetchData();
   }, [activeFilters]);
-
-  const handleUpdate = async (id: string, newFields: Pedido) => {
-    try {
-      var pedidoUpdated = await pedidoService.update(id, newFields);
-      setData((prevData) => ({
-        ...prevData,
-        items: prevData.items.map((item) =>
-          item.id === id ? pedidoUpdated : item
-        ),
-      }));
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const handleDelete = async (id: string) => {
     try {
@@ -124,14 +110,7 @@ export function PedidoTable() {
         pageNumber={data.pageNumber}
         hasNextPage={data.hasNextPage}
         hasPreviousPage={data.hasPreviousPage}
-        renderEditDialog={(item) => (
-          // <PedidoEditDialog
-          //   item={item}
-          //   onUpdate={(newPedido) => handleUpdate(item.id, newPedido)}
-          //   schema={pedidoSchema}
-          // />
-          <h1>Editar</h1>
-        )}
+        path="pedido"
       />
     </>
   );

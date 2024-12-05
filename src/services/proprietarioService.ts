@@ -1,7 +1,11 @@
 import { PaginationResponse } from "@/types/pagination";
 import endpoints from "./endpoints";
 import api from "./api";
-import { Proprietario, ProprietarioFormData } from "@/types/Proprietario";
+import {
+  Proprietario,
+  ProprietarioFormData,
+  ProprietarioWithImoveis,
+} from "@/types/Proprietario";
 import { ProprietarioFilterParams } from "@/types/Proprietario/filters";
 
 export const proprietarioService = {
@@ -39,8 +43,8 @@ export const proprietarioService = {
     await api.delete(`${endpoints.proprietario}/${id}`);
   },
 
-  async getById(id: string) {
-    const response = await api.get<Proprietario>(
+  async getById(id: string | undefined) {
+    const response = await api.get<ProprietarioWithImoveis>(
       `${endpoints.proprietario}/${id}`
     );
 

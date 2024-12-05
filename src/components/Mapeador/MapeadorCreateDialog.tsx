@@ -33,6 +33,7 @@ import {
 import { DialogForm } from "../DialogForm";
 import { useState } from "react";
 import { CustomFormField } from "../CustomFormField";
+import { DialogFooter } from "../ui/dialog";
 
 export function MapeadorCreateDialog({ onCreate }: CreateMapeadorDialogProps) {
   const form = useForm<MapeadorFormData>({
@@ -72,34 +73,37 @@ export function MapeadorCreateDialog({ onCreate }: CreateMapeadorDialogProps) {
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <CustomFormField
-            control={form.control}
-            name="name"
-            label="Nome"
-            placeholder="Nome do Mapeador"
-          />
-          <FormField
-            control={form.control}
-            name="telephone"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Telefone</FormLabel>
-                <FormControl>
-                  <InputMask
-                    mask="(99) 99999-9999"
-                    maskChar="_"
-                    placeholder="(00) 00000-0000"
-                    value={field.value}
-                    onChange={field.onChange}
-                    onBlur={field.onBlur}
-                  >
-                    {(inputProps) => <Input {...inputProps} />}
-                  </InputMask>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="flex gap-3">
+            <CustomFormField
+              control={form.control}
+              name="name"
+              label="Nome"
+              placeholder="Nome do Mapeador"
+            />
+            <FormField
+              control={form.control}
+              name="telephone"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel>Telefone</FormLabel>
+                  <FormControl>
+                    <InputMask
+                      mask="(99) 99999-9999"
+                      maskChar="_"
+                      placeholder="(00) 00000-0000"
+                      value={field.value}
+                      onChange={field.onChange}
+                      onBlur={field.onBlur}
+                    >
+                      {(inputProps) => <Input {...inputProps} />}
+                    </InputMask>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
           <CustomFormField
             control={form.control}
             name="city"
@@ -182,7 +186,9 @@ export function MapeadorCreateDialog({ onCreate }: CreateMapeadorDialogProps) {
             label="Observações"
             placeholder="Observações"
           />
-          <Button type="submit">Enviar</Button>
+          <DialogFooter>
+            <Button type="submit">Enviar</Button>
+          </DialogFooter>
         </form>
       </Form>
     </DialogForm>

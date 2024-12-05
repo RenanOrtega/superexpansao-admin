@@ -17,15 +17,14 @@ import {
 import { cn } from "@/lib/utils";
 import { ControllerRenderProps, FieldValues, Path } from "react-hook-form";
 import { Proprietario } from "@/types/Proprietario";
-
+import { proprietarioService } from "@/services/proprietarioService";
 interface ProprietarioComboboxProps<TFieldValues extends FieldValues> {
-  fetchProprietarios: (filter?: string) => Promise<Proprietario[]>;
+  // fetchProprietarios: (filter?: string) => Promise<Proprietario[]>;
   field: ControllerRenderProps<TFieldValues, Path<TFieldValues>>;
   placeholder?: string;
 }
 
 export function ProprietarioCombobox<TFieldValues extends FieldValues>({
-  fetchProprietarios,
   field,
   placeholder = "Selecionar proprietário",
 }: ProprietarioComboboxProps<TFieldValues>) {
@@ -33,11 +32,16 @@ export function ProprietarioCombobox<TFieldValues extends FieldValues>({
   const [proprietarios, setProprietarios] = useState<Proprietario[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  const fetchProprietarios = async () => {
+    const response = await proprietarioService.get({});
+    return response.items;
+  };
+
   const loadProprietarios = async (filter?: string) => {
     if (proprietarios.length === 0 || filter) {
       setIsLoading(true);
       try {
-        const result = await fetchProprietarios(filter);
+        const result = await fetchProprietarios();
         setProprietarios(result);
       } catch (error) {
         console.error("Erro ao buscar proprietários:", error);
@@ -98,13 +102,11 @@ export function ProprietarioCombobox<TFieldValues extends FieldValues>({
                       key={proprietario.id}
                       value={proprietario.name}
                       onSelect={() => {
-                        // Se já estiver selecionado, remove a seleção
                         const newValue =
                           selectedValue === proprietario.id
                             ? undefined
                             : proprietario.id;
 
-                        // Atualiza o valor no react-hook-form
                         field.onChange(newValue);
                         setOpen(false);
                       }}

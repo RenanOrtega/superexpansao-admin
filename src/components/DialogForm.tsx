@@ -24,7 +24,7 @@ export function DialogForm({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
-      <DialogContent>
+      <DialogContent className="max-h-screen">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
         </DialogHeader>

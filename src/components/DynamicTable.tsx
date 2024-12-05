@@ -10,6 +10,7 @@ import { DynamicTableProps } from "@/types/table";
 import { flexRender } from "@tanstack/react-table";
 import { Button } from "./ui/button";
 import { Trash2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export function DynamicTable<T extends { id: string }>({
   table,
@@ -19,14 +20,14 @@ export function DynamicTable<T extends { id: string }>({
   pageNumber,
   hasNextPage,
   hasPreviousPage,
-  renderEditDialog,
-}: DynamicTableProps<T> & {
-  renderEditDialog: (item: T) => React.ReactNode;
-}) {
+  path,
+}: DynamicTableProps<T>) {
   const handlePageChange = (newPage: number) => {
     if (newPage < 1 || newPage > totalPages) return;
     onPageChange(newPage);
   };
+
+  const navigate = useNavigate();
 
   return (
     <>
@@ -56,19 +57,25 @@ export function DynamicTable<T extends { id: string }>({
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows.map((row) => (
-              <TableRow key={row.id}>
+              <TableRow
+                key={row.id}
+                onClick={() => navigate(`/${path}/${row.original.id}`)}
+                className="cursor-pointer hover:bg-gray-200"
+              >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
-                <TableCell className="flex">
-                  {renderEditDialog(row.original)}
+                <TableCell>
                   <Button
                     variant="ghost"
                     size="icon"
-                    onClick={() => onDelete(row.original.id)}
-                    className="text-red-400 hover:text-red-700"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onDelete(row.original.id);
+                    }}
+                    className="text-red-400 hover:text-red-700 hover:bg-slate-200"
                   >
                     <Trash2 />
                   </Button>
