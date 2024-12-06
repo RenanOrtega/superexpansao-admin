@@ -7,11 +7,12 @@ import MapeadorPage from "@/pages/MapeadorPage";
 import ProprietarioPage from "@/pages/ProprietarioPage";
 import ImovelPage from "@/pages/ImovelPage";
 import PedidoPage from "@/pages/PedidoPage";
-import ConfigurationPage from "@/pages/ConfigurationPage";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { ProprietarioDetails } from "@/components/Proprietario/ProprietarioDetails";
 import { ImovelDetails } from "@/components/Imovel/ImovelDetails";
 import { MapeadorDetails } from "@/components/Mapeador/MapeadorDetails";
+import ColaboradorPage from "@/pages/ColaboradorPage";
+import { UserDetails } from "@/components/User/UserDetails";
 
 const Routes = () => {
   return (
@@ -28,7 +29,8 @@ const Routes = () => {
           <Route path="/imoveis/:id" element={<ImovelDetails />} />
           <Route path="/pedidos" element={<PedidoPage />} />
           <Route element={<ProtectedRoute allowedRoles={["Admin"]} />}>
-            <Route path="/configuracoes" element={<ConfigurationPage />} />
+            <Route path="/colaboradores" element={<ColaboradorPage />} />
+            <Route path="/colaboradores/:id" element={<UserDetails />} />
           </Route>
         </Route>
       </Route>

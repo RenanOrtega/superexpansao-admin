@@ -13,10 +13,12 @@ import { Form } from "../ui/form";
 import { CustomFormField } from "../CustomFormField";
 import TelephoneFormField from "../TelephoneFormField";
 import CustomTag from "../CustomTag";
+import { LoadingButton } from "../LoadingButton";
 
 export function ProprietarioDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof proprietarioSchema>>({
     resolver: zodResolver(proprietarioSchema),
@@ -64,10 +66,10 @@ export function ProprietarioDetails() {
   }, [id, navigate, form]);
 
   const onSubmit = async (data: z.infer<typeof proprietarioSchema>) => {
+    setIsLoading(true);
     try {
-      console.log(data);
       await proprietarioService.update(id!, { ...data, id });
-      navigate("/proprietarios");
+      setIsLoading(false);
     } catch (error) {
       console.error("Erro ao salvar proprietário:", error);
     }
@@ -161,12 +163,14 @@ export function ProprietarioDetails() {
           />
 
           <div className="flex justify-end">
-            <Button
+            <LoadingButton
               type="submit"
-              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white"
+              variant="default"
+              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700"
+              isLoading={isLoading}
             >
               <Save size={16} /> Salvar
-            </Button>
+            </LoadingButton>
           </div>
         </form>
       </Form>

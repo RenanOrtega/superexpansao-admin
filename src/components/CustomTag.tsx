@@ -1,3 +1,5 @@
+import { Badge } from "./ui/badge";
+
 export default function CustomTag({
   text,
   className,
@@ -5,9 +7,5 @@ export default function CustomTag({
   text: string;
   className: string;
 }) {
-  return (
-    <span className={`px-2 py-1 rounded-full text-xs ${className}`}>
-      {text}
-    </span>
-  );
+  return <Badge className={className}>{text}</Badge>;
 }

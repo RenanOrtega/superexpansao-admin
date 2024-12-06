@@ -53,7 +53,7 @@ export function ImovelDetails() {
           city: response.city,
           iptuValue: response.iptuValue,
           link: response.link,
-          neighborhood: response.neighboorhoud,
+          neighborhood: response.neighborhood,
           propertyProfile: response.propertyProfile,
           proprietarioId: response.proprietarioId,
           realEstate: response.realEstate,
@@ -97,45 +97,64 @@ export function ImovelDetails() {
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <div className="bg-white shadow-lg rounded p-5">
-            <h2 className="font-bold mb-4 text-lg">Localização</h2>
-            <CustomFormField
-              control={form.control}
-              name="address"
-              label="Endereço"
-              placeholder="Endereço do Imóvel"
-              className="mb-3"
-            />
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+          <div className="flex flex-col md:flex-row gap-5">
+            <div className="bg-white shadow-lg rounded p-5 flex-1">
+              <h2 className="font-bold mb-4 text-lg">Localização</h2>
               <CustomFormField
                 control={form.control}
-                name="city"
-                label="Cidade"
-                placeholder="Cidade"
+                name="address"
+                label="Endereço"
+                placeholder="Endereço do Imóvel"
+                className="mb-3"
               />
-              <CustomFormField
-                control={form.control}
-                name="state"
-                label="Estado"
-                placeholder="Estado"
-              />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+                <CustomFormField
+                  control={form.control}
+                  name="city"
+                  label="Cidade"
+                  placeholder="Cidade"
+                />
+                <CustomFormField
+                  control={form.control}
+                  name="state"
+                  label="Estado"
+                  placeholder="Estado"
+                />
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <CustomFormField
+                  control={form.control}
+                  name="neighborhood"
+                  label="Bairro"
+                  placeholder="Bairro"
+                />
+                <CustomFormField
+                  control={form.control}
+                  name="zone"
+                  label="Zona"
+                  placeholder="Zona"
+                />
+              </div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <CustomFormField
-                control={form.control}
-                name="neighborhood"
-                label="Bairro"
-                placeholder="Bairro"
-              />
-              <CustomFormField
-                control={form.control}
-                name="zone"
-                label="Zona"
-                placeholder="Zona"
-              />
+            <div className="bg-white shadow-lg rounded p-5 flex flex-col">
+              <h2 className="font-bold mb-4 text-lg">Proprietario</h2>
+              <div className="flex-grow flex flex-col">
+                <span className="block">{imovel?.proprietario.name}</span>
+                <span className="block">{imovel?.proprietario.telephone}</span>
+                <span className="block">{imovel?.proprietario.email}</span>
+              </div>
+              <div className="mt-4">
+                <Button
+                  className="w-full"
+                  onClick={() => {
+                    navigate(`/proprietarios/${imovel?.proprietarioId}`);
+                  }}
+                >
+                  Acessar proprietario
+                </Button>
+              </div>
             </div>
           </div>
-
           <div className="bg-white shadow-lg rounded p-5">
             <h2 className="font-bold mb-4 text-lg">Detalhes</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
@@ -222,14 +241,7 @@ export function ImovelDetails() {
             </div>
           </div>
 
-          <div className="flex justify-between">
-            <Button
-              onClick={() => {
-                navigate(`/proprietarios/${imovel?.proprietarioId}`);
-              }}
-            >
-              Acessar proprietario
-            </Button>
+          <div className="flex justify-end">
             <Button
               type="submit"
               className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white"

@@ -128,13 +128,7 @@ export function UserTable() {
         pageNumber={data.pageNumber}
         hasNextPage={data.hasNextPage}
         hasPreviousPage={data.hasPreviousPage}
-        renderEditDialog={(item) => (
-          <UserEditDialog
-            item={item}
-            onUpdate={(newUser) => handleUpdate(item.id, newUser)}
-            schema={userUpdateSchema}
-          />
-        )}
+        path="colaboradores"
       />
     </>
   );

@@ -1,6 +1,6 @@
 import { UserTable } from "@/components/User/UserTable";
 
-const ConfigurationPage = () => {
+const ColaboradorPage = () => {
   return (
     <div className="container mx-auto py-10">
       <UserTable />
@@ -8,4 +8,4 @@ const ConfigurationPage = () => {
   );
 };
 
-export default ConfigurationPage;
+export default ColaboradorPage;

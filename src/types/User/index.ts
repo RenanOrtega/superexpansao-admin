@@ -19,11 +19,21 @@ export const userSchema = z.object({
 });
 
 export const userUpdateSchema = z.object({
-  email: z.string().email("E-mail inválido"),
-  name: z.string().min(2, "Nome deve ter no mínimo 2 caracteres"),
-  role: z.enum(["Admin", "Moderador", "Padrão"], {
-    errorMap: () => ({ message: "Selecione uma permissão válida" }),
-  }),
+  email: z.string().email("E-mail inválido").optional(),
+  name: z.string().min(2, "Nome deve ter no mínimo 2 caracteres").optional(),
+  role: z
+    .enum(["Admin", "Moderador", "Padrão"], {
+      errorMap: () => ({ message: "Selecione uma permissão válida" }),
+    })
+    .optional(),
+  password: z
+    .string()
+    .min(8, "A senha deve ter no mínimo 8 caracteres")
+    .regex(/[A-Z]/, "A senha deve conter pelo menos uma letra maiúscula")
+    .regex(/[a-z]/, "A senha deve conter pelo menos uma letra minúscula")
+    .regex(/[0-9]/, "A senha deve conter pelo menos um número")
+    .regex(/[!@#$%^&*]/, "A senha deve conter pelo menos um caractere especial")
+    .optional(),
 });
 
 export type UserFormData = z.infer<typeof userSchema>;
@@ -41,7 +51,7 @@ export interface User {
   id: string;
   name: string;
   email: string;
-  role: string;
+  role: "Admin" | "Moderador" | "Padrão" | undefined;
   updatedAt: Date;
   createdAt: Date;
   updatedBy: string;

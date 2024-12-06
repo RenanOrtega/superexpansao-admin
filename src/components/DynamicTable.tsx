@@ -11,6 +11,17 @@ import { flexRender } from "@tanstack/react-table";
 import { Button } from "./ui/button";
 import { Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "./ui/alert-dialog";
+import { useState } from "react";
 
 export function DynamicTable<T extends { id: string }>({
   table,
@@ -22,15 +33,42 @@ export function DynamicTable<T extends { id: string }>({
   hasPreviousPage,
   path,
 }: DynamicTableProps<T>) {
+  const [itemToDelete, setItemToDelete] = useState<string | null>(null);
+  const navigate = useNavigate();
+
   const handlePageChange = (newPage: number) => {
     if (newPage < 1 || newPage > totalPages) return;
     onPageChange(newPage);
   };
 
-  const navigate = useNavigate();
+  const confirmDelete = () => {
+    if (itemToDelete) {
+      onDelete(itemToDelete);
+      setItemToDelete(null);
+    }
+  };
 
   return (
     <>
+      <AlertDialog open={!!itemToDelete}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Tem certeza?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Esta ação não pode ser desfeita. Isto irá excluir permanentemente
+              este item.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setItemToDelete(null)}>
+              Cancelar
+            </AlertDialogCancel>
+            <AlertDialogAction onClick={confirmDelete}>
+              Continuar
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
       <div className="bg-white shadow-lg rounded border-l-2 border-orange-500">
         <Table>
           <TableHeader>
@@ -73,7 +111,7 @@ export function DynamicTable<T extends { id: string }>({
                     size="icon"
                     onClick={(e) => {
                       e.stopPropagation();
-                      onDelete(row.original.id);
+                      setItemToDelete(row.original.id);
                     }}
                     className="text-red-400 hover:text-red-700 hover:bg-slate-200"
                   >

@@ -9,6 +9,8 @@ import {
   ChevronsLeft,
   ChevronsRight,
   Building,
+  PersonStanding,
+  UserRoundPen,
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
@@ -46,9 +48,9 @@ const menuItems = [
     path: "/clientes",
   },
   {
-    label: "Configurações",
-    icon: Settings,
-    path: "/configuracoes",
+    label: "Colaboradores",
+    icon: UserRoundPen,
+    path: "/colaboradores",
   },
 ];
 

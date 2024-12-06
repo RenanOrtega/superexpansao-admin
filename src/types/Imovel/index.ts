@@ -4,7 +4,7 @@ import { Proprietario } from "../Proprietario";
 export interface Imovel {
   id: string;
   address: string;
-  neighboorhoud: string;
+  neighborhood: string;
   city: string;
   state: string;
   zone: string;

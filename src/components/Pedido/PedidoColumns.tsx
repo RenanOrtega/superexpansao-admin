@@ -4,14 +4,6 @@ import { format } from "date-fns";
 
 export const columns: ColumnDef<Pedido>[] = [
   {
-    header: "ID",
-    accessorKey: "id",
-  },
-  {
-    header: "Client ID",
-    accessorKey: "clientId",
-  },
-  {
     header: "Data de Entrada",
     accessorKey: "entryDate",
     cell: ({ row }) => {
