@@ -21,6 +21,10 @@ export interface Imovel {
   updatedBy: string;
 }
 
+export interface ImovelWithProprietario extends Imovel {
+  proprietarioId: string;
+}
+
 export const imovelSchema = z.object({
   address: z.string().min(1, "Endereço é obrigatório"),
   neighborhood: z.string().min(1, "Bairro é obrigatório"),

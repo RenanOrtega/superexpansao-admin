@@ -11,6 +11,7 @@ import ConfigurationPage from "@/pages/ConfigurationPage";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { ProprietarioDetails } from "@/components/Proprietario/ProprietarioDetails";
 import { ImovelDetails } from "@/components/Imovel/ImovelDetails";
+import { MapeadorDetails } from "@/components/Mapeador/MapeadorDetails";
 
 const Routes = () => {
   return (
@@ -20,6 +21,7 @@ const Routes = () => {
         <Route element={<SidebarLayout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/mapeadores" element={<MapeadorPage />} />
+          <Route path="/mapeadores/:id" element={<MapeadorDetails />} />
           <Route path="/proprietarios" element={<ProprietarioPage />} />
           <Route path="/proprietarios/:id" element={<ProprietarioDetails />} />
           <Route path="/imoveis" element={<ImovelPage />} />

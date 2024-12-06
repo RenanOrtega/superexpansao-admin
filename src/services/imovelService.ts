@@ -1,7 +1,7 @@
 import { PaginationResponse } from "@/types/pagination";
 import endpoints from "./endpoints";
 import api from "./api";
-import { Imovel, ImovelFormData } from "@/types/Imovel";
+import { Imovel, ImovelFormData, ImovelWithProprietario } from "@/types/Imovel";
 import { ImovelFilterParams } from "@/types/Imovel/filters";
 
 export const imovelService = {
@@ -37,7 +37,9 @@ export const imovelService = {
   },
 
   async getById(id: string | undefined) {
-    const response = await api.get<Imovel>(`${endpoints.imovel}/${id}`);
+    const response = await api.get<ImovelWithProprietario>(
+      `${endpoints.imovel}/${id}`
+    );
 
     return response.data;
   },

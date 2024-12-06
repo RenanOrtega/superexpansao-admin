@@ -20,7 +20,7 @@ import * as z from "zod";
 import { Imovel, imovelSchema } from "@/types/Imovel";
 import { CustomFormField } from "../CustomFormField";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
-import { ProprietarioCombobox } from "../Proprietario/ProprietarioCombobox";
+import { ProprietarioCombobox } from "../Proprietario/ProprietarioCombobox2";
 
 type ImovelEditDialogProps = {
   item: Imovel;

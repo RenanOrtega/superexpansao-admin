@@ -3,17 +3,8 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Plus } from "lucide-react";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "../ui/form";
-import InputMask from "react-input-mask";
+import { Form } from "../ui/form";
 import { DialogForm } from "../DialogForm";
 import { useState } from "react";
 import {
@@ -23,6 +14,7 @@ import {
 } from "@/types/Proprietario";
 import { CustomFormField } from "../CustomFormField";
 import { DialogFooter } from "../ui/dialog";
+import TelephoneFormField from "../TelephoneFormField";
 
 export function ProprietarioCreateDialog({
   onCreate,
@@ -79,28 +71,7 @@ export function ProprietarioCreateDialog({
               label="Nome"
               placeholder="Nome do Proprieatrio"
             />
-            <FormField
-              control={form.control}
-              name="telephone"
-              render={({ field }) => (
-                <FormItem className="w-full">
-                  <FormLabel>Telefone</FormLabel>
-                  <FormControl>
-                    <InputMask
-                      mask="(99) 99999-9999"
-                      maskChar="_"
-                      placeholder="(00) 00000-0000"
-                      value={field.value}
-                      onChange={field.onChange}
-                      onBlur={field.onBlur}
-                    >
-                      {(inputProps) => <Input {...inputProps} />}
-                    </InputMask>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <TelephoneFormField control={form.control} name="telephone" />
           </div>
           <CustomFormField
             control={form.control}

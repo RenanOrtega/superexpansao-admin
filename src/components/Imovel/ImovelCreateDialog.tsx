@@ -2,14 +2,7 @@ import { useState } from "react";
 import { DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormField } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogForm } from "../DialogForm";
@@ -122,20 +115,7 @@ export function ImovelCreateDialog({ onCreate }: CreateImovelDialogProps) {
               <FormField
                 name="proprietarioId"
                 control={form.control}
-                render={({ field }) => (
-                  <FormItem>
-                    <div className="flex flex-col gap-2">
-                      <FormLabel>Proprietario</FormLabel>
-                      <FormControl>
-                        <ProprietarioCombobox
-                          // fetchProprietarios={fetchProprietarios}
-                          field={field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </div>
-                  </FormItem>
-                )}
+                render={({ field }) => <ProprietarioCombobox field={field} />}
               />
               <CustomFormField
                 control={form.control}

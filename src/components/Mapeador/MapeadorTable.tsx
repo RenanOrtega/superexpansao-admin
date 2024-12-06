@@ -111,7 +111,7 @@ export function MapeadorTable() {
         pageNumber={data.pageNumber}
         hasNextPage={data.hasNextPage}
         hasPreviousPage={data.hasPreviousPage}
-        path="mapeador"
+        path="mapeadores"
       />
     </>
   );

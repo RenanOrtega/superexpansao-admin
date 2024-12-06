@@ -2,46 +2,85 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "../ui/button";
 import { ArrowLeft, Save } from "lucide-react";
-import { Label } from "../ui/label";
-import { Input } from "../ui/input";
-import { Imovel } from "@/types/Imovel";
+import { imovelSchema } from "@/types/Imovel";
 import { imovelService } from "@/services/imovelService";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { Form, FormField } from "../ui/form";
+import { CustomFormField } from "../CustomFormField";
+import { ProprietarioCombobox } from "../Proprietario/ProprietarioCombobox";
 
 export function ImovelDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [imovel, setImovel] = useState<Imovel | null>(null);
+  useState(false);
+
+  const form = useForm<z.infer<typeof imovelSchema>>({
+    resolver: zodResolver(imovelSchema),
+    defaultValues: {
+      address: "",
+      availability: "",
+      city: "",
+      iptuValue: 0,
+      link: "",
+      neighborhood: "",
+      propertyProfile: "",
+      proprietarioId: "",
+      realEstate: "",
+      rentValue: 0,
+      saleValue: 0,
+      searchMeterage: 0,
+      state: "",
+      totalArea: 0,
+      zone: "",
+    },
+  });
 
   useEffect(() => {
     const fetchImovel = async () => {
+      if (!id) return;
       try {
         const response = await imovelService.getById(id);
-        setImovel(response);
+
+        form.reset({
+          address: response.address,
+          availability: response.availability,
+          city: response.city,
+          iptuValue: response.iptuValue,
+          link: response.link,
+          neighborhood: response.neighboorhoud,
+          propertyProfile: response.propertyProfile,
+          proprietarioId: response.proprietarioId,
+          realEstate: response.realEstate,
+          rentValue: response.rentValue,
+          saleValue: response.saleValue,
+          searchMeterage: response.searchMeterage,
+          state: response.state,
+          totalArea: response.totalArea,
+          zone: response.zone,
+        });
       } catch (error) {
         console.error("Erro ao buscar imovel:", error);
         navigate("/imoveis");
       }
     };
 
-    fetchImovel();
-  }, [id, navigate]);
+    if (id) {
+      fetchImovel();
+    }
+  }, [id, navigate, form]);
 
-  const handleSave = async () => {
+  const onSubmit = async (data: z.infer<typeof imovelSchema>) => {
     try {
-      await imovelService.update(id!, imovel!);
+      await imovelService.update(id!, { ...data, id });
     } catch (error) {
       console.error("Erro ao salvar imovel:", error);
     }
   };
 
-  const handleChange = (field: keyof Imovel, value: string) => {
-    setImovel((prev) => (prev ? { ...prev, [field]: value } : null));
-  };
-
-  if (!imovel) return <div>Carregando...</div>;
-
   return (
-    <div className="container mx-auto p-4 ">
+    <div className="container mx-auto p-4">
       <Button
         variant="outline"
         onClick={() => navigate("/imoveis")}
@@ -50,128 +89,142 @@ export function ImovelDetails() {
         <ArrowLeft size={16} /> Imóveis
       </Button>
 
-      <div className="flex flex-col gap-5 bg-white shadow-lg rounded border-l-2 p-5">
-        <div className="flex flex-col md:flex-row gap-3">
-          <div className="flex-1">
-            <Label>Endereço</Label>
-            <Input
-              value={imovel.address}
-              onChange={(e) => handleChange("address", e.target.value)}
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <div className="bg-white shadow-lg rounded p-5">
+            <h2 className="font-bold mb-4 text-lg">Localização</h2>
+            <CustomFormField
+              control={form.control}
+              name="address"
+              label="Endereço"
+              placeholder="Endereço do Imóvel"
+              className="mb-3"
             />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+              <CustomFormField
+                control={form.control}
+                name="city"
+                label="Cidade"
+                placeholder="Cidade"
+              />
+              <CustomFormField
+                control={form.control}
+                name="state"
+                label="Estado"
+                placeholder="Estado"
+              />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <CustomFormField
+                control={form.control}
+                name="neighborhood"
+                label="Bairro"
+                placeholder="Bairro"
+              />
+              <CustomFormField
+                control={form.control}
+                name="zone"
+                label="Zona"
+                placeholder="Zona"
+              />
+            </div>
           </div>
-          <div className="flex-1">
-            <Label>Bairro</Label>
-            <Input
-              value={imovel.neighboorhoud}
-              onChange={(e) => handleChange("neighboorhoud", e.target.value)}
+
+          <div className="bg-white shadow-lg rounded p-5">
+            <h2 className="font-bold mb-4 text-lg">Detalhes</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+              <FormField
+                control={form.control}
+                name="proprietarioId"
+                render={({ field }) => <ProprietarioCombobox field={field} />}
+              />
+              <CustomFormField
+                control={form.control}
+                name="availability"
+                label="Disponibilidade"
+                placeholder="Disponibilidade"
+              />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+              <CustomFormField
+                control={form.control}
+                name="link"
+                label="Link"
+                placeholder="Link"
+              />
+              <CustomFormField
+                control={form.control}
+                name="propertyProfile"
+                label="Perfil"
+                placeholder="Perfil do Imóvel"
+              />
+            </div>
+            <CustomFormField
+              control={form.control}
+              name="realEstate"
+              label="Imobiliária"
+              placeholder="Imobiliária"
             />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+              <CustomFormField
+                control={form.control}
+                name="searchMeterage"
+                label="Metragem de busca"
+                type="number"
+                placeholder="Metragem"
+                onChange={(value) => (value === "" ? undefined : Number(value))}
+              />
+              <CustomFormField
+                control={form.control}
+                name="totalArea"
+                label="Total da área"
+                type="number"
+                placeholder="Total da área"
+                onChange={(value) => (value === "" ? undefined : Number(value))}
+              />
+            </div>
           </div>
-          <div className="flex-1">
-            <Label>Cidade</Label>
-            <Input
-              value={imovel.city}
-              onChange={(e) => handleChange("city", e.target.value)}
-            />
+
+          <div className="bg-white shadow-lg rounded p-5">
+            <h2 className="font-bold mb-4 text-lg">Valores</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-3">
+              <CustomFormField
+                control={form.control}
+                name="iptuValue"
+                label="Valor do IPTU"
+                type="number"
+                placeholder="IPTU"
+                onChange={(value) => (value === "" ? undefined : Number(value))}
+              />
+              <CustomFormField
+                control={form.control}
+                name="rentValue"
+                label="Valor do Aluguel"
+                type="number"
+                placeholder="Valor do Aluguel"
+                onChange={(value) => (value === "" ? undefined : Number(value))}
+              />
+              <CustomFormField
+                control={form.control}
+                name="saleValue"
+                label="Valor de Venda"
+                type="number"
+                placeholder="Valor de Venda"
+                onChange={(value) => (value === "" ? undefined : Number(value))}
+              />
+            </div>
           </div>
-        </div>
-        <div className="flex flex-col md:flex-row gap-3">
-          <div className="flex-1">
-            <Label>Estado</Label>
-            <Input
-              value={imovel.state}
-              onChange={(e) => handleChange("state", e.target.value)}
-            />
+
+          <div className="flex justify-end">
+            <Button
+              type="submit"
+              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white"
+            >
+              <Save size={16} /> Salvar
+            </Button>
           </div>
-          <div className="flex-1">
-            <Label>Zona</Label>
-            <Input
-              value={imovel.zone}
-              onChange={(e) => handleChange("zone", e.target.value)}
-            />
-          </div>
-          <div className="flex-1">
-            <Label>Perfil do Imóvel</Label>
-            <Input
-              value={imovel.propertyProfile}
-              onChange={(e) => handleChange("propertyProfile", e.target.value)}
-            />
-          </div>
-        </div>
-        <div className="flex flex-col md:flex-row gap-3">
-          <div className="flex-1">
-            <Label>Link</Label>
-            <Input
-              value={imovel.link}
-              onChange={(e) => handleChange("link", e.target.value)}
-            />
-          </div>
-          <div className="flex-1">
-            <Label>Disponibilidade</Label>
-            <Input
-              value={imovel.availability}
-              onChange={(e) => handleChange("availability", e.target.value)}
-            />
-          </div>
-        </div>
-        <div className="flex flex-col md:flex-row gap-3">
-          <div className="flex-1">
-            <Label>Valor do Aluguel</Label>
-            <Input
-              type="number"
-              value={imovel.rentValue}
-              onChange={(e) => handleChange("rentValue", e.target.value)}
-            />
-          </div>
-          <div className="flex-1">
-            <Label>Valor de Venda</Label>
-            <Input
-              type="number"
-              value={imovel.saleValue}
-              onChange={(e) => handleChange("saleValue", e.target.value)}
-            />
-          </div>
-          <div className="flex-1">
-            <Label>IPTU</Label>
-            <Input
-              type="number"
-              value={imovel.iptuValue}
-              onChange={(e) => handleChange("iptuValue", e.target.value)}
-            />
-          </div>
-        </div>
-        <div className="flex flex-col md:flex-row gap-3">
-          <div className="flex-1">
-            <Label>Metragem</Label>
-            <Input
-              type="number"
-              value={imovel.searchMeterage}
-              onChange={(e) => handleChange("searchMeterage", e.target.value)}
-            />
-          </div>
-          <div className="flex-1">
-            <Label>Área Total</Label>
-            <Input
-              type="number"
-              value={imovel.totalArea}
-              onChange={(e) => handleChange("totalArea", e.target.value)}
-            />
-          </div>
-        </div>
-        <div className="flex flex-col md:flex-row gap-3">
-          <div className="flex-1">
-            <Label>Imobiliária</Label>
-            <Input
-              value={imovel.realEstate}
-              onChange={(e) => handleChange("realEstate", e.target.value)}
-            />
-          </div>
-        </div>
-        <div className="mt-4 flex justify-end">
-          <Button onClick={handleSave} className="flex items-center gap-2">
-            <Save size={16} /> Salvar
-          </Button>
-        </div>
-      </div>
+        </form>
+      </Form>
     </div>
   );
 }

@@ -1,26 +1,55 @@
 import { proprietarioService } from "@/services/proprietarioService";
-import { Proprietario } from "@/types/Proprietario";
+import { proprietarioSchema } from "@/types/Proprietario";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "../ui/button";
 import { ArrowLeft, Save } from "lucide-react";
-import { Label } from "../ui/label";
-import { Input } from "../ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Imovel } from "@/types/Imovel";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Form } from "../ui/form";
+import { CustomFormField } from "../CustomFormField";
+import TelephoneFormField from "../TelephoneFormField";
 
 export function ProprietarioDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [proprietario, setProprietario] = useState<Proprietario | null>(null);
+
+  const form = useForm<z.infer<typeof proprietarioSchema>>({
+    resolver: zodResolver(proprietarioSchema),
+    defaultValues: {
+      name: "",
+      telephone: "",
+      email: "",
+      address: "",
+      state: "",
+      city: "",
+      observations: "",
+      source: "",
+    },
+  });
+
   const [imoveis, setImoveis] = useState<Imovel[]>([]);
 
   useEffect(() => {
     const fetchProprietario = async () => {
       try {
         const response = await proprietarioService.getById(id);
-        console.log(response);
-        setProprietario(response);
+
+        form.reset({
+          name: response.name,
+          telephone: response.telephone,
+          email: response.email,
+          address: response.address,
+          neighboor: response.neighboor,
+          state: response.state,
+          city: response.city,
+          observations: response.observations,
+          source: response.source,
+        });
+
         setImoveis(response.imoveis);
       } catch (error) {
         console.error("Erro ao buscar proprietário:", error);
@@ -28,25 +57,23 @@ export function ProprietarioDetails() {
       }
     };
 
-    fetchProprietario();
-  }, [id, navigate]);
+    if (id) {
+      fetchProprietario();
+    }
+  }, [id, navigate, form]);
 
-  const handleSave = async () => {
+  const onSubmit = async (data: z.infer<typeof proprietarioSchema>) => {
     try {
-      await proprietarioService.update(id!, { ...proprietario });
+      console.log(data);
+      await proprietarioService.update(id!, { ...data, id });
+      navigate("/proprietarios");
     } catch (error) {
       console.error("Erro ao salvar proprietário:", error);
     }
   };
 
-  const handleChange = (field: keyof Proprietario, value: string) => {
-    setProprietario((prev) => (prev ? { ...prev, [field]: value } : null));
-  };
-
-  if (!proprietario) return <div>Carregando...</div>;
-
   return (
-    <div className="container mx-auto p-4 ">
+    <div className="container mx-auto p-4">
       <Button
         variant="outline"
         onClick={() => navigate("/proprietarios")}
@@ -54,74 +81,87 @@ export function ProprietarioDetails() {
       >
         <ArrowLeft size={16} /> Proprietarios
       </Button>
-      <div className="flex flex-col gap-5 bg-white shadow-lg rounded border-l-2 p-5">
-        <div className="flex flex-col md:flex-row gap-3">
-          <div className="flex-1">
-            <Label>Nome</Label>
-            <Input
-              value={proprietario.name}
-              onChange={(e) => handleChange("name", e.target.value)}
+
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(
+            (data) => {
+              onSubmit(data);
+            },
+            (errors) => {
+              console.error("Erros de validação:", errors);
+            }
+          )}
+          className="space-y-8 bg-white shadow-lg rounded p-5"
+        >
+          <div className="grid md:grid-cols-3 gap-4">
+            <CustomFormField
+              control={form.control}
+              name="name"
+              label="Nome"
+              placeholder="Nome do propretário"
+            />
+            <TelephoneFormField control={form.control} name="telephone" />
+            <CustomFormField
+              control={form.control}
+              name="email"
+              label="Email"
+              placeholder="Email"
             />
           </div>
-          <div className="flex-2">
-            <Label>Telefone</Label>
-            <Input
-              value={proprietario.telephone}
-              onChange={(e) => handleChange("telephone", e.target.value)}
+
+          <div className="grid md:grid-cols-4 gap-4">
+            <CustomFormField
+              control={form.control}
+              name="address"
+              label="Endereço"
+              placeholder="Endereço"
+            />
+            <CustomFormField
+              control={form.control}
+              name="neighboor"
+              label="Bairro"
+              placeholder="Bairro"
+            />
+            <CustomFormField
+              control={form.control}
+              name="state"
+              label="Estado"
+              placeholder="Estado"
+            />
+            <CustomFormField
+              control={form.control}
+              name="city"
+              label="Cidade"
+              placeholder="Cidade"
             />
           </div>
-          <div className="flex-1">
-            <Label>Email</Label>
-            <Input
-              value={proprietario.email}
-              onChange={(e) => handleChange("email", e.target.value)}
-            />
+          <CustomFormField
+            control={form.control}
+            name="source"
+            label="Fonte"
+            placeholder="Fonte"
+          />
+          <CustomFormField
+            control={form.control}
+            name="observations"
+            label="Observações"
+            placeholder="Observações"
+          />
+
+          <div className="flex justify-end">
+            <Button
+              type="submit"
+              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white"
+            >
+              <Save size={16} /> Salvar
+            </Button>
           </div>
-        </div>
-        <div className="flex flex-col md:flex-row gap-3">
-          <div className="flex-1">
-            <Label>Endereço</Label>
-            <Input
-              value={proprietario.address}
-              onChange={(e) => handleChange("address", e.target.value)}
-            />
-          </div>
-          <div>
-            <Label>Bairro</Label>
-            <Input
-              value={proprietario.neighboor}
-              onChange={(e) => handleChange("neighboor", e.target.value)}
-            />
-          </div>
-          <div>
-            <Label>Estado</Label>
-            <Input
-              value={proprietario.state}
-              onChange={(e) => handleChange("state", e.target.value)}
-            />
-          </div>
-          <div>
-            <Label>Cidade</Label>
-            <Input
-              value={proprietario.city}
-              onChange={(e) => handleChange("city", e.target.value)}
-            />
-          </div>
-        </div>
-        <Label>Observações</Label>
-        <Input
-          value={proprietario.observations}
-          onChange={(e) => handleChange("observations", e.target.value)}
-        />
-        <div className="mt-4 flex justify-end">
-          <Button onClick={handleSave} className="flex items-center gap-2">
-            <Save size={16} /> Salvar
-          </Button>
-        </div>
-      </div>
+        </form>
+      </Form>
 
       <div className="mt-8 bg-white shadow-lg rounded p-5">
-        <h2 className="text-2xl font-bold mb-4 ">Imóveis</h2>
+        <h2 className="text-2xl font-bold mb-4">Imóveis</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {imoveis.map((imovel) => (
             <Card
@@ -129,7 +169,7 @@ export function ProprietarioDetails() {
               onClick={() => {
                 navigate(`/imoveis/${imovel.id}`);
               }}
-              className="cursor-pointer hover:bg-gray-200"
+              className="cursor-pointer transition-all shadow-lg hover:border-orange-300"
             >
               <CardHeader>
                 <CardTitle>{imovel.address}</CardTitle>
@@ -137,11 +177,11 @@ export function ProprietarioDetails() {
               <CardContent>
                 <div className="flex flex-col">
                   <div>
-                    <Label className="font-bold">Disponibilidade: </Label>
+                    <span className="font-bold">Disponibilidade: </span>
                     {imovel.availability}
                   </div>
                   <div>
-                    <Label className="font-bold">Área Total: </Label>
+                    <span className="font-bold">Área Total: </span>
                     {imovel.totalArea} m²
                   </div>
                 </div>

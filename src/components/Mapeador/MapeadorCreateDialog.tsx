@@ -3,7 +3,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { CalendarIcon, Plus } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Calendar } from "../ui/calendar";
@@ -17,14 +16,6 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
-import InputMask from "react-input-mask";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
 import {
   CreateMapeadorDialogProps,
   MapeadorFormData,
@@ -34,6 +25,8 @@ import { DialogForm } from "../DialogForm";
 import { useState } from "react";
 import { CustomFormField } from "../CustomFormField";
 import { DialogFooter } from "../ui/dialog";
+import TelephoneFormField from "../TelephoneFormField";
+import SelectFormField from "../SelectFormField";
 
 export function MapeadorCreateDialog({ onCreate }: CreateMapeadorDialogProps) {
   const form = useForm<MapeadorFormData>({
@@ -80,28 +73,7 @@ export function MapeadorCreateDialog({ onCreate }: CreateMapeadorDialogProps) {
               label="Nome"
               placeholder="Nome do Mapeador"
             />
-            <FormField
-              control={form.control}
-              name="telephone"
-              render={({ field }) => (
-                <FormItem className="w-full">
-                  <FormLabel>Telefone</FormLabel>
-                  <FormControl>
-                    <InputMask
-                      mask="(99) 99999-9999"
-                      maskChar="_"
-                      placeholder="(00) 00000-0000"
-                      value={field.value}
-                      onChange={field.onChange}
-                      onBlur={field.onBlur}
-                    >
-                      {(inputProps) => <Input {...inputProps} />}
-                    </InputMask>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <TelephoneFormField control={form.control} name="telephone" />
           </div>
 
           <CustomFormField
@@ -110,33 +82,12 @@ export function MapeadorCreateDialog({ onCreate }: CreateMapeadorDialogProps) {
             label="Cidade"
             placeholder="Cidade"
           />
-          <FormField
+          <SelectFormField
             control={form.control}
+            label="Veículo"
             name="vehicle"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Veículo</FormLabel>
-                <FormControl>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Selecione um veículo" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem className="cursor-pointer" value="Moto">
-                        Moto
-                      </SelectItem>
-                      <SelectItem className="cursor-pointer" value="Carro">
-                        Carro
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            placeholder="Seleciona um veículo"
+            values={["Moto", "Carro"]}
           />
           <CustomFormField
             control={form.control}
