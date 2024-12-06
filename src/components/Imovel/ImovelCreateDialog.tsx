@@ -14,6 +14,7 @@ import {
 import { CustomFormField } from "../CustomFormField";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { ProprietarioCombobox } from "../Proprietario/ProprietarioCombobox";
+import SelectFormField from "../SelectFormField";
 
 export function ImovelCreateDialog({ onCreate }: CreateImovelDialogProps) {
   const form = useForm<ImovelFormData>({
@@ -117,12 +118,12 @@ export function ImovelCreateDialog({ onCreate }: CreateImovelDialogProps) {
                 control={form.control}
                 render={({ field }) => <ProprietarioCombobox field={field} />}
               />
-              <CustomFormField
+              <SelectFormField
                 control={form.control}
                 name="availability"
                 label="Disponibilidade"
-                type="text"
-                placeholder="Disponibilidade"
+                placeholder="Seleciona a disponibilidade"
+                values={["Disponivel", "Alugado", "Indisponivel", "Motivo"]}
               />
               <CustomFormField
                 control={form.control}

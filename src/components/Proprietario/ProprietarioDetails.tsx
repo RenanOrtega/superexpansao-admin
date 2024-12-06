@@ -12,6 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "../ui/form";
 import { CustomFormField } from "../CustomFormField";
 import TelephoneFormField from "../TelephoneFormField";
+import CustomTag from "../CustomTag";
 
 export function ProprietarioDetails() {
   const { id } = useParams();
@@ -70,6 +71,16 @@ export function ProprietarioDetails() {
     } catch (error) {
       console.error("Erro ao salvar proprietário:", error);
     }
+  };
+  const handleAvailabilityTagColor = (key: string) => {
+    const availabilityStyles: { [key: string]: string } = {
+      Disponivel: "bg-green-500 text-white",
+      Alugado: "bg-blue-500 text-white",
+      Indisponivel: "bg-red-500 text-white",
+      Motivo: "bg-purple-500 text-white",
+    };
+
+    return availabilityStyles[key] || "bg-gray-200";
   };
 
   return (
@@ -171,14 +182,18 @@ export function ProprietarioDetails() {
               }}
               className="cursor-pointer transition-all shadow-lg hover:border-orange-300"
             >
-              <CardHeader>
+              <CardHeader className="flex flex-row justify-between">
                 <CardTitle>{imovel.address}</CardTitle>
+                <CustomTag
+                  text={imovel.availability}
+                  className={handleAvailabilityTagColor(imovel.availability)}
+                />
               </CardHeader>
               <CardContent>
                 <div className="flex flex-col">
                   <div>
-                    <span className="font-bold">Disponibilidade: </span>
-                    {imovel.availability}
+                    <span className="font-bold">Cidade: </span>
+                    {imovel.city}
                   </div>
                   <div>
                     <span className="font-bold">Área Total: </span>

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { Proprietario } from "../Proprietario";
 
 export interface Imovel {
   id: string;
@@ -23,6 +24,7 @@ export interface Imovel {
 
 export interface ImovelWithProprietario extends Imovel {
   proprietarioId: string;
+  proprietario: Proprietario;
 }
 
 export const imovelSchema = z.object({

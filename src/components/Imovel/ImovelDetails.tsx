@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "../ui/button";
 import { ArrowLeft, Save } from "lucide-react";
-import { imovelSchema } from "@/types/Imovel";
+import { imovelSchema, ImovelWithProprietario } from "@/types/Imovel";
 import { imovelService } from "@/services/imovelService";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -10,11 +10,15 @@ import { z } from "zod";
 import { Form, FormField } from "../ui/form";
 import { CustomFormField } from "../CustomFormField";
 import { ProprietarioCombobox } from "../Proprietario/ProprietarioCombobox";
+import SelectFormField from "../SelectFormField";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import CustomTag from "../CustomTag";
 
 export function ImovelDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
   useState(false);
+  const [imovel, setImovel] = useState<ImovelWithProprietario | null>(null);
 
   const form = useForm<z.infer<typeof imovelSchema>>({
     resolver: zodResolver(imovelSchema),
@@ -60,6 +64,8 @@ export function ImovelDetails() {
           totalArea: response.totalArea,
           zone: response.zone,
         });
+
+        setImovel(response);
       } catch (error) {
         console.error("Erro ao buscar imovel:", error);
         navigate("/imoveis");
@@ -138,11 +144,12 @@ export function ImovelDetails() {
                 name="proprietarioId"
                 render={({ field }) => <ProprietarioCombobox field={field} />}
               />
-              <CustomFormField
+              <SelectFormField
                 control={form.control}
                 name="availability"
                 label="Disponibilidade"
-                placeholder="Disponibilidade"
+                placeholder="Seleciona a disponibilidade"
+                values={["Disponivel", "Alugado", "Indisponivel", "Motivo"]}
               />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
@@ -215,7 +222,14 @@ export function ImovelDetails() {
             </div>
           </div>
 
-          <div className="flex justify-end">
+          <div className="flex justify-between">
+            <Button
+              onClick={() => {
+                navigate(`/proprietarios/${imovel?.proprietarioId}`);
+              }}
+            >
+              Acessar proprietario
+            </Button>
             <Button
               type="submit"
               className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white"

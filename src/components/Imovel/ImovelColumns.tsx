@@ -1,6 +1,7 @@
 import { Imovel } from "@/types/Imovel";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
+import CustomTag from "../CustomTag";
 
 export const columns: ColumnDef<Imovel>[] = [
   {
@@ -31,13 +32,27 @@ export const columns: ColumnDef<Imovel>[] = [
     header: "Perfil do Proprietario",
     accessorKey: "propertyProfile",
   },
-  // {
-  //   header: "Link",
-  //   accessorKey: "link",
-  // },
+  {
+    header: "Link",
+    accessorKey: "link",
+  },
   {
     header: "Disponibilidade",
     accessorKey: "availability",
+    cell: ({ row }) => {
+      const availability: string = row.getValue("availability");
+
+      const availabilityStyles: { [key: string]: string } = {
+        Disponivel: "bg-green-500 text-white",
+        Alugado: "bg-blue-500 text-white",
+        Indisponivel: "bg-red-500 text-white",
+        Motivo: "bg-purple-500 text-white",
+      };
+
+      const backgroundColor = availabilityStyles[availability] || "bg-gray-200";
+
+      return <CustomTag text={availability} className={backgroundColor} />;
+    },
   },
   {
     header: "Aluguel",
