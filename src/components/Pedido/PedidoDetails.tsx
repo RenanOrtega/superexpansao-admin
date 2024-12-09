@@ -13,12 +13,13 @@ import Container from "../Container";
 import { DateFormField } from "../DateFormFields";
 import SelectFormField from "../SelectFormField";
 import LoadingPage from "../LoadingPage";
+import { LoadingButton } from "../LoadingButton";
 
 export function PedidoDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
-  useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isButtonLoading, setIsButtonLoading] = useState<boolean>(false);
 
   const form = useForm<z.infer<typeof pedidoUpdateSchema>>({
     resolver: zodResolver(pedidoUpdateSchema),
@@ -105,7 +106,9 @@ export function PedidoDetails() {
 
   const onSubmit = async (data: z.infer<typeof pedidoUpdateSchema>) => {
     try {
+      setIsButtonLoading(true);
       await pedidoService.update(id!, { ...data, id });
+      setIsButtonLoading(false);
     } catch (error) {
       console.error("Erro ao salvar pedido:", error);
     }
@@ -273,13 +276,6 @@ export function PedidoDetails() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               <CustomFormField
                 control={form.control}
-                name="maximumMeterage"
-                label="Metragem máx"
-                placeholder="Metragem máx"
-                type="number"
-              />
-              <CustomFormField
-                control={form.control}
                 name="minimumMeterage"
                 label="Metragem mín"
                 placeholder="Metragem mín"
@@ -287,35 +283,9 @@ export function PedidoDetails() {
               />
               <CustomFormField
                 control={form.control}
-                name="totalArea"
-                label="Area total"
-                placeholder="Area total"
-                type="number"
-              />
-              <CustomFormField
-                control={form.control}
-                name="builtArea"
-                label="Area construida"
-                placeholder="Area construida"
-                type="number"
-              />
-            </div>
-          </Container>
-          <Container>
-            <h2 className="mb-5 font-semibold">Metragens</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-              <CustomFormField
-                control={form.control}
                 name="maximumMeterage"
                 label="Metragem máx"
                 placeholder="Metragem máx"
-                type="number"
-              />
-              <CustomFormField
-                control={form.control}
-                name="minimumMeterage"
-                label="Metragem mín"
-                placeholder="Metragem mín"
                 type="number"
               />
               <CustomFormField
@@ -335,12 +305,14 @@ export function PedidoDetails() {
             </div>
           </Container>
           <div className="flex justify-end">
-            <Button
+            <LoadingButton
               type="submit"
-              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white"
+              variant="default"
+              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700"
+              isLoading={isButtonLoading}
             >
               <Save size={16} /> Salvar
-            </Button>
+            </LoadingButton>
           </div>
         </form>
       </Form>

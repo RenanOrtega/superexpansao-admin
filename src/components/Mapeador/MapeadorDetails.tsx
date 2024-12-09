@@ -14,12 +14,13 @@ import SelectFormField from "../SelectFormField";
 import Container from "../Container";
 import { DateFormField } from "../DateFormFields";
 import LoadingPage from "../LoadingPage";
+import { LoadingButton } from "../LoadingButton";
 
 export function MapeadorDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
-  useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isButtonLoading, setIsButtonLoading] = useState<boolean>(false);
 
   const form = useForm<z.infer<typeof mapeadorSchema>>({
     resolver: zodResolver(mapeadorSchema),
@@ -64,7 +65,9 @@ export function MapeadorDetails() {
 
   const onSubmit = async (data: z.infer<typeof mapeadorSchema>) => {
     try {
+      setIsButtonLoading(true);
       await mapeadorService.update(id!, { ...data, id });
+      setIsButtonLoading(false);
     } catch (error) {
       console.error("Erro ao salvar mapeador:", error);
     }
@@ -135,12 +138,14 @@ export function MapeadorDetails() {
                 placeholder="Observações"
               />
               <div className="flex justify-end">
-                <Button
+                <LoadingButton
                   type="submit"
-                  className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white"
+                  variant="default"
+                  className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700"
+                  isLoading={isButtonLoading}
                 >
                   <Save size={16} /> Salvar
-                </Button>
+                </LoadingButton>
               </div>
             </form>
           </Form>

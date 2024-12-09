@@ -13,13 +13,14 @@ import { ProprietarioCombobox } from "../Proprietario/ProprietarioCombobox";
 import SelectFormField from "../SelectFormField";
 import Container from "../Container";
 import LoadingPage from "../LoadingPage";
+import { LoadingButton } from "../LoadingButton";
 
 export function ImovelDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
-  useState(false);
   const [imovel, setImovel] = useState<ImovelWithProprietario | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isButtonLoading, setIsButtonLoading] = useState<boolean>(false);
 
   const form = useForm<z.infer<typeof imovelSchema>>({
     resolver: zodResolver(imovelSchema),
@@ -82,7 +83,9 @@ export function ImovelDetails() {
 
   const onSubmit = async (data: z.infer<typeof imovelSchema>) => {
     try {
+      setIsButtonLoading(true);
       await imovelService.update(id!, { ...data, id });
+      setIsButtonLoading(false);
     } catch (error) {
       console.error("Erro ao salvar imovel:", error);
     }
@@ -258,12 +261,14 @@ export function ImovelDetails() {
               </div>
             </Container>
             <div className="flex justify-end">
-              <Button
+              <LoadingButton
                 type="submit"
-                className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white"
+                variant="default"
+                className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700"
+                isLoading={isButtonLoading}
               >
                 <Save size={16} /> Salvar
-              </Button>
+              </LoadingButton>
             </div>
           </form>
         </Form>
