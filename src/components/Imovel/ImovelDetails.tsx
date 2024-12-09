@@ -11,8 +11,7 @@ import { Form, FormField } from "../ui/form";
 import { CustomFormField } from "../CustomFormField";
 import { ProprietarioCombobox } from "../Proprietario/ProprietarioCombobox";
 import SelectFormField from "../SelectFormField";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import CustomTag from "../CustomTag";
+import Container from "../Container";
 
 export function ImovelDetails() {
   const { id } = useParams();
@@ -98,7 +97,7 @@ export function ImovelDetails() {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <div className="flex flex-col md:flex-row gap-5">
-            <div className="bg-white shadow-lg rounded p-5 flex-1">
+            <Container className="flex-1">
               <h2 className="font-bold mb-4 text-lg">Localização</h2>
               <CustomFormField
                 control={form.control}
@@ -135,8 +134,8 @@ export function ImovelDetails() {
                   placeholder="Zona"
                 />
               </div>
-            </div>
-            <div className="bg-white shadow-lg rounded p-5 flex flex-col">
+            </Container>
+            <Container className="flex flex-col">
               <h2 className="font-bold mb-4 text-lg">Proprietario</h2>
               <div className="flex-grow flex flex-col">
                 <span className="block">{imovel?.proprietario.name}</span>
@@ -153,9 +152,9 @@ export function ImovelDetails() {
                   Acessar proprietario
                 </Button>
               </div>
-            </div>
+            </Container>
           </div>
-          <div className="bg-white shadow-lg rounded p-5">
+          <Container>
             <h2 className="font-bold mb-4 text-lg">Detalhes</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
               <FormField
@@ -211,9 +210,8 @@ export function ImovelDetails() {
                 onChange={(value) => (value === "" ? undefined : Number(value))}
               />
             </div>
-          </div>
-
-          <div className="bg-white shadow-lg rounded p-5">
+          </Container>
+          <Container>
             <h2 className="font-bold mb-4 text-lg">Valores</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-3">
               <CustomFormField
@@ -241,8 +239,7 @@ export function ImovelDetails() {
                 onChange={(value) => (value === "" ? undefined : Number(value))}
               />
             </div>
-          </div>
-
+          </Container>
           <div className="flex justify-end">
             <Button
               type="submit"

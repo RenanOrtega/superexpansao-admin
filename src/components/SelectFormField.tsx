@@ -14,13 +14,13 @@ import {
   SelectValue,
 } from "./ui/select";
 
-interface SelectFormField<T extends FieldValues> {
+interface SelectFormFieldProps<T extends FieldValues> {
   control: Control<T>;
   name: Path<T>;
   label: string;
   placeholder: string;
-  values: boolean[] | string[];
-  labels?: string[]; // Optional labels for boolean values
+  values: any[];
+  labels?: any[];
 }
 
 export default function SelectFormField<T extends FieldValues>({
@@ -29,8 +29,10 @@ export default function SelectFormField<T extends FieldValues>({
   label,
   placeholder,
   values,
-  labels = ["Sim", "Não"], // Default labels if not provided
-}: SelectFormField<T>) {
+  labels,
+}: SelectFormFieldProps<T>) {
+  const displayLabels = labels || values;
+
   return (
     <FormField
       control={control}
@@ -40,20 +42,25 @@ export default function SelectFormField<T extends FieldValues>({
           <FormLabel>{label}</FormLabel>
           <FormControl>
             <Select
-              onValueChange={(value) => field.onChange(value === "true")}
-              value={field.value?.toString()}
+              onValueChange={(value) => {
+                const parsedValue = values[displayLabels.indexOf(value)];
+                field.onChange(parsedValue);
+              }}
+              value={
+                displayLabels[values.indexOf(field.value)]?.toString() || ""
+              }
             >
               <SelectTrigger>
                 <SelectValue placeholder={placeholder} />
               </SelectTrigger>
               <SelectContent>
-                {values.map((value, index) => (
+                {displayLabels.map((label, index) => (
                   <SelectItem
-                    key={value.toString()}
-                    value={value.toString()}
+                    key={values[index].toString()}
+                    value={label.toString()}
                     className="cursor-pointer"
                   >
-                    {labels[index]}
+                    {label}
                   </SelectItem>
                 ))}
               </SelectContent>

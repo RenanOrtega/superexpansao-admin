@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { ProprietarioCreateDialog } from "./ProprietarioCreateDialog";
 import { ProprietarioFormData } from "@/types/Proprietario";
@@ -11,14 +10,11 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "../ui/accordion";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { cn } from "@/lib/utils";
-import { CalendarIcon, Filter } from "lucide-react";
-import { Calendar } from "../ui/calendar";
+import { Filter } from "lucide-react";
 import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
 import { DialogForm } from "../DialogForm";
-import { Label } from "../ui/label";
+import InputFilter from "../InputFilter";
+import { DialogFooter } from "../ui/dialog";
 
 export function ProprietarioActions({
   activeFilters,
@@ -131,99 +127,88 @@ export function ProprietarioActions({
                 <AccordionItem value="personal-data">
                   <AccordionTrigger>Dados Pessoais</AccordionTrigger>
                   <AccordionContent className="m-3">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <div>
-                        <Label>Nome</Label>
-                        <Input
-                          className="mt-1"
-                          placeholder="Nome"
-                          value={filterForm.name}
-                          onChange={(e) =>
-                            handleFilterFormChange("name", e.target.value)
-                          }
-                        />
-                      </div>
-                      <div>
-                        <Label>Telefone</Label>
-                        <Input
-                          className="mt-1"
-                          placeholder="Telefone"
-                          value={filterForm.telephone}
-                          onChange={(e) =>
-                            handleFilterFormChange("telephone", e.target.value)
-                          }
-                        />
-                      </div>
-                      <div>
-                        <Label>Email</Label>
-                        <Input
-                          className="mt-1"
-                          placeholder="Email"
-                          value={filterForm.email}
-                          onChange={(e) =>
-                            handleFilterFormChange("email", e.target.value)
-                          }
-                        />
-                      </div>
-                      <div>
-                        <Label>Fonte</Label>
-                        <Input
-                          className="mt-1"
-                          placeholder="Fonte"
-                          value={filterForm.source}
-                          onChange={(e) =>
-                            handleFilterFormChange("source", e.target.value)
-                          }
-                        />
-                      </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                      <InputFilter
+                        label="Nome"
+                        placeholder="Nome"
+                        type="text"
+                        onChange={(e) =>
+                          handleFilterFormChange("name", e.target.value)
+                        }
+                        value={filterForm.name}
+                      />
+                      <InputFilter
+                        label="Telefone"
+                        placeholder="Telefone"
+                        type="text"
+                        onChange={(e) =>
+                          handleFilterFormChange("telephone", e.target.value)
+                        }
+                        value={filterForm.telephone}
+                      />
+                      <InputFilter
+                        label="Email"
+                        placeholder="Email"
+                        type="text"
+                        onChange={(e) =>
+                          handleFilterFormChange("email", e.target.value)
+                        }
+                        value={filterForm.email}
+                      />
+                      <InputFilter
+                        label="Fonte"
+                        placeholder="Fonte"
+                        type="text"
+                        onChange={(e) =>
+                          handleFilterFormChange("source", e.target.value)
+                        }
+                        value={filterForm.source}
+                      />
                     </div>
                   </AccordionContent>
                 </AccordionItem>
 
                 {/* Endereço Section */}
                 <AccordionItem value="address">
-                  <AccordionTrigger>Endereço</AccordionTrigger>
+                  <AccordionTrigger>Localização</AccordionTrigger>
                   <AccordionContent className="m-3">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <Input
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                      <InputFilter
+                        label="Endereço"
                         placeholder="Endereço"
-                        value={filterForm.address}
+                        type="text"
                         onChange={(e) =>
                           handleFilterFormChange("address", e.target.value)
                         }
+                        value={filterForm.address}
                       />
-                      <div>
-                        <Label>Bairro</Label>
-                        <Input
-                          className="mt-1"
-                          placeholder="Bairro"
-                          value={filterForm.neighboor}
-                          onChange={(e) =>
-                            handleFilterFormChange("neighboor", e.target.value)
-                          }
-                        />
-                      </div>
-                      <div>
-                        <Label>Cidade</Label>
-                        <Input
-                          className="mt-1"
-                          placeholder="Cidade"
-                          value={filterForm.city}
-                          onChange={(e) =>
-                            handleFilterFormChange("city", e.target.value)
-                          }
-                        />
-                      </div>
-                      <div>
-                        <Label>Estado</Label>
-                        <Input
-                          placeholder="Estado"
-                          value={filterForm.state}
-                          onChange={(e) =>
-                            handleFilterFormChange("state", e.target.value)
-                          }
-                        />
-                      </div>
+                      <InputFilter
+                        label="Bairro"
+                        placeholder="Bairro"
+                        type="text"
+                        onChange={(e) =>
+                          handleFilterFormChange("neighboor", e.target.value)
+                        }
+                        value={filterForm.neighboor}
+                      />
+                      <InputFilter
+                        label="Cidade"
+                        placeholder="Cidade"
+                        type="text"
+                        onChange={(e) =>
+                          handleFilterFormChange("neighboor", e.target.value)
+                        }
+                        value={filterForm.city}
+                      />
+                      <InputFilter
+                        label="Estado"
+                        placeholder="Estado"
+                        type="text"
+                        onChange={(e) =>
+                          handleFilterFormChange("state", e.target.value)
+                        }
+                        value={filterForm.state}
+                      />
                     </div>
                   </AccordionContent>
                 </AccordionItem>
@@ -232,85 +217,51 @@ export function ProprietarioActions({
                 <AccordionItem value="system-info">
                   <AccordionTrigger>Informações do Sistema</AccordionTrigger>
                   <AccordionContent className="m-3">
-                    <div className="flex flex-col gap-3">
-                      <Popover>
-                        <Label>Data de criação</Label>
-                        <PopoverTrigger asChild className="flex-1">
-                          <Button
-                            variant={"outline"}
-                            className={cn(
-                              "justify-start text-left font-normal",
-                              !createdAtDate && "text-muted-foreground"
-                            )}
-                          >
-                            <CalendarIcon className="h-4 w-4" />
-                            {createdAtDate ? (
-                              format(createdAtDate, "PPP", { locale: ptBR })
-                            ) : (
-                              <span>Data de Criação</span>
-                            )}
-                          </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0">
-                          <Calendar
-                            mode="single"
-                            selected={createdAtDate}
-                            onSelect={handleCreatedAtDate}
-                            initialFocus
-                            locale={ptBR}
-                          />
-                        </PopoverContent>
-                      </Popover>
-                      <Popover>
-                        <Label>Data de atualização</Label>
-                        <PopoverTrigger asChild className="flex-1">
-                          <Button
-                            variant={"outline"}
-                            className={cn(
-                              "justify-start text-left font-normal",
-                              !updateAtDate && "text-muted-foreground"
-                            )}
-                          >
-                            <CalendarIcon className="h-4 w-4" />
-                            {updateAtDate ? (
-                              format(updateAtDate, "PPP", { locale: ptBR })
-                            ) : (
-                              <span>Data de Atualização</span>
-                            )}
-                          </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0">
-                          <Calendar
-                            mode="single"
-                            selected={updateAtDate}
-                            onSelect={handleUpdateAtDate}
-                            initialFocus
-                            locale={ptBR}
-                          />
-                        </PopoverContent>
-                      </Popover>
-                      <Label>Atualizado por</Label>
-                      <Input
-                        placeholder="Atualizado por"
-                        value={filterForm.updatedBy}
-                        onChange={(e) =>
-                          handleFilterFormChange("updatedBy", e.target.value)
-                        }
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-1.5">
+                      <InputFilter
+                        label="Data de criação"
+                        placeholder="Selecione um data"
+                        type="date"
+                        date={createdAtDate}
+                        setDate={handleCreatedAtDate}
+                        value={filterForm.createdAt}
+                      />
+                      <InputFilter
+                        label="Data de atualização"
+                        placeholder="Selecione um data"
+                        type="date"
+                        date={updateAtDate}
+                        setDate={handleUpdateAtDate}
+                        value={filterForm.updatedAt}
                       />
                     </div>
+                    <InputFilter
+                      label="Atualizado por"
+                      placeholder="Atualizado por"
+                      type="text"
+                      onChange={(e) =>
+                        handleFilterFormChange("updatedBy", e.target.value)
+                      }
+                      value={filterForm.updatedBy}
+                    />
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
-              <Button
-                variant="outline"
-                onClick={handleClearFilters}
-                className="w-full sm:w-auto"
-              >
-                Limpar Filtros
-              </Button>
-              <Button onClick={handleApplyFilters} className="w-full sm:w-auto">
-                Aplicar
-              </Button>
+              <DialogFooter>
+                <Button
+                  variant="outline"
+                  onClick={handleClearFilters}
+                  className="w-full sm:w-auto"
+                >
+                  Limpar Filtros
+                </Button>
+                <Button
+                  onClick={handleApplyFilters}
+                  className="w-full sm:w-auto"
+                >
+                  Aplicar
+                </Button>
+              </DialogFooter>
             </>
           </DialogForm>
         </div>

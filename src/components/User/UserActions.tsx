@@ -1,13 +1,8 @@
 import { useState } from "react";
-import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { userService } from "@/services/userService";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { cn } from "@/lib/utils";
-import { CalendarIcon, Filter } from "lucide-react";
+import { Filter } from "lucide-react";
 import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
-import { Calendar } from "../ui/calendar";
 import {
   Select,
   SelectContent,
@@ -19,7 +14,8 @@ import { UserFiltersProps } from "@/types/User/filters";
 import { DialogForm } from "../DialogForm";
 import UserCreateDialog from "./UserCreateDialog";
 import { UserFormData } from "@/types/User";
-import { Label } from "../ui/label";
+import InputFilter from "../InputFilter";
+import { DialogFooter } from "../ui/dialog";
 
 export function UserActions({
   activeFilters,
@@ -112,28 +108,26 @@ export function UserActions({
               </Button>
             }
           >
-            <div className="flex flex-col gap-4">
-              <div className="flex flex-col md:flex-row gap-4 md:gap-2">
-                <div className="w-full">
-                  <Label>Nome</Label>
-                  <Input
-                    placeholder="Filtrar por nome"
-                    value={filterForm.name}
-                    onChange={(e) =>
-                      handleFilterFormChange("name", e.target.value)
-                    }
-                  />
-                </div>
-                <div className="w-full">
-                  <Label>Email</Label>
-                  <Input
-                    placeholder="Filtrar por email"
-                    value={filterForm.email}
-                    onChange={(e) =>
-                      handleFilterFormChange("email", e.target.value)
-                    }
-                  />
-                </div>
+            <div className="space-y-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-2">
+                <InputFilter
+                  label="Nome"
+                  placeholder="Filtrar por nome"
+                  type="text"
+                  value={filterForm.name}
+                  onChange={(e) =>
+                    handleFilterFormChange("name", e.target.value)
+                  }
+                />
+                <InputFilter
+                  label="Email"
+                  placeholder="Filtrar por email"
+                  type="text"
+                  value={filterForm.email}
+                  onChange={(e) =>
+                    handleFilterFormChange("email", e.target.value)
+                  }
+                />
               </div>
               <Select
                 onValueChange={(e) => handleFilterFormChange("role", e)}
@@ -154,82 +148,48 @@ export function UserActions({
                   </SelectItem>
                 </SelectContent>
               </Select>
-              <div className="flex flex-col gap-3">
-                <Popover>
-                  <Label>Data de criação</Label>
-                  <PopoverTrigger asChild className="flex-1">
-                    <Button
-                      variant={"outline"}
-                      className={cn(
-                        "justify-start text-left font-normal",
-                        !createdAtDate && "text-muted-foreground"
-                      )}
-                    >
-                      <CalendarIcon className="h-4 w-4" />
-                      {createdAtDate ? (
-                        format(createdAtDate, "PPP", { locale: ptBR })
-                      ) : (
-                        <span>Data de Criação</span>
-                      )}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0">
-                    <Calendar
-                      mode="single"
-                      selected={createdAtDate}
-                      onSelect={handleCreatedAtDate}
-                      initialFocus
-                      locale={ptBR}
-                    />
-                  </PopoverContent>
-                </Popover>
-                <Popover>
-                  <Label>Data de atualização</Label>
-                  <PopoverTrigger asChild className="flex-1">
-                    <Button
-                      variant={"outline"}
-                      className={cn(
-                        "justify-start text-left font-normal",
-                        !updatedAtDate && "text-muted-foreground"
-                      )}
-                    >
-                      <CalendarIcon className="h-4 w-4" />
-                      {updatedAtDate ? (
-                        format(updatedAtDate, "PPP", { locale: ptBR })
-                      ) : (
-                        <span>Data de Atualização</span>
-                      )}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0">
-                    <Calendar
-                      mode="single"
-                      selected={updatedAtDate}
-                      onSelect={handleUpdatedAtDate}
-                      initialFocus
-                      locale={ptBR}
-                    />
-                  </PopoverContent>
-                </Popover>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                <InputFilter
+                  label="Data de criação"
+                  type="date"
+                  placeholder="Selecione uma data"
+                  date={createdAtDate}
+                  setDate={handleCreatedAtDate}
+                  value={filterForm.createdAt}
+                />
+                <InputFilter
+                  label="Data de atualização"
+                  type="date"
+                  placeholder="Selecione uma data"
+                  date={updatedAtDate}
+                  setDate={handleUpdatedAtDate}
+                  value={filterForm.updatedAt}
+                />
               </div>
-              <Label>Atualizado por</Label>
-              <Input
+              <InputFilter
+                label="Atualizado por"
                 placeholder="Atualizado por"
-                value={filterForm.updatedBy}
                 onChange={(e) =>
                   handleFilterFormChange("updatedBy", e.target.value)
                 }
+                value={filterForm.updatedBy}
+                type="text"
               />
-              <Button
-                variant="outline"
-                onClick={handleClearFilters}
-                className="w-full sm:w-auto"
-              >
-                Limpar Filtros
-              </Button>
-              <Button onClick={handleApplyFilters} className="w-full sm:w-auto">
-                Aplicar
-              </Button>
+              <DialogFooter>
+                <Button
+                  variant="outline"
+                  onClick={handleClearFilters}
+                  className="w-full sm:w-auto"
+                >
+                  Limpar Filtros
+                </Button>
+                <Button
+                  onClick={handleApplyFilters}
+                  className="w-full sm:w-auto"
+                >
+                  Aplicar
+                </Button>
+              </DialogFooter>
             </div>
           </DialogForm>
         </div>

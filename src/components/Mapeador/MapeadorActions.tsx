@@ -1,15 +1,10 @@
 import { useState } from "react";
-import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { MapeadorCreateDialog } from "./MapeadorCreateDialog";
 import { MapeadorFormData } from "@/types/Mapeador";
 import { mapeadorService } from "@/services/mapeadorService";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { cn } from "@/lib/utils";
-import { CalendarIcon, Filter } from "lucide-react";
+import { Filter } from "lucide-react";
 import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
-import { Calendar } from "../ui/calendar";
 import {
   Select,
   SelectContent,
@@ -19,6 +14,8 @@ import {
 } from "../ui/select";
 import { MapeadorFiltersProps } from "@/types/Mapeador/filters";
 import { DialogForm } from "../DialogForm";
+import InputFilter from "../InputFilter";
+import { DialogFooter } from "../ui/dialog";
 
 export function MapeadorActions({
   activeFilters,
@@ -94,18 +91,22 @@ export function MapeadorActions({
               </Button>
             }
           >
-            <div className="flex flex-col gap-4">
-              <div className="flex flex-col md:flex-row gap-4 md:gap-2">
-                <Input
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                <InputFilter
+                  label="Nome"
                   placeholder="Filtrar por nome"
                   value={filterForm.name}
+                  type="text"
                   onChange={(e) =>
                     handleFilterFormChange("name", e.target.value)
                   }
                 />
-                <Input
+                <InputFilter
+                  label="Cidade"
                   placeholder="Filtrar por cidade"
                   value={filterForm.city}
+                  type="text"
                   onChange={(e) =>
                     handleFilterFormChange("city", e.target.value)
                   }
@@ -127,43 +128,29 @@ export function MapeadorActions({
                   </SelectItem>
                 </SelectContent>
               </Select>
-              <Popover>
-                <PopoverTrigger asChild className="flex-1">
-                  <Button
-                    variant={"outline"}
-                    className={cn(
-                      "justify-start text-left font-normal",
-                      !date && "text-muted-foreground"
-                    )}
-                  >
-                    <CalendarIcon className="h-4 w-4" />
-                    {date ? (
-                      format(date, "PPP", { locale: ptBR })
-                    ) : (
-                      <span>Filtrar por mapeamento</span>
-                    )}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0">
-                  <Calendar
-                    mode="single"
-                    selected={date}
-                    onSelect={handleDateSelect}
-                    initialFocus
-                    locale={ptBR}
-                  />
-                </PopoverContent>
-              </Popover>
-              <Button
-                variant="outline"
-                onClick={handleClearFilters}
-                className="w-full sm:w-auto"
-              >
-                Limpar Filtros
-              </Button>
-              <Button onClick={handleApplyFilters} className="w-full sm:w-auto">
-                Aplicar
-              </Button>
+              <InputFilter
+                label="Último mapeamento"
+                placeholder="Selecione um data"
+                type="date"
+                date={date}
+                setDate={handleDateSelect}
+                value={filterForm.lastMapping}
+              />
+              <DialogFooter>
+                <Button
+                  variant="outline"
+                  onClick={handleClearFilters}
+                  className="w-full sm:w-auto"
+                >
+                  Limpar Filtros
+                </Button>
+                <Button
+                  onClick={handleApplyFilters}
+                  className="w-full sm:w-auto"
+                >
+                  Aplicar
+                </Button>
+              </DialogFooter>
             </div>
           </DialogForm>
         </div>

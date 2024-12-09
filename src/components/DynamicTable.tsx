@@ -22,6 +22,7 @@ import {
   AlertDialogTitle,
 } from "./ui/alert-dialog";
 import { useState } from "react";
+import Container from "./Container";
 
 export function DynamicTable<T extends { id: string }>({
   table,
@@ -69,7 +70,7 @@ export function DynamicTable<T extends { id: string }>({
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-      <div className="bg-white shadow-lg rounded border-l-2 border-orange-500">
+      <Container className="border-l-2 border-orange-500">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -122,7 +123,7 @@ export function DynamicTable<T extends { id: string }>({
             ))}
           </TableBody>
         </Table>
-      </div>
+      </Container>
       <div className="flex flex-col sm:flex-row items-center justify-between gap-3 bg-white mt-1 p-3 shadow-lg">
         <Button
           variant="outline"

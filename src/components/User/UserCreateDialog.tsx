@@ -16,15 +16,9 @@ import { Button } from "../ui/button";
 import { DialogForm } from "../DialogForm";
 import { Eye, EyeOff, Plus } from "lucide-react";
 import { useState } from "react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
 import { DialogFooter } from "../ui/dialog";
 import { Input } from "../ui/input";
+import SelectFormField from "../SelectFormField";
 
 type UserFormData = z.infer<typeof userSchema>;
 
@@ -128,36 +122,13 @@ export default function UserCreateDialog({ onCreate }: CreateUserDialogProps) {
             name="name"
             placeholder="Nome"
           />
-          <FormField
+          <SelectFormField
             control={form.control}
+            label="Permissão"
             name="role"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Permissão</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Selecione uma permissão:" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem className="cursor-pointer" value="Admin">
-                      Admin
-                    </SelectItem>
-                    <SelectItem className="cursor-pointer" value="Moderador">
-                      Moderador
-                    </SelectItem>
-                    <SelectItem className="cursor-pointer" value="Padrão">
-                      Padrão
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
+            placeholder="Selecione a permissão"
+            values={["Admin", "Moderador", "Padrão"]}
+            labels={["Admin", "Moderador", "Padrão"]}
           />
           <DialogFooter>
             <Button type="submit">Cadastrar</Button>

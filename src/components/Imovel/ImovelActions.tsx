@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
-import { cn } from "@/lib/utils";
 import {
   Accordion,
   AccordionContent,
@@ -9,15 +7,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Filter, CalendarIcon } from "lucide-react";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Calendar } from "@/components/ui/calendar";
+import { Filter } from "lucide-react";
 import { ImovelFiltersProps } from "@/types/Imovel/filters";
 import { DialogForm } from "../DialogForm";
 import { ImovelCreateDialog } from "./ImovelCreateDialog";
@@ -25,7 +15,7 @@ import { ImovelFormData } from "@/types/Imovel";
 import { imovelService } from "@/services/imovelService";
 import { ProprietarioCombobox } from "../Proprietario/ProprietarioCombobox";
 import InputFilter from "../InputFilter";
-import SelectFormField from "../SelectFormField";
+import { DialogFooter } from "../ui/dialog";
 
 export function ImovelActions({
   activeFilters,
@@ -54,9 +44,7 @@ export function ImovelActions({
     createdAt: activeFilters.createdAt || "",
     updatedAt: activeFilters.updatedAt || "",
   });
-  const [selectedProprietarioId, setSelectedProprietarioId] = useState<
-    string | null
-  >(null);
+
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [createdAtDate, setCreatedAtDate] = useState<Date | undefined>(
     activeFilters.createdAt ? new Date(activeFilters.createdAt) : undefined
@@ -154,117 +142,92 @@ export function ImovelActions({
           >
             <>
               <Accordion type="multiple" className="w-full space-y-4 mb-5">
-                {/* Localização Section */}
                 <AccordionItem value="location">
                   <AccordionTrigger>Localização</AccordionTrigger>
                   <AccordionContent className="m-3">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <Label>Endereço</Label>
-                        <Input
-                          className="mt-1"
-                          placeholder="Endereço"
-                          value={filterForm.address}
-                          onChange={(e) =>
-                            handleFilterFormChange("address", e.target.value)
-                          }
-                        />
-                      </div>
-                      <div>
-                        <Label>Bairro</Label>
-                        <Input
-                          className="mt-1"
-                          placeholder="Bairro"
-                          value={filterForm.neighborhood}
-                          onChange={(e) =>
-                            handleFilterFormChange(
-                              "neighborhood",
-                              e.target.value
-                            )
-                          }
-                        />
-                      </div>
-                      <div>
-                        <Label>Cidade</Label>
-                        <Input
-                          className="mt-1"
-                          placeholder="Cidade"
-                          value={filterForm.city}
-                          onChange={(e) =>
-                            handleFilterFormChange("city", e.target.value)
-                          }
-                        />
-                      </div>
-                      <div>
-                        <Label>Estado</Label>
-                        <Input
-                          className="mt-1"
-                          placeholder="Estado"
-                          value={filterForm.state}
-                          onChange={(e) =>
-                            handleFilterFormChange("state", e.target.value)
-                          }
-                        />
-                      </div>
-                      <div>
-                        <Label>Zona</Label>
-                        <Input
-                          className="mt-1"
-                          placeholder="Zona"
-                          value={filterForm.zone}
-                          onChange={(e) =>
-                            handleFilterFormChange("zone", e.target.value)
-                          }
-                        />
-                      </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                      <InputFilter
+                        label="Endereço"
+                        placeholder="Filtrar por endereço"
+                        type="text"
+                        value={filterForm.address}
+                        onChange={(e) =>
+                          handleFilterFormChange("address", e.target.value)
+                        }
+                      />
+                      <InputFilter
+                        label="Bairro"
+                        placeholder="Filtrar por bairro"
+                        type="text"
+                        value={filterForm.neighborhood}
+                        onChange={(e) =>
+                          handleFilterFormChange("neighborhood", e.target.value)
+                        }
+                      />
+                      <InputFilter
+                        label="Cidade"
+                        placeholder="Filtrar por cidade"
+                        type="text"
+                        value={filterForm.city}
+                        onChange={(e) =>
+                          handleFilterFormChange("city", e.target.value)
+                        }
+                      />
+                      <InputFilter
+                        label="Estado"
+                        placeholder="Filtrar por estado"
+                        type="text"
+                        value={filterForm.state}
+                        onChange={(e) =>
+                          handleFilterFormChange("state", e.target.value)
+                        }
+                      />
+                      <InputFilter
+                        label="Zona"
+                        placeholder="Filtrar por zona"
+                        type="text"
+                        value={filterForm.zone}
+                        onChange={(e) =>
+                          handleFilterFormChange("zone", e.target.value)
+                        }
+                      />
                     </div>
                   </AccordionContent>
                 </AccordionItem>
-
-                {/* Detalhes do Imóvel Section */}
                 <AccordionItem value="property-details">
                   <AccordionTrigger>Detalhes do Imóvel</AccordionTrigger>
                   <AccordionContent className="m-3">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <Label>Perfil do Imóvel</Label>
-                        <Input
-                          className="mt-1"
-                          placeholder="Perfil do Imóvel"
-                          value={filterForm.propertyProfile}
-                          onChange={(e) =>
-                            handleFilterFormChange(
-                              "propertyProfile",
-                              e.target.value
-                            )
-                          }
-                        />
-                      </div>
-                      <div>
-                        <Label>Disponibilidade</Label>
-                        <Input
-                          className="mt-1"
-                          placeholder="Disponibilidade"
-                          value={filterForm.availability}
-                          onChange={(e) =>
-                            handleFilterFormChange(
-                              "availability",
-                              e.target.value
-                            )
-                          }
-                        />
-                      </div>
-                      <div>
-                        <Label>Imobiliária</Label>
-                        <Input
-                          className="mt-1"
-                          placeholder="Imobiliária"
-                          value={filterForm.realEstate}
-                          onChange={(e) =>
-                            handleFilterFormChange("realEstate", e.target.value)
-                          }
-                        />
-                      </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                      <InputFilter
+                        label="Perfil do Imóvel"
+                        placeholder="Filtrar perfil"
+                        type="text"
+                        value={filterForm.propertyProfile}
+                        onChange={(e) =>
+                          handleFilterFormChange(
+                            "propertyProfile",
+                            e.target.value
+                          )
+                        }
+                      />
+                      <InputFilter
+                        label="Disponibilidade"
+                        placeholder="Filtrar disponibilidade"
+                        type="text"
+                        value={filterForm.availability}
+                        onChange={(e) =>
+                          handleFilterFormChange("availability", e.target.value)
+                        }
+                      />
+                      <InputFilter
+                        label="Imobiliária"
+                        placeholder="Filtrar imobiliária"
+                        type="text"
+                        value={filterForm.realEstate}
+                        onChange={(e) =>
+                          handleFilterFormChange("realEstate", e.target.value)
+                        }
+                      />
                       <ProprietarioCombobox
                         value={filterForm.proprietarioId}
                         onChange={(value) =>
@@ -276,180 +239,120 @@ export function ImovelActions({
                     </div>
                   </AccordionContent>
                 </AccordionItem>
-
-                {/* Valores Section */}
                 <AccordionItem value="values">
                   <AccordionTrigger>Valores</AccordionTrigger>
                   <AccordionContent className="m-3">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <Label>Valor Mín Aluguel</Label>
-                        <Input
-                          className="mt-1"
-                          type="number"
-                          placeholder="Valor Mínimo"
-                          value={filterForm.minRentValue}
-                          onChange={(e) =>
-                            handleFilterFormChange(
-                              "minRentValue",
-                              e.target.value
-                            )
-                          }
-                        />
-                      </div>
-                      <div>
-                        <Label>Valor Máx Aluguel</Label>
-                        <Input
-                          className="mt-1"
-                          type="number"
-                          placeholder="Valor Máximo"
-                          value={filterForm.maxRentValue}
-                          onChange={(e) =>
-                            handleFilterFormChange(
-                              "maxRentValue",
-                              e.target.value
-                            )
-                          }
-                        />
-                      </div>
-                      <div>
-                        <Label>Valor Mín Venda</Label>
-                        <Input
-                          className="mt-1"
-                          type="number"
-                          placeholder="Valor Mínimo"
-                          value={filterForm.minSaleValue}
-                          onChange={(e) =>
-                            handleFilterFormChange(
-                              "minSaleValue",
-                              e.target.value
-                            )
-                          }
-                        />
-                      </div>
-                      <div>
-                        <Label>Valor Máx Venda</Label>
-                        <Input
-                          className="mt-1"
-                          type="number"
-                          placeholder="Valor Máximo"
-                          value={filterForm.maxSaleValue}
-                          onChange={(e) =>
-                            handleFilterFormChange(
-                              "maxSaleValue",
-                              e.target.value
-                            )
-                          }
-                        />
-                      </div>
-                      <div>
-                        <Label>IPTU Mín</Label>
-                        <Input
-                          className="mt-1"
-                          type="number"
-                          placeholder="IPTU Mínimo"
-                          value={filterForm.minIptuValue}
-                          onChange={(e) =>
-                            handleFilterFormChange(
-                              "minIptuValue",
-                              e.target.value
-                            )
-                          }
-                        />
-                      </div>
-                      <div>
-                        <Label>IPTU Máx</Label>
-                        <Input
-                          className="mt-1"
-                          type="number"
-                          placeholder="IPTU Máximo"
-                          value={filterForm.maxIptuValue}
-                          onChange={(e) =>
-                            handleFilterFormChange(
-                              "maxIptuValue",
-                              e.target.value
-                            )
-                          }
-                        />
-                      </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                      <InputFilter
+                        label="Valor Mín Aluguel"
+                        placeholder="Filtrar mínimo"
+                        type="number"
+                        value={filterForm.minRentValue}
+                        onChange={(e) =>
+                          handleFilterFormChange("minRentValue", e.target.value)
+                        }
+                      />
+                      <InputFilter
+                        label="Valor Máx Aluguel"
+                        placeholder="Filtrar máximo"
+                        type="number"
+                        value={filterForm.maxRentValue}
+                        onChange={(e) =>
+                          handleFilterFormChange("maxRentValue", e.target.value)
+                        }
+                      />
+                      <InputFilter
+                        label="Valor Mín Venda"
+                        placeholder="Filtrar mínimo"
+                        type="number"
+                        value={filterForm.minSaleValue}
+                        onChange={(e) =>
+                          handleFilterFormChange("minSaleValue", e.target.value)
+                        }
+                      />
+                      <InputFilter
+                        label="Valor Máx Venda"
+                        placeholder="Filtrar máximo"
+                        type="number"
+                        value={filterForm.maxSaleValue}
+                        onChange={(e) =>
+                          handleFilterFormChange("maxSaleValue", e.target.value)
+                        }
+                      />
+                      <InputFilter
+                        label="IPTU Mín"
+                        placeholder="Filtrar mínimo"
+                        type="number"
+                        value={filterForm.minIptuValue}
+                        onChange={(e) =>
+                          handleFilterFormChange("minIptuValue", e.target.value)
+                        }
+                      />
+                      <InputFilter
+                        label="IPTU Máx"
+                        placeholder="Filtrar máximo"
+                        type="number"
+                        value={filterForm.maxIptuValue}
+                        onChange={(e) =>
+                          handleFilterFormChange("maxIptuValue", e.target.value)
+                        }
+                      />
                     </div>
                   </AccordionContent>
                 </AccordionItem>
-
-                {/* Metragem Section */}
                 <AccordionItem value="meterage">
                   <AccordionTrigger>Metragem</AccordionTrigger>
                   <AccordionContent className="m-3">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <Label>Metragem Mín</Label>
-                        <Input
-                          className="mt-1"
-                          type="number"
-                          placeholder="Metragem Mínima"
-                          value={filterForm.minSearchMeterage}
-                          onChange={(e) =>
-                            handleFilterFormChange(
-                              "minSearchMeterage",
-                              e.target.value
-                            )
-                          }
-                        />
-                      </div>
-                      <div>
-                        <Label>Metragem Máx</Label>
-                        <Input
-                          className="mt-1"
-                          type="number"
-                          placeholder="Metragem Máxima"
-                          value={filterForm.maxSearchMeterage}
-                          onChange={(e) =>
-                            handleFilterFormChange(
-                              "maxSearchMeterage",
-                              e.target.value
-                            )
-                          }
-                        />
-                      </div>
-                      <div>
-                        <Label>Área Total Mín</Label>
-                        <Input
-                          className="mt-1"
-                          type="number"
-                          placeholder="Área Total Mínima"
-                          value={filterForm.minTotalArea}
-                          onChange={(e) =>
-                            handleFilterFormChange(
-                              "minTotalArea",
-                              e.target.value
-                            )
-                          }
-                        />
-                      </div>
-                      <div>
-                        <Label>Área Total Máx</Label>
-                        <Input
-                          className="mt-1"
-                          type="number"
-                          placeholder="Área Total Máxima"
-                          value={filterForm.maxTotalArea}
-                          onChange={(e) =>
-                            handleFilterFormChange(
-                              "maxTotalArea",
-                              e.target.value
-                            )
-                          }
-                        />
-                      </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                      <InputFilter
+                        label="Metragem Mín"
+                        placeholder="Filtrar mínimo"
+                        type="number"
+                        value={filterForm.minSearchMeterage}
+                        onChange={(e) =>
+                          handleFilterFormChange(
+                            "minSearchMeterage",
+                            e.target.value
+                          )
+                        }
+                      />
+                      <InputFilter
+                        label="Metragem Máx"
+                        placeholder="Filtrar máximo"
+                        type="number"
+                        value={filterForm.maxSearchMeterage}
+                        onChange={(e) =>
+                          handleFilterFormChange(
+                            "maxSearchMeterage",
+                            e.target.value
+                          )
+                        }
+                      />
+                      <InputFilter
+                        label="Área Total Mín"
+                        placeholder="Filtrar mínimo"
+                        type="number"
+                        value={filterForm.minTotalArea}
+                        onChange={(e) =>
+                          handleFilterFormChange("minTotalArea", e.target.value)
+                        }
+                      />
+                      <InputFilter
+                        label="Área Total Máx"
+                        placeholder="Filtrar máxima"
+                        type="number"
+                        value={filterForm.maxTotalArea}
+                        onChange={(e) =>
+                          handleFilterFormChange("maxTotalArea", e.target.value)
+                        }
+                      />
                     </div>
                   </AccordionContent>
                 </AccordionItem>
-
-                {/* Informações do Sistema Section */}
                 <AccordionItem value="system-info">
                   <AccordionTrigger>Informações do Sistema</AccordionTrigger>
                   <AccordionContent className="m-3">
-                    <div className="flex gap-3">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                       <InputFilter
                         type="date"
                         label="Data de criação"
@@ -468,16 +371,21 @@ export function ImovelActions({
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
-              <Button
-                variant="outline"
-                onClick={handleClearFilters}
-                className="w-full sm:w-auto"
-              >
-                Limpar Filtros
-              </Button>
-              <Button onClick={handleApplyFilters} className="w-full sm:w-auto">
-                Aplicar
-              </Button>
+              <DialogFooter>
+                <Button
+                  variant="outline"
+                  onClick={handleClearFilters}
+                  className="w-full sm:w-auto"
+                >
+                  Limpar Filtros
+                </Button>
+                <Button
+                  onClick={handleApplyFilters}
+                  className="w-full sm:w-auto"
+                >
+                  Aplicar
+                </Button>
+              </DialogFooter>
             </>
           </DialogForm>
         </div>

@@ -14,6 +14,7 @@ import { CustomFormField } from "../CustomFormField";
 import TelephoneFormField from "../TelephoneFormField";
 import CustomTag from "../CustomTag";
 import { LoadingButton } from "../LoadingButton";
+import Container from "../Container";
 
 export function ProprietarioDetails() {
   const { id } = useParams();
@@ -95,87 +96,89 @@ export function ProprietarioDetails() {
         <ArrowLeft size={16} /> Proprietarios
       </Button>
 
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(
-            (data) => {
-              onSubmit(data);
-            },
-            (errors) => {
-              console.error("Erros de validação:", errors);
-            }
-          )}
-          className="space-y-8 bg-white shadow-lg rounded p-5"
-        >
-          <div className="grid md:grid-cols-3 gap-4">
-            <CustomFormField
-              control={form.control}
-              name="name"
-              label="Nome"
-              placeholder="Nome do propretário"
-            />
-            <TelephoneFormField control={form.control} name="telephone" />
-            <CustomFormField
-              control={form.control}
-              name="email"
-              label="Email"
-              placeholder="Email"
-            />
-          </div>
+      <Container>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(
+              (data) => {
+                onSubmit(data);
+              },
+              (errors) => {
+                console.error("Erros de validação:", errors);
+              }
+            )}
+            className="space-y-8 "
+          >
+            <div className="grid md:grid-cols-3 gap-4">
+              <CustomFormField
+                control={form.control}
+                name="name"
+                label="Nome"
+                placeholder="Nome do propretário"
+              />
+              <TelephoneFormField control={form.control} name="telephone" />
+              <CustomFormField
+                control={form.control}
+                name="email"
+                label="Email"
+                placeholder="Email"
+              />
+            </div>
 
-          <div className="grid md:grid-cols-4 gap-4">
+            <div className="grid md:grid-cols-4 gap-4">
+              <CustomFormField
+                control={form.control}
+                name="address"
+                label="Endereço"
+                placeholder="Endereço"
+              />
+              <CustomFormField
+                control={form.control}
+                name="neighboor"
+                label="Bairro"
+                placeholder="Bairro"
+              />
+              <CustomFormField
+                control={form.control}
+                name="state"
+                label="Estado"
+                placeholder="Estado"
+              />
+              <CustomFormField
+                control={form.control}
+                name="city"
+                label="Cidade"
+                placeholder="Cidade"
+              />
+            </div>
             <CustomFormField
               control={form.control}
-              name="address"
-              label="Endereço"
-              placeholder="Endereço"
+              name="source"
+              label="Fonte"
+              placeholder="Fonte"
             />
             <CustomFormField
               control={form.control}
-              name="neighboor"
-              label="Bairro"
-              placeholder="Bairro"
+              name="observations"
+              label="Observações"
+              placeholder="Observações"
             />
-            <CustomFormField
-              control={form.control}
-              name="state"
-              label="Estado"
-              placeholder="Estado"
-            />
-            <CustomFormField
-              control={form.control}
-              name="city"
-              label="Cidade"
-              placeholder="Cidade"
-            />
-          </div>
-          <CustomFormField
-            control={form.control}
-            name="source"
-            label="Fonte"
-            placeholder="Fonte"
-          />
-          <CustomFormField
-            control={form.control}
-            name="observations"
-            label="Observações"
-            placeholder="Observações"
-          />
 
-          <div className="flex justify-end">
-            <LoadingButton
-              type="submit"
-              variant="default"
-              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700"
-              isLoading={isLoading}
-            >
-              <Save size={16} /> Salvar
-            </LoadingButton>
-          </div>
-        </form>
-      </Form>
+            <div className="flex justify-end">
+              <LoadingButton
+                type="submit"
+                variant="default"
+                className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700"
+                isLoading={isLoading}
+              >
+                <Save size={16} /> Salvar
+              </LoadingButton>
+            </div>
+          </form>
+        </Form>
+      </Container>
 
-      <div className="mt-8 bg-white shadow-lg rounded p-5">
+      <Container className="mt-8">
         <h2 className="text-2xl font-bold mb-4">Imóveis</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {imoveis.map((imovel) => (
@@ -211,7 +214,7 @@ export function ProprietarioDetails() {
         {imoveis.length === 0 && (
           <p className="text-gray-500">Nenhum imóvel encontrado</p>
         )}
-      </div>
+      </Container>
     </div>
   );
 }

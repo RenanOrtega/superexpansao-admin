@@ -7,12 +7,11 @@ import {
   SortingState,
   useReactTable,
 } from "@tanstack/react-table";
-import { User, userUpdateSchema } from "@/types/User";
+import { User } from "@/types/User";
 import { UserFilterParams } from "@/types/User/filters";
 import { userService } from "@/services/userService";
 import { columns } from "./UserColumns";
 import { UserActions } from "./UserActions";
-import { UserEditDialog } from "./UserEditDialog";
 
 export function UserTable() {
   const [data, setData] = useState<PaginationResponse<User>>({
@@ -47,20 +46,6 @@ export function UserTable() {
   useEffect(() => {
     fetchData();
   }, [activeFilters]);
-
-  const handleUpdate = async (id: string, newFields: User) => {
-    try {
-      var userUpdated = await userService.update(id, newFields);
-      setData((prevData) => ({
-        ...prevData,
-        items: prevData.items.map((item) =>
-          item.id === id ? userUpdated : item
-        ),
-      }));
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const handleDelete = async (id: string) => {
     try {

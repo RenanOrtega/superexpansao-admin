@@ -7,10 +7,11 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Form } from "../ui/form";
 import { CustomFormField } from "../CustomFormField";
-import { userSchema, userUpdateSchema } from "@/types/User";
+import { userUpdateSchema } from "@/types/User";
 import { userService } from "@/services/userService";
 import SelectFormField from "../SelectFormField";
 import { LoadingButton } from "../LoadingButton";
+import Container from "../Container";
 
 export function UserDetails() {
   const { id } = useParams();
@@ -68,7 +69,7 @@ export function UserDetails() {
       >
         <ArrowLeft size={16} /> Colaboradores
       </Button>
-      <div className=" bg-white shadow-lg rounded p-5">
+      <Container>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(
@@ -115,7 +116,7 @@ export function UserDetails() {
             </div>
           </form>
         </Form>
-      </div>
+      </Container>
     </div>
   );
 }
