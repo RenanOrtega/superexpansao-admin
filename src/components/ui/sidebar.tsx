@@ -2,14 +2,12 @@ import {
   Users,
   ShoppingCart,
   Building2,
-  Settings,
   LogOut,
   Bike,
   Home,
   ChevronsLeft,
   ChevronsRight,
   Building,
-  PersonStanding,
   UserRoundPen,
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
@@ -97,7 +95,7 @@ const Sidebar = () => {
         <ul>
           {menuItems
             .filter((item) =>
-              item.label === "Configurações" ? user?.role === "Admin" : true
+              item.label === "Colaboradores" ? user?.role === "Admin" : true
             )
             .map((item) => (
               <Link to={item.path} key={item.path}>

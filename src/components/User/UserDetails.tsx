@@ -12,11 +12,13 @@ import { userService } from "@/services/userService";
 import SelectFormField from "../SelectFormField";
 import { LoadingButton } from "../LoadingButton";
 import Container from "../Container";
+import LoadingPage from "../LoadingPage";
 
 export function UserDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
   useState(false);
+  const [isButtonLoading, setIsButtonLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof userUpdateSchema>>({
@@ -32,6 +34,7 @@ export function UserDetails() {
     const fetchUser = async () => {
       if (!id) return;
       try {
+        setIsLoading(true);
         const response = await userService.getById(id);
         console.log(response);
         form.reset({
@@ -39,6 +42,7 @@ export function UserDetails() {
           name: response.name,
           role: response.role,
         });
+        setIsLoading(false);
       } catch (error) {
         console.error("Erro ao buscar colaborador:", error);
         navigate("/colaboradores");
@@ -51,72 +55,74 @@ export function UserDetails() {
   }, [id, navigate, form]);
 
   const onSubmit = async (data: z.infer<typeof userUpdateSchema>) => {
-    setIsLoading(true);
+    setIsButtonLoading(true);
     try {
       await userService.update(id!, { ...data, id });
-      setIsLoading(false);
+      setIsButtonLoading(false);
     } catch (error) {
       console.error("Erro ao salvar colaborador:", error);
     }
   };
 
   return (
-    <div className="container mx-auto">
-      <Button
-        variant="outline"
-        onClick={() => navigate("/colaboradores")}
-        className="mb-4 flex items-center gap-2"
-      >
-        <ArrowLeft size={16} /> Colaboradores
-      </Button>
-      <Container>
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(
-              async (data) => {
-                await onSubmit(data);
-              },
-              (errors) => {
-                console.error("Erros de validação:", errors);
-              }
-            )}
-            className="space-y-4"
-          >
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-3">
-              <CustomFormField
-                control={form.control}
-                name="name"
-                label="Nome"
-                placeholder="Nome do Mapeador"
-              />
-              <CustomFormField
-                control={form.control}
-                name="email"
-                label="Email"
-                placeholder="Nome do Mapeador"
-              />
-              <SelectFormField
-                control={form.control}
-                name="role"
-                label="Permissão"
-                placeholder="Selecionne a permissão"
-                values={["Admin", "Moderador", "Padrão"]}
-              />
-            </div>
+    <LoadingPage isLoading={isLoading}>
+      <div className="container mx-auto">
+        <Button
+          variant="outline"
+          onClick={() => navigate("/colaboradores")}
+          className="mb-4 flex items-center gap-2"
+        >
+          <ArrowLeft size={16} /> Colaboradores
+        </Button>
+        <Container>
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(
+                async (data) => {
+                  await onSubmit(data);
+                },
+                (errors) => {
+                  console.error("Erros de validação:", errors);
+                }
+              )}
+              className="space-y-4"
+            >
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-3">
+                <CustomFormField
+                  control={form.control}
+                  name="name"
+                  label="Nome"
+                  placeholder="Nome do Mapeador"
+                />
+                <CustomFormField
+                  control={form.control}
+                  name="email"
+                  label="Email"
+                  placeholder="Nome do Mapeador"
+                />
+                <SelectFormField
+                  control={form.control}
+                  name="role"
+                  label="Permissão"
+                  placeholder="Selecionne a permissão"
+                  values={["Admin", "Moderador", "Padrão"]}
+                />
+              </div>
 
-            <div className="flex justify-end">
-              <LoadingButton
-                type="submit"
-                variant="default"
-                className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700"
-                isLoading={isLoading}
-              >
-                <Save size={16} /> Salvar
-              </LoadingButton>
-            </div>
-          </form>
-        </Form>
-      </Container>
-    </div>
+              <div className="flex justify-end">
+                <LoadingButton
+                  type="submit"
+                  variant="default"
+                  className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700"
+                  isLoading={isButtonLoading}
+                >
+                  <Save size={16} /> Salvar
+                </LoadingButton>
+              </div>
+            </form>
+          </Form>
+        </Container>
+      </div>
+    </LoadingPage>
   );
 }

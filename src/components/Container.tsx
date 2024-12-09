@@ -6,7 +6,7 @@ export default function Container({
   className?: string;
 }) {
   return (
-    <div className={`bg-white shadow-lg rounded p-5 ${className}`}>
+    <div className={`bg-white shadow rounded-lg p-5 ${className}`}>
       {children}
     </div>
   );

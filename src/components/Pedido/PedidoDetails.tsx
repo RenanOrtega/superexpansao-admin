@@ -12,11 +12,13 @@ import { pedidoService } from "@/services/pedidoService";
 import Container from "../Container";
 import { DateFormField } from "../DateFormFields";
 import SelectFormField from "../SelectFormField";
+import LoadingPage from "../LoadingPage";
 
 export function PedidoDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
   useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const form = useForm<z.infer<typeof pedidoUpdateSchema>>({
     resolver: zodResolver(pedidoUpdateSchema),
@@ -52,6 +54,7 @@ export function PedidoDetails() {
     const fetchPedido = async () => {
       if (!id) return;
       try {
+        setIsLoading(true);
         const response = await pedidoService.getById(id);
         console.log(response);
         form.reset({
@@ -88,6 +91,7 @@ export function PedidoDetails() {
             ? new Date(response.streetViewDate)
             : undefined,
         });
+        setIsLoading(false);
       } catch (error) {
         console.error("Erro ao buscar pedido:", error);
         navigate("/pedidos");
@@ -108,7 +112,7 @@ export function PedidoDetails() {
   };
 
   return (
-    <div className="">
+    <LoadingPage isLoading={isLoading}>
       <Button
         variant="outline"
         onClick={() => navigate("/pedidos")}
@@ -340,6 +344,6 @@ export function PedidoDetails() {
           </div>
         </form>
       </Form>
-    </div>
+    </LoadingPage>
   );
 }

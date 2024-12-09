@@ -23,6 +23,7 @@ import {
 } from "./ui/alert-dialog";
 import { useState } from "react";
 import Container from "./Container";
+import { useAuth } from "@/contexts/AuthContext";
 
 export function DynamicTable<T extends { id: string }>({
   table,
@@ -36,6 +37,9 @@ export function DynamicTable<T extends { id: string }>({
 }: DynamicTableProps<T>) {
   const [itemToDelete, setItemToDelete] = useState<string | null>(null);
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const userRole = user!.role;
+  console.log(userRole);
 
   const handlePageChange = (newPage: number) => {
     if (newPage < 1 || newPage > totalPages) return;
@@ -106,19 +110,21 @@ export function DynamicTable<T extends { id: string }>({
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
-                <TableCell>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setItemToDelete(row.original.id);
-                    }}
-                    className="text-red-400 hover:text-red-700 hover:bg-slate-200"
-                  >
-                    <Trash2 />
-                  </Button>
-                </TableCell>
+                {userRole === "Admin" || userRole === "Moderador" ? (
+                  <TableCell>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setItemToDelete(row.original.id);
+                      }}
+                      className="text-red-400 hover:text-red-700 hover:bg-slate-200"
+                    >
+                      <Trash2 />
+                    </Button>
+                  </TableCell>
+                ) : null}
               </TableRow>
             ))}
           </TableBody>
