@@ -1,7 +1,11 @@
 import { PaginationResponse } from "@/types/pagination";
 import api from "./api";
 import endpoints from "./endpoints";
-import { Pedido, PedidoFormData } from "@/types/Pedido";
+import {
+  Pedido,
+  PedidoFormData,
+  PedidoWithPedidoImoveis,
+} from "@/types/Pedido";
 import { PedidoFilterParams } from "@/types/Pedido/filters";
 
 export const pedidoService = {
@@ -37,7 +41,9 @@ export const pedidoService = {
   },
 
   async getById(id: string) {
-    const response = await api.get<Pedido>(`${endpoints.pedido}/${id}`);
+    const response = await api.get<PedidoWithPedidoImoveis>(
+      `${endpoints.pedido}/${id}`
+    );
 
     return response.data;
   },

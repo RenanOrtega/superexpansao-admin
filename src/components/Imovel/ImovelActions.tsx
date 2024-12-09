@@ -23,6 +23,9 @@ import { DialogForm } from "../DialogForm";
 import { ImovelCreateDialog } from "./ImovelCreateDialog";
 import { ImovelFormData } from "@/types/Imovel";
 import { imovelService } from "@/services/imovelService";
+import { ProprietarioCombobox } from "../Proprietario/ProprietarioCombobox";
+import InputFilter from "../InputFilter";
+import SelectFormField from "../SelectFormField";
 
 export function ImovelActions({
   activeFilters,
@@ -51,7 +54,9 @@ export function ImovelActions({
     createdAt: activeFilters.createdAt || "",
     updatedAt: activeFilters.updatedAt || "",
   });
-
+  const [selectedProprietarioId, setSelectedProprietarioId] = useState<
+    string | null
+  >(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [createdAtDate, setCreatedAtDate] = useState<Date | undefined>(
     activeFilters.createdAt ? new Date(activeFilters.createdAt) : undefined
@@ -153,7 +158,7 @@ export function ImovelActions({
                 <AccordionItem value="location">
                   <AccordionTrigger>Localização</AccordionTrigger>
                   <AccordionContent className="m-3">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <Label>Endereço</Label>
                         <Input
@@ -220,7 +225,7 @@ export function ImovelActions({
                 <AccordionItem value="property-details">
                   <AccordionTrigger>Detalhes do Imóvel</AccordionTrigger>
                   <AccordionContent className="m-3">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <Label>Perfil do Imóvel</Label>
                         <Input
@@ -260,20 +265,14 @@ export function ImovelActions({
                           }
                         />
                       </div>
-                      <div>
-                        <Label>ID Proprietário</Label>
-                        <Input
-                          className="mt-1"
-                          placeholder="ID Proprietário"
-                          value={filterForm.proprietarioId}
-                          onChange={(e) =>
-                            handleFilterFormChange(
-                              "proprietarioId",
-                              e.target.value
-                            )
-                          }
-                        />
-                      </div>
+                      <ProprietarioCombobox
+                        value={filterForm.proprietarioId}
+                        onChange={(value) =>
+                          handleFilterFormChange("proprietarioId", value || "")
+                        }
+                        label="Proprietário"
+                        placeholder="Selecione um proprietário"
+                      />
                     </div>
                   </AccordionContent>
                 </AccordionItem>
@@ -282,9 +281,9 @@ export function ImovelActions({
                 <AccordionItem value="values">
                   <AccordionTrigger>Valores</AccordionTrigger>
                   <AccordionContent className="m-3">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <Label>Valor Mínimo de Aluguel</Label>
+                        <Label>Valor Mín Aluguel</Label>
                         <Input
                           className="mt-1"
                           type="number"
@@ -299,7 +298,7 @@ export function ImovelActions({
                         />
                       </div>
                       <div>
-                        <Label>Valor Máximo de Aluguel</Label>
+                        <Label>Valor Máx Aluguel</Label>
                         <Input
                           className="mt-1"
                           type="number"
@@ -314,7 +313,7 @@ export function ImovelActions({
                         />
                       </div>
                       <div>
-                        <Label>Valor Mínimo de Venda</Label>
+                        <Label>Valor Mín Venda</Label>
                         <Input
                           className="mt-1"
                           type="number"
@@ -329,7 +328,7 @@ export function ImovelActions({
                         />
                       </div>
                       <div>
-                        <Label>Valor Máximo de Venda</Label>
+                        <Label>Valor Máx Venda</Label>
                         <Input
                           className="mt-1"
                           type="number"
@@ -344,7 +343,7 @@ export function ImovelActions({
                         />
                       </div>
                       <div>
-                        <Label>IPTU Mínimo</Label>
+                        <Label>IPTU Mín</Label>
                         <Input
                           className="mt-1"
                           type="number"
@@ -359,7 +358,7 @@ export function ImovelActions({
                         />
                       </div>
                       <div>
-                        <Label>IPTU Máximo</Label>
+                        <Label>IPTU Máx</Label>
                         <Input
                           className="mt-1"
                           type="number"
@@ -381,9 +380,9 @@ export function ImovelActions({
                 <AccordionItem value="meterage">
                   <AccordionTrigger>Metragem</AccordionTrigger>
                   <AccordionContent className="m-3">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <Label>Metragem Mínima de Busca</Label>
+                        <Label>Metragem Mín</Label>
                         <Input
                           className="mt-1"
                           type="number"
@@ -398,7 +397,7 @@ export function ImovelActions({
                         />
                       </div>
                       <div>
-                        <Label>Metragem Máxima de Busca</Label>
+                        <Label>Metragem Máx</Label>
                         <Input
                           className="mt-1"
                           type="number"
@@ -413,7 +412,7 @@ export function ImovelActions({
                         />
                       </div>
                       <div>
-                        <Label>Área Total Mínima</Label>
+                        <Label>Área Total Mín</Label>
                         <Input
                           className="mt-1"
                           type="number"
@@ -428,7 +427,7 @@ export function ImovelActions({
                         />
                       </div>
                       <div>
-                        <Label>Área Total Máxima</Label>
+                        <Label>Área Total Máx</Label>
                         <Input
                           className="mt-1"
                           type="number"
@@ -450,63 +449,21 @@ export function ImovelActions({
                 <AccordionItem value="system-info">
                   <AccordionTrigger>Informações do Sistema</AccordionTrigger>
                   <AccordionContent className="m-3">
-                    <div className="flex flex-col gap-3">
-                      <Popover>
-                        <Label>Data de criação</Label>
-                        <PopoverTrigger asChild className="flex-1">
-                          <Button
-                            variant={"outline"}
-                            className={cn(
-                              "justify-start text-left font-normal",
-                              !createdAtDate && "text-muted-foreground"
-                            )}
-                          >
-                            <CalendarIcon className="h-4 w-4" />
-                            {createdAtDate ? (
-                              format(createdAtDate, "PPP", { locale: ptBR })
-                            ) : (
-                              <span>Data de Criação</span>
-                            )}
-                          </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0">
-                          <Calendar
-                            mode="single"
-                            selected={createdAtDate}
-                            onSelect={handleCreatedAtDate}
-                            initialFocus
-                            locale={ptBR}
-                          />
-                        </PopoverContent>
-                      </Popover>
-                      <Popover>
-                        <Label>Data de atualização</Label>
-                        <PopoverTrigger asChild className="flex-1">
-                          <Button
-                            variant={"outline"}
-                            className={cn(
-                              "justify-start text-left font-normal",
-                              !updatedAtDate && "text-muted-foreground"
-                            )}
-                          >
-                            <CalendarIcon className="h-4 w-4" />
-                            {updatedAtDate ? (
-                              format(updatedAtDate, "PPP", { locale: ptBR })
-                            ) : (
-                              <span>Data de Atualização</span>
-                            )}
-                          </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0">
-                          <Calendar
-                            mode="single"
-                            selected={updatedAtDate}
-                            onSelect={handleUpdatedAtDate}
-                            initialFocus
-                            locale={ptBR}
-                          />
-                        </PopoverContent>
-                      </Popover>
+                    <div className="flex gap-3">
+                      <InputFilter
+                        type="date"
+                        label="Data de criação"
+                        placeholder="Selecione uma data"
+                        date={createdAtDate}
+                        setDate={handleCreatedAtDate}
+                      />
+                      <InputFilter
+                        type="date"
+                        label="Data de atualização"
+                        placeholder="Selecione uma data"
+                        date={updatedAtDate}
+                        setDate={handleUpdatedAtDate}
+                      />
                     </div>
                   </AccordionContent>
                 </AccordionItem>

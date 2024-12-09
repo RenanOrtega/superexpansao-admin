@@ -13,6 +13,7 @@ import { ImovelDetails } from "@/components/Imovel/ImovelDetails";
 import { MapeadorDetails } from "@/components/Mapeador/MapeadorDetails";
 import ColaboradorPage from "@/pages/ColaboradorPage";
 import { UserDetails } from "@/components/User/UserDetails";
+import { PedidoDetails } from "@/components/Pedido/PedidoDetails";
 
 const Routes = () => {
   return (
@@ -28,6 +29,7 @@ const Routes = () => {
           <Route path="/imoveis" element={<ImovelPage />} />
           <Route path="/imoveis/:id" element={<ImovelDetails />} />
           <Route path="/pedidos" element={<PedidoPage />} />
+          <Route path="/pedidos/:id" element={<PedidoDetails />} />
           <Route element={<ProtectedRoute allowedRoles={["Admin"]} />}>
             <Route path="/colaboradores" element={<ColaboradorPage />} />
             <Route path="/colaboradores/:id" element={<UserDetails />} />

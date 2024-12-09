@@ -20,7 +20,7 @@ export const columns: ColumnDef<Pedido>[] = [
     },
   },
   {
-    header: "Executor",
+    header: "responsavel",
     accessorKey: "performer",
   },
   {
@@ -58,76 +58,5 @@ export const columns: ColumnDef<Pedido>[] = [
   {
     header: "Cidade",
     accessorKey: "city",
-  },
-  {
-    header: "Tipo de Propriedade",
-    accessorKey: "propertyType",
-  },
-  {
-    header: "Área Total",
-    accessorKey: "totalArea",
-  },
-  {
-    header: "Área Construída",
-    accessorKey: "builtArea",
-  },
-  {
-    header: "Vagas de Estacionamento",
-    accessorKey: "parkingSpaces",
-  },
-  {
-    header: "Metragem Mínima",
-    accessorKey: "minimumMeterage",
-  },
-  {
-    header: "Metragem Máxima",
-    accessorKey: "maximumMeterage",
-  },
-  {
-    header: "Street View",
-    accessorKey: "streetView",
-    cell: ({ row }) => {
-      const streetView: string = row.getValue("streetView");
-      return streetView ? (
-        <a
-          href={streetView}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-blue-500 underline"
-        >
-          Visualizar
-        </a>
-      ) : (
-        "-"
-      );
-    },
-  },
-  {
-    header: "Data do Street View",
-    accessorKey: "streetViewDate",
-    cell: ({ row }) => {
-      const streetViewDate: Date = row.getValue("streetViewDate");
-      return streetViewDate
-        ? format(new Date(streetViewDate), "dd/MM/yyyy")
-        : "-";
-    },
-  },
-  {
-    header: "Criado Online",
-    accessorKey: "onlineCreated",
-    cell: ({ row }) => (row.getValue("onlineCreated") ? "Sim" : "Não"),
-  },
-  {
-    header: "Data Online",
-    accessorKey: "onlineDate",
-    cell: ({ row }) => {
-      const onlineDate: Date = row.getValue("onlineDate");
-      return onlineDate ? format(new Date(onlineDate), "dd/MM/yyyy") : "-";
-    },
-  },
-  {
-    header: "Mapeamento Concluído",
-    accessorKey: "mappingCompleted",
-    cell: ({ row }) => (row.getValue("mappingCompleted") ? "Sim" : "Não"),
   },
 ];

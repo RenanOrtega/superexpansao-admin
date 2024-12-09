@@ -19,7 +19,8 @@ interface SelectFormField<T extends FieldValues> {
   name: Path<T>;
   label: string;
   placeholder: string;
-  values: string[];
+  values: boolean[] | string[];
+  labels?: string[]; // Optional labels for boolean values
 }
 
 export default function SelectFormField<T extends FieldValues>({
@@ -28,6 +29,7 @@ export default function SelectFormField<T extends FieldValues>({
   label,
   placeholder,
   values,
+  labels = ["Sim", "Não"], // Default labels if not provided
 }: SelectFormField<T>) {
   return (
     <FormField
@@ -37,18 +39,21 @@ export default function SelectFormField<T extends FieldValues>({
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Select onValueChange={field.onChange} value={field.value}>
+            <Select
+              onValueChange={(value) => field.onChange(value === "true")}
+              value={field.value?.toString()}
+            >
               <SelectTrigger>
                 <SelectValue placeholder={placeholder} />
               </SelectTrigger>
               <SelectContent>
-                {values?.map((value) => (
+                {values.map((value, index) => (
                   <SelectItem
-                    key={value}
-                    value={value}
+                    key={value.toString()}
+                    value={value.toString()}
                     className="cursor-pointer"
                   >
-                    {value}
+                    {labels[index]}
                   </SelectItem>
                 ))}
               </SelectContent>

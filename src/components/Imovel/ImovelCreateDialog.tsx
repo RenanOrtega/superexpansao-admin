@@ -116,7 +116,9 @@ export function ImovelCreateDialog({ onCreate }: CreateImovelDialogProps) {
               <FormField
                 name="proprietarioId"
                 control={form.control}
-                render={({ field }) => <ProprietarioCombobox field={field} />}
+                render={({ field: { value, onChange } }) => (
+                  <ProprietarioCombobox value={value} onChange={onChange} />
+                )}
               />
               <SelectFormField
                 control={form.control}

@@ -11,6 +11,7 @@ import { Pedido } from "@/types/Pedido";
 import { pedidoService } from "@/services/pedidoService";
 import { PedidoFilterParams } from "@/types/Pedido/filters";
 import { columns } from "./PedidoColumns";
+import { PedidoActions } from "./PedidoActions";
 
 export function PedidoTable() {
   const [data, setData] = useState<PaginationResponse<Pedido>>({
@@ -97,10 +98,10 @@ export function PedidoTable() {
           <p className="text-sm text-gray-600">Gerenciamento de pedidos.</p>
         </div>
       </div>
-      {/* <PedidoActions
+      <PedidoActions
         activeFilters={activeFilters}
         onApplyFilters={setActiveFilters}
-      /> */}
+      />
       {error && <div className="text-red-500">{error}</div>}
       <DynamicTable<Pedido>
         table={table}
@@ -110,7 +111,7 @@ export function PedidoTable() {
         pageNumber={data.pageNumber}
         hasNextPage={data.hasNextPage}
         hasPreviousPage={data.hasPreviousPage}
-        path="pedido"
+        path="pedidos"
       />
     </>
   );

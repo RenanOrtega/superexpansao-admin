@@ -15,23 +15,24 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import { ControllerRenderProps, FieldValues, Path } from "react-hook-form";
 import { Proprietario } from "@/types/Proprietario";
 import { proprietarioService } from "@/services/proprietarioService";
 
-interface ProprietarioComboboxProps<TFieldValues extends FieldValues> {
-  field: ControllerRenderProps<TFieldValues, Path<TFieldValues>>;
+interface ProprietarioComboboxProps {
+  value?: string | null;
+  onChange?: (value?: string | null) => void;
   placeholder?: string;
   label?: string;
   className?: string;
 }
 
-export function ProprietarioCombobox<TFieldValues extends FieldValues>({
-  field,
+export function ProprietarioCombobox({
+  value,
+  onChange,
   placeholder = "Selecionar proprietário",
   label = "Proprietário",
   className = "",
-}: ProprietarioComboboxProps<TFieldValues>) {
+}: ProprietarioComboboxProps) {
   const [open, setOpen] = useState(false);
   const [proprietarios, setProprietarios] = useState<Proprietario[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -69,11 +70,20 @@ export function ProprietarioCombobox<TFieldValues extends FieldValues>({
     }
   };
 
+  const handleSelect = (proprietarioId?: string) => {
+    // Se o ID selecionado for o mesmo que o valor atual, desmarque
+    const newValue = value === proprietarioId ? null : proprietarioId;
+
+    // Chame a função onChange se ela existir
+    onChange?.(newValue);
+    setOpen(false);
+  };
+
   const selectedProprietario =
-    proprietarios.find((p) => p.id === field.value) || null;
+    proprietarios.find((p) => p.id === value) || null;
 
   return (
-    <div className={cn("space-y-2", className)}>
+    <div className={cn("space-y-1", className)}>
       <label htmlFor="proprietario-combobox" className="text-sm font-medium">
         {label}
       </label>
@@ -91,7 +101,7 @@ export function ProprietarioCombobox<TFieldValues extends FieldValues>({
               : selectedProprietario
               ? selectedProprietario.name
               : placeholder}
-            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-full p-0">
@@ -114,21 +124,13 @@ export function ProprietarioCombobox<TFieldValues extends FieldValues>({
                       <CommandItem
                         key={proprietario.id}
                         value={proprietario.name}
-                        onSelect={() => {
-                          const newValue =
-                            field.value === proprietario.id
-                              ? undefined
-                              : proprietario.id;
-
-                          field.onChange(newValue);
-                          setOpen(false);
-                        }}
+                        onSelect={() => handleSelect(proprietario.id)}
                       >
                         {proprietario.name}
                         <Check
                           className={cn(
                             "ml-auto h-4 w-4",
-                            field.value === proprietario.id
+                            value === proprietario.id
                               ? "opacity-100"
                               : "opacity-0"
                           )}

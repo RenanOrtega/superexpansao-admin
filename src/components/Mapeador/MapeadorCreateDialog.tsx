@@ -88,6 +88,7 @@ export function MapeadorCreateDialog({ onCreate }: CreateMapeadorDialogProps) {
             name="vehicle"
             placeholder="Seleciona um veículo"
             values={["Moto", "Carro"]}
+            labels={["Sim", "Não"]}
           />
           <CustomFormField
             control={form.control}
