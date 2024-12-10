@@ -27,10 +27,10 @@ export function PedidoDetails() {
       builtArea: 0,
       city: "",
       coordinator: "",
-      clientId: "",
+      client: "",
       expander: "",
       observations: "",
-      orderNumber: "",
+      order: "",
       performer: "",
       propertyType: "",
       state: "",
@@ -61,7 +61,7 @@ export function PedidoDetails() {
         form.reset({
           builtArea: response.builtArea,
           city: response.city,
-          clientId: response.clientId,
+          client: response.client,
           coordinator: response.coordinator,
           expander: response.expander,
           mappingCompleted: response.mappingCompleted,
@@ -69,7 +69,7 @@ export function PedidoDetails() {
           minimumMeterage: response.minimumMeterage,
           observations: response.observations,
           onlineCreated: response.onlineCreated,
-          orderNumber: response.orderNumber,
+          order: response.order,
           parkingSpaces: response.parkingSpaces,
           performer: response.performer,
           propertyType: response.propertyType,
@@ -173,13 +173,13 @@ export function PedidoDetails() {
               />
               <CustomFormField
                 control={form.control}
-                name="clientId"
+                name="client"
                 label="Cliente"
                 placeholder="Cliente"
               />
               <CustomFormField
                 control={form.control}
-                name="orderNumber"
+                name="order"
                 label="Numero do pedido"
                 placeholder="Numero do pedido"
               />

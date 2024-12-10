@@ -25,6 +25,14 @@ export const abordagemService = {
     return response.data;
   },
 
+  async getAllPending() {
+    const response = await api.get<AbordagemWithContato[]>(
+      `${endpoints.abordagem}/pendings`
+    );
+
+    return response.data;
+  },
+
   async create(data: AbordagemFormData, contatoId: string) {
     const response = await api.post<Abordagem>(endpoints.abordagem, {
       ...data,

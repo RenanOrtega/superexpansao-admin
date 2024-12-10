@@ -14,8 +14,8 @@ export const PendingApproachesCard: React.FC = () => {
     const loadPendingApproaches = async () => {
       try {
         setIsLoading(true);
-        const paginationResponse = await abordagemService.get({});
-        setPendingApproaches(paginationResponse.items);
+        const abordagens = await abordagemService.getAllPending();
+        setPendingApproaches(abordagens);
       } catch (error) {
         console.error("Erro ao carregar abordagens pendentes", error);
       } finally {

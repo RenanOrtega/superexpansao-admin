@@ -5,7 +5,7 @@ export interface Abordagem {
   id: string;
   contatoId: string;
   telephone: string;
-  negotiationStatus: string;
+  status: string;
   comment: string;
   contactAddressed: boolean;
   approachType: string;
@@ -19,7 +19,7 @@ export interface AbordagemWithContato extends Abordagem {
 
 export const abordagemSchema = z.object({
   telephone: z.string().regex(/^\(\d{2}\) \d{5}-\d{4}$/, "Telefone inválido"),
-  negotiationStatus: z.string().min(1, "Status é obrigatório"),
+  status: z.string().min(1, "Status é obrigatório"),
   comment: z.string().min(1, "Comentario é obrigatório"),
   contactAddressed: z.boolean(),
   approachType: z.string().min(1, "Abordagem é obrigatório"),

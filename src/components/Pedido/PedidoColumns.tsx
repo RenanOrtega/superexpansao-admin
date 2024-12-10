@@ -4,6 +4,10 @@ import { format } from "date-fns";
 
 export const columns: ColumnDef<Pedido>[] = [
   {
+    header: "Cliente",
+    accessorKey: "client",
+  },
+  {
     header: "Data de Entrada",
     accessorKey: "entryDate",
     cell: ({ row }) => {
@@ -20,7 +24,7 @@ export const columns: ColumnDef<Pedido>[] = [
     },
   },
   {
-    header: "responsavel",
+    header: "Responsavel",
     accessorKey: "performer",
   },
   {
@@ -28,35 +32,31 @@ export const columns: ColumnDef<Pedido>[] = [
     accessorKey: "coordinator",
   },
   {
-    header: "Expansor",
-    accessorKey: "expander",
-  },
-  {
-    header: "Número do Pedido",
-    accessorKey: "orderNumber",
-  },
-  {
-    header: "Valor do Imóvel",
-    accessorKey: "propertyValue",
+    header: "Pedido",
+    accessorKey: "order",
   },
   {
     header: "Ponto Zero",
     accessorKey: "zeroPoint",
   },
   {
-    header: "Status",
-    accessorKey: "status",
-  },
-  {
-    header: "Observações",
-    accessorKey: "observations",
+    header: "Cidade",
+    accessorKey: "city",
   },
   {
     header: "Estado",
     accessorKey: "state",
   },
   {
-    header: "Cidade",
-    accessorKey: "city",
+    header: "Status",
+    accessorKey: "status",
+  },
+  {
+    header: "Atualizado por",
+    accessorKey: "updatedBy",
+  },
+  {
+    header: "Observações",
+    accessorKey: "observations",
   },
 ];

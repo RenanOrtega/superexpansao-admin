@@ -28,7 +28,7 @@ export function AbordagemCreateDialog({
     defaultValues: {
       approachType: "",
       comment: "",
-      negotiationStatus: "",
+      status: "",
       telephone: "",
       contactAddressed: false,
       lastApproachDate: undefined,
@@ -73,8 +73,8 @@ export function AbordagemCreateDialog({
             <TelephoneFormField control={form.control} name="telephone" />
             <CustomFormField
               control={form.control}
-              label="Status da negociação"
-              name="negotiationStatus"
+              label="Status"
+              name="status"
               placeholder="Status"
             />
             <CustomFormField

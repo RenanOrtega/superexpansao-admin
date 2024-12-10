@@ -156,7 +156,7 @@ export function ContatoDetails() {
               <tr>
                 <th className="border p-2 text-left">Tipo de Abordagem</th>
                 <th className="border p-2 text-left">Comentário</th>
-                <th className="border p-2 text-left">Status Negociação</th>
+                <th className="border p-2 text-left">Status</th>
                 <th className="border p-2 text-left">Telefone</th>
                 <th className="border p-2 text-center">Contatado</th>
                 <th className="border p-2 text-left">Última Abordagem</th>
@@ -172,7 +172,7 @@ export function ContatoDetails() {
                 >
                   <td className="border p-2">{abordagem.approachType}</td>
                   <td className="border p-2">{abordagem.comment}</td>
-                  <td className="border p-2">{abordagem.negotiationStatus}</td>
+                  <td className="border p-2">{abordagem.status}</td>
                   <td className="border p-2">{abordagem.telephone}</td>
                   <td className="border p-2 text-center">
                     <input

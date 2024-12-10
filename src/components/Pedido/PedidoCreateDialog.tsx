@@ -33,10 +33,10 @@ export function PedidoCreateDialog({ onCreate }: CreatePedidoDialogProps) {
       builtArea: 0,
       city: "",
       coordinator: "",
-      clientId: "",
+      client: "",
       expander: "",
       observations: "",
-      orderNumber: "",
+      order: "",
       performer: "",
       propertyType: "",
       state: "",
@@ -208,13 +208,13 @@ export function PedidoCreateDialog({ onCreate }: CreatePedidoDialogProps) {
               />
               <CustomFormField
                 control={form.control}
-                name="clientId"
+                name="client"
                 label="Cliente"
                 placeholder="Cliente"
               />
               <CustomFormField
                 control={form.control}
-                name="orderNumber"
+                name="order"
                 label="Numero do pedido"
                 placeholder="Numero do pedido"
               />

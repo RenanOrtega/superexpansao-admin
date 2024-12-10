@@ -2,13 +2,13 @@ import { z } from "zod";
 
 export interface Pedido {
   id: string;
-  clientId: string;
+  client: string;
   entryDate: Date;
   deliveryDate: Date;
   performer: string;
   coordinator: string;
   expander: string;
-  orderNumber: string;
+  order: string;
   propertyValue: string;
   zeroPoint: string;
   status: string;
@@ -35,13 +35,13 @@ export interface PedidoWithPedidoImoveis extends Pedido {
 export interface PedidoImovel {}
 
 export const pedidoSchema = z.object({
-  clientId: z.string().min(1, "Client ID é obrigatório"),
+  client: z.string().min(1, "Cliente é obrigatório"),
   entryDate: z.date({ invalid_type_error: "Data de entrada inválida" }),
   deliveryDate: z.date({ invalid_type_error: "Data de entrega inválida" }),
   performer: z.string().min(1, "responsavel é obrigatório"),
   coordinator: z.string().min(1, "Coordenador é obrigatório"),
   expander: z.string().optional(),
-  orderNumber: z.string().min(1, "Número do pedido é obrigatório"),
+  order: z.string().min(1, "Pedido é obrigatório"),
   propertyValue: z.string().min(1, "Valor do imóvel é obrigatório"),
   zeroPoint: z.string().min(1, "Ponto zero é obrigatório"),
   status: z.string().min(1, "Status é obrigatório"),
@@ -70,13 +70,13 @@ export const pedidoSchema = z.object({
 });
 
 export const pedidoUpdateSchema = z.object({
-  clientId: z.string().optional(),
+  client: z.string().optional(),
   entryDate: z.date().optional(),
   deliveryDate: z.date().optional(),
   performer: z.string().optional(),
   coordinator: z.string().optional(),
   expander: z.string().optional(),
-  orderNumber: z.string().optional(),
+  order: z.string().optional(),
   propertyValue: z.string().optional(),
   zeroPoint: z.string().optional(),
   status: z.string().optional(),
