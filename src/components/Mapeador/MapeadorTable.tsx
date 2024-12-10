@@ -112,6 +112,7 @@ export function MapeadorTable() {
         hasNextPage={data.hasNextPage}
         hasPreviousPage={data.hasPreviousPage}
         path="mapeadores"
+        showDeleteButton={true}
       />
     </>
   );

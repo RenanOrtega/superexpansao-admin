@@ -34,6 +34,7 @@ export function DynamicTable<T extends { id: string }>({
   hasNextPage,
   hasPreviousPage,
   path,
+  showDeleteButton = false,
 }: DynamicTableProps<T>) {
   const [itemToDelete, setItemToDelete] = useState<string | null>(null);
   const navigate = useNavigate();
@@ -47,7 +48,7 @@ export function DynamicTable<T extends { id: string }>({
   };
 
   const confirmDelete = () => {
-    if (itemToDelete) {
+    if (itemToDelete && onDelete) {
       onDelete(itemToDelete);
       setItemToDelete(null);
     }
@@ -110,14 +111,17 @@ export function DynamicTable<T extends { id: string }>({
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
-                {userRole === "Admin" || userRole === "Moderador" ? (
+                {showDeleteButton &&
+                (userRole === "Admin" || userRole === "Moderador") ? (
                   <TableCell>
                     <Button
                       variant="ghost"
                       size="icon"
                       onClick={(e) => {
                         e.stopPropagation();
-                        setItemToDelete(row.original.id);
+                        if (onDelete) {
+                          setItemToDelete(row.original.id);
+                        }
                       }}
                       className="text-red-400 hover:text-red-700 hover:bg-slate-200"
                     >
@@ -130,7 +134,7 @@ export function DynamicTable<T extends { id: string }>({
           </TableBody>
         </Table>
       </Container>
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 bg-white mt-1 p-3 shadow-lg">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 bg-white mt-1 p-3 shadow rounded-lg">
         <Button
           variant="outline"
           size="lg"

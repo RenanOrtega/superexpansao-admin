@@ -112,6 +112,7 @@ export function EmpresaTable() {
         hasNextPage={data.hasNextPage}
         hasPreviousPage={data.hasPreviousPage}
         path="empresas"
+        showDeleteButton={true}
       />
     </>
   );

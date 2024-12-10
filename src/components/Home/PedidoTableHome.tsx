@@ -7,14 +7,13 @@ import {
   SortingState,
   useReactTable,
 } from "@tanstack/react-table";
-import { Imovel } from "@/types/Imovel";
-import { ImovelFilterParams } from "@/types/Imovel/filters";
-import { ImovelActions } from "./ImovelActions";
-import { imovelService } from "@/services/imovelService";
-import { columns } from "./ImovelColumns";
+import { Pedido } from "@/types/Pedido";
+import { pedidoService } from "@/services/pedidoService";
+import { PedidoFilterParams } from "@/types/Pedido/filters";
+import { columns } from "./PedidoColumnsHome";
 
-export function ImovelTable() {
-  const [data, setData] = useState<PaginationResponse<Imovel>>({
+export function PedidoTableHome() {
+  const [data, setData] = useState<PaginationResponse<Pedido>>({
     items: [],
     pageNumber: 1,
     pageSize: 10,
@@ -24,7 +23,7 @@ export function ImovelTable() {
     hasPreviousPage: false,
   });
 
-  const [activeFilters, setActiveFilters] = useState<ImovelFilterParams>({
+  const [activeFilters, setActiveFilters] = useState<PedidoFilterParams>({
     pageNumber: 1,
     pageSize: 10,
   });
@@ -34,7 +33,7 @@ export function ImovelTable() {
 
   const fetchData = async () => {
     try {
-      const response = await imovelService.get(activeFilters);
+      const response = await pedidoService.get(activeFilters);
       setData(response);
       setError(null);
     } catch (error) {
@@ -49,7 +48,7 @@ export function ImovelTable() {
 
   const handleDelete = async (id: string) => {
     try {
-      await imovelService.delete(id);
+      await pedidoService.delete(id);
       setData((prevData) => {
         const updatedItems = prevData.items.filter((item) => item.id !== id);
         return {
@@ -73,7 +72,7 @@ export function ImovelTable() {
     }));
   };
 
-  const table = useReactTable<Imovel>({
+  const table = useReactTable<Pedido>({
     data: data.items,
     columns,
     state: {
@@ -92,18 +91,8 @@ export function ImovelTable() {
 
   return (
     <>
-      <div className="mb-5 flex justify-between items-center">
-        <div>
-          <h1 className="text-2xl font-bold">Imóveis</h1>
-          <p className="text-sm text-gray-600">Gerenciamento do Imóvel.</p>
-        </div>
-      </div>
-      <ImovelActions
-        activeFilters={activeFilters}
-        onApplyFilters={setActiveFilters}
-      />
       {error && <div className="text-red-500">{error}</div>}
-      <DynamicTable<Imovel>
+      <DynamicTable<Pedido>
         table={table}
         onDelete={handleDelete}
         onPageChange={handlePageChange}
@@ -111,8 +100,7 @@ export function ImovelTable() {
         pageNumber={data.pageNumber}
         hasNextPage={data.hasNextPage}
         hasPreviousPage={data.hasPreviousPage}
-        path="imoveis"
-        showDeleteButton={true}
+        path="pedidos"
       />
     </>
   );

@@ -1,4 +1,5 @@
 import Container from "@/components/Container";
+import { PedidoTableHome } from "@/components/Home/PedidoTableHome";
 import { PendingApproachesCard } from "@/components/Home/PendingApproachesCard";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -13,7 +14,12 @@ const HomePage = () => {
         </h1>
       </Container>
       <div className="flex gap-3 mt-5">
-        <PendingApproachesCard />
+        <div className="flex-2">
+          <PendingApproachesCard />
+        </div>
+        <div className="flex-1">
+          <PedidoTableHome />
+        </div>
       </div>
     </div>
   );

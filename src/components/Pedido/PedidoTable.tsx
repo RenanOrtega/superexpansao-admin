@@ -112,6 +112,7 @@ export function PedidoTable() {
         hasNextPage={data.hasNextPage}
         hasPreviousPage={data.hasPreviousPage}
         path="pedidos"
+        showDeleteButton={true}
       />
     </>
   );

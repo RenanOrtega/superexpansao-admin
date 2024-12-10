@@ -114,6 +114,7 @@ export function ProprietarioTable() {
         hasNextPage={data.hasNextPage}
         hasPreviousPage={data.hasPreviousPage}
         path="proprietarios"
+        showDeleteButton={true}
       />
     </>
   );
