@@ -8,6 +8,7 @@ const endpoints = {
   pedido: "/pedido",
   empresa: "/empresa",
   contato: "/contato",
+  abordagem: "/abordagem",
   user: "/user",
 };
 

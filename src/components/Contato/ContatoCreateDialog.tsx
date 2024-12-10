@@ -3,7 +3,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { Plus, Save } from "lucide-react";
 import { Form } from "../ui/form";
 import { DialogForm } from "../DialogForm";
 import { useState } from "react";
@@ -15,6 +15,7 @@ import {
 import { DialogFooter } from "../ui/dialog";
 import { CustomFormField } from "../CustomFormField";
 import TelephoneFormField from "../TelephoneFormField";
+import { LoadingButton } from "../LoadingButton";
 
 export function ContatoCreateDialog({
   onCreate,
@@ -30,6 +31,7 @@ export function ContatoCreateDialog({
     },
   });
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isButtonLoading, setIsButtonLoading] = useState(false);
   const handleDialogChange = (open: boolean) => {
     setIsDialogOpen(open);
     if (!open) {
@@ -39,8 +41,10 @@ export function ContatoCreateDialog({
 
   const onSubmit = async (data: ContatoFormData) => {
     try {
+      setIsButtonLoading(true);
       await onCreate(data, empresaId);
       form.reset();
+      setIsButtonLoading(false);
       setIsDialogOpen(false);
     } catch (error) {
       console.error(error);
@@ -92,7 +96,9 @@ export function ContatoCreateDialog({
           />
           <TelephoneFormField control={form.control} name="telephone" />
           <DialogFooter>
-            <Button type="submit">Enviar</Button>
+            <LoadingButton isLoading={isButtonLoading}>
+              <Save className="mr-2 h-4 w-4" /> Criar
+            </LoadingButton>
           </DialogFooter>
         </form>
       </Form>

@@ -3,7 +3,7 @@ import { contatoSchema } from "@/types/Contato";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "../ui/button";
-import { ArrowLeft, Plus, Save } from "lucide-react";
+import { ArrowLeft, Save } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,7 +13,9 @@ import Container from "../Container";
 import LoadingPage from "../LoadingPage";
 import { CustomFormField } from "../CustomFormField";
 import TelephoneFormField from "../TelephoneFormField";
-import { Abordagem } from "@/types/Abordagem";
+import { Abordagem, AbordagemFormData } from "@/types/Abordagem";
+import { AbordagemCreateDialog } from "../Abordagem/AbordagemCreateDialog";
+import { abordagemService } from "@/services/abordagemService";
 
 export function ContatoDetails() {
   const { id } = useParams();
@@ -21,6 +23,7 @@ export function ContatoDetails() {
   const [isButtonLoading, setIsButtonLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [abordagens, setAbordagens] = useState<Abordagem[]>([]);
+  const [contatoId, setContatoId] = useState<string>("");
 
   const form = useForm<z.infer<typeof contatoSchema>>({
     resolver: zodResolver(contatoSchema),
@@ -43,6 +46,7 @@ export function ContatoDetails() {
           position: response.position,
           telephone: response.telephone,
         });
+        setContatoId(response.id);
         setAbordagens(response.abordagens);
         setIsLoading(false);
       } catch (error) {
@@ -63,6 +67,18 @@ export function ContatoDetails() {
       setIsButtonLoading(false);
     } catch (error) {
       console.error("Erro ao salvar contato:", error);
+    }
+  };
+
+  const handleAddAbordagem = async (
+    data: AbordagemFormData,
+    contatoId: string
+  ) => {
+    try {
+      var abordagemCreated = await abordagemService.create(data, contatoId);
+      setAbordagens((prevAbordagem) => [...prevAbordagem, abordagemCreated]);
+    } catch (error) {
+      console.log("DEU ERRO:" + error);
     }
   };
 
@@ -127,33 +143,70 @@ export function ContatoDetails() {
         </Container>
 
         <Container className="mt-5">
-          <div className="flex justify-between items-center">
-            <h2 className="text-2xl font-bold">Abordagem</h2>
-            {/* <ContatoCreateDialog
-              onCreate={handleAddContato}
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-2xl font-bold">Abordagens</h2>
+            <AbordagemCreateDialog
+              onCreate={handleAddAbordagem}
               contatoId={contatoId}
-            /> */}
+            />
           </div>
+
+          <table className="w-full border-collapse">
+            <thead className="bg-gray-100">
+              <tr>
+                <th className="border p-2 text-left">Tipo de Abordagem</th>
+                <th className="border p-2 text-left">Comentário</th>
+                <th className="border p-2 text-left">Status Negociação</th>
+                <th className="border p-2 text-left">Telefone</th>
+                <th className="border p-2 text-center">Contatado</th>
+                <th className="border p-2 text-left">Última Abordagem</th>
+                <th className="border p-2 text-left">Próxima Abordagem</th>
+              </tr>
+            </thead>
+            <tbody>
+              {abordagens.map((abordagem) => (
+                <tr
+                  key={abordagem.id}
+                  className="hover:bg-gray-50 cursor-pointer"
+                  onClick={() => console.log(abordagem.id)}
+                >
+                  <td className="border p-2">{abordagem.approachType}</td>
+                  <td className="border p-2">{abordagem.comment}</td>
+                  <td className="border p-2">{abordagem.negotiationStatus}</td>
+                  <td className="border p-2">{abordagem.telephone}</td>
+                  <td className="border p-2 text-center">
+                    <input
+                      type="checkbox"
+                      checked={abordagem.contactAddressed}
+                      readOnly
+                      className="form-checkbox"
+                    />
+                  </td>
+                  <td className="border p-2">
+                    {abordagem.lastApproachDate
+                      ? new Date(abordagem.lastApproachDate).toLocaleDateString(
+                          "pt-BR"
+                        )
+                      : "-"}
+                  </td>
+                  <td className="border p-2">
+                    {abordagem.nextApproachDate
+                      ? new Date(abordagem.nextApproachDate).toLocaleDateString(
+                          "pt-BR"
+                        )
+                      : "-"}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          {abordagens.length === 0 && (
+            <div className="text-center text-gray-500 mt-4">
+              Nenhuma abordagem cadastrada
+            </div>
+          )}
         </Container>
-        <div className="grid grid-cols-1 gap-2 mt-5">
-          {abordagens.map((abordagem) => {
-            return (
-              <div
-                onClick={() => {
-                  console.log(abordagem.id);
-                }}
-              >
-                <Container className="cursor-pointer hover:border-blue-700 hover:border-x-8">
-                  <div className="grid grid-cols-4 gap-4 items-center">
-                    <div className="font-semibold truncate">
-                      {abordagem.lastApproachDate.toString()}
-                    </div>
-                  </div>
-                </Container>
-              </div>
-            );
-          })}
-        </div>
       </div>
     </LoadingPage>
   );

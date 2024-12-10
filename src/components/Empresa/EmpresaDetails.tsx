@@ -3,7 +3,7 @@ import { empresaSchema } from "@/types/Empresa";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "../ui/button";
-import { ArrowLeft, Plus, Save } from "lucide-react";
+import { ArrowLeft, Save } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -74,7 +74,8 @@ export function EmpresaDetails() {
 
   const handleAddContato = async (data: ContatoFormData, empresaId: string) => {
     try {
-      await contatoService.create(data, empresaId);
+      var contatoCreated = await contatoService.create(data, empresaId);
+      setContatos((prevContatos) => [...prevContatos, contatoCreated]);
     } catch (error) {
       console.log("DEU ERRO:" + error);
     }
@@ -175,6 +176,11 @@ export function EmpresaDetails() {
             );
           })}
         </div>
+        {contatos.length === 0 && (
+          <div className="text-center text-gray-500 mt-4">
+            Nenhum contato cadastrado
+          </div>
+        )}
       </div>
     </LoadingPage>
   );
