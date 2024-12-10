@@ -9,10 +9,13 @@ import {
   ChevronsRight,
   Building,
   UserRoundPen,
+  Sun,
+  Moon,
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
+import { useTheme } from "@/contexts/ThemeContext";
 
 const menuItems = [
   {
@@ -54,9 +57,9 @@ const menuItems = [
 
 const Sidebar = () => {
   const { user, logout } = useAuth();
-
   const [expanded, setExpanded] = useState(true);
   const location = useLocation();
+  const { isDarkMode, toggleTheme } = useTheme();
 
   const isActive = (path: string) => {
     if (path === "/") {
@@ -68,11 +71,13 @@ const Sidebar = () => {
   return (
     <aside
       className={`
-        bg-white border-r h-screen flex flex-col transition-all duration-300 
+        bg-white dark:bg-zinc-900 
+        h-screen flex flex-col transition-all duration-300 
+        text-zinc-800 dark:text-zinc-200
       `}
     >
       <div
-        className={`p-5 border-b flex ${
+        className={`p-5 border-b border-gray-200 dark:border-zinc-800 flex ${
           expanded ? "justify-between" : "justify-center"
         } items-center`}
       >
@@ -84,7 +89,7 @@ const Sidebar = () => {
           SuperExpansão
         </span>
         <button
-          className="text-gray-600 hover:text-orange-800"
+          className="text-gray-600 dark:text-gray-300 hover:text-orange-800 dark:hover:text-orange-200"
           onClick={() => setExpanded((curr) => !curr)}
         >
           {expanded ? <ChevronsLeft size={20} /> : <ChevronsRight size={20} />}
@@ -101,11 +106,11 @@ const Sidebar = () => {
               <Link to={item.path} key={item.path}>
                 <li
                   className={`flex items-center justify-center p-2 m-2 font-medium rounded-md cursor-pointer group
-                ${
-                  isActive(item.path)
-                    ? "bg-gradient-to-tr from-orange-200 to-orange-100 text-orange-800"
-                    : "hover:bg-indigo-50 text-gray-600"
-                }`}
+                  ${
+                    isActive(item.path)
+                      ? "bg-gradient-to-tr from-orange-200 to-orange-100 text-orange-800 dark:from-orange-800 dark:to-orange-700 dark:text-orange-100"
+                      : "hover:bg-indigo-50 dark:hover:bg-zinc-700 text-zinc-600 dark:text-zinc-300"
+                  }`}
                 >
                   <item.icon size={20} />
                   <span
@@ -121,28 +126,46 @@ const Sidebar = () => {
         </ul>
       </nav>
 
-      <div className={`p-4 border-t ${expanded ? "" : "flex justify-center"}`}>
+      <div
+        className={`p-4 border-t border-gray-200 dark:border-zinc-800 ${
+          expanded ? "" : "flex justify-center"
+        }`}
+      >
         {expanded ? (
           <div className="flex justify-between items-center">
-            <div>
-              <p className="text-sm font-medium">
+            <div className="flex items-center">
+              <p className="text-sm font-medium mr-2">
                 {user?.email || "usuario@email.com"}
               </p>
             </div>
             <button
+              onClick={toggleTheme}
+              className="text-gray-500 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-300 transition-colors"
+            >
+              {isDarkMode ? <Sun size={16} /> : <Moon size={16} />}
+            </button>
+            <button
               onClick={logout}
-              className="text-gray-500 hover:text-red-500 transition-colors"
+              className="text-gray-500 dark:text-gray-300 hover:text-red-500 dark:hover:text-red-400 transition-colors"
             >
               <LogOut size={20} />
             </button>
           </div>
         ) : (
-          <button
-            onClick={logout}
-            className="text-gray-500 hover:text-red-500 transition-colors"
-          >
-            <LogOut size={20} />
-          </button>
+          <div className="flex flex-col items-center">
+            <button
+              onClick={logout}
+              className="text-gray-500 dark:text-gray-300 hover:text-red-500 dark:hover:text-red-400 transition-colors mb-2"
+            >
+              <LogOut size={20} />
+            </button>
+            <button
+              onClick={toggleTheme}
+              className="text-gray-500 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-300 transition-colors"
+            >
+              {isDarkMode ? <Sun size={16} /> : <Moon size={16} />}
+            </button>
+          </div>
         )}
       </div>
     </aside>

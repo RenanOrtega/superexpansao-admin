@@ -104,7 +104,7 @@ export function DynamicTable<T extends { id: string }>({
               <TableRow
                 key={row.id}
                 onClick={() => navigate(`/${path}/${row.original.id}`)}
-                className="cursor-pointer hover:bg-gray-200"
+                className="cursor-pointer hover:bg-gray-200 dark:hover:bg-zinc-800"
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
@@ -123,7 +123,7 @@ export function DynamicTable<T extends { id: string }>({
                           setItemToDelete(row.original.id);
                         }
                       }}
-                      className="text-red-400 hover:text-red-700 hover:bg-slate-200"
+                      className="text-red-400 hover:text-red-700 hover:bg-slate-200 dark:hover:bg-zinc-800"
                     >
                       <Trash2 />
                     </Button>
@@ -134,7 +134,7 @@ export function DynamicTable<T extends { id: string }>({
           </TableBody>
         </Table>
       </Container>
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 bg-white mt-1 p-3 shadow rounded-lg">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 bg-white dark:bg-zinc-900 mt-1 p-3 shadow rounded-lg">
         <Button
           variant="outline"
           size="lg"

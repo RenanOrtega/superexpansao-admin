@@ -140,7 +140,7 @@ export function ContatoDetails() {
                 <LoadingButton
                   type="submit"
                   variant="default"
-                  className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700"
+                  className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 dark:bg-purple-500 dark:hover:bg-purple-700 dark:text-white"
                   isLoading={isButtonLoading}
                 >
                   <Save size={16} /> Salvar
@@ -174,7 +174,7 @@ export function ContatoDetails() {
               {abordagens.map((abordagem) => (
                 <TableRow
                   key={abordagem.id}
-                  className="hover:bg-gray-50 cursor-pointer"
+                  className="hover:bg-gray-50 dark:hover:bg-zinc-700 cursor-pointer"
                   onClick={() => console.log(abordagem.id)}
                 >
                   <TableCell>{abordagem.approachType}</TableCell>

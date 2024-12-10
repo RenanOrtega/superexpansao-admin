@@ -26,8 +26,8 @@ export const columns: ColumnDef<Mapeador>[] = [
       const vehicle: string = row.getValue("vehicle");
 
       const vehicleStyles: { [key: string]: string } = {
-        Moto: "bg-red-500 text-white",
-        Carro: "bg-blue-500 text-white",
+        Moto: "bg-red-500 text-white dark:text-zinc-900",
+        Carro: "bg-blue-500 text-white dark:text-zinc-900",
       };
 
       const backgroundColor = vehicleStyles[vehicle] || "bg-gray-200";

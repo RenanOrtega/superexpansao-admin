@@ -81,10 +81,10 @@ export function ProprietarioDetails() {
   };
   const handleAvailabilityTagColor = (key: string) => {
     const availabilityStyles: { [key: string]: string } = {
-      Disponivel: "bg-green-500 text-white",
-      Alugado: "bg-blue-500 text-white",
-      Indisponivel: "bg-red-500 text-white",
-      Motivo: "bg-purple-500 text-white",
+      Disponivel: "bg-green-500 text-white dark:text-zinc-900",
+      Alugado: "bg-blue-500 text-white dark:text-zinc-900",
+      Indisponivel: "bg-red-500 text-white dark:text-zinc-900",
+      Motivo: "bg-purple-500 text-white dark:text-zinc-900",
     };
 
     return availabilityStyles[key] || "bg-gray-200";
@@ -173,7 +173,7 @@ export function ProprietarioDetails() {
                 <LoadingButton
                   type="submit"
                   variant="default"
-                  className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700"
+                  className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 dark:bg-purple-500 dark:hover:bg-purple-700 dark:text-white"
                   isLoading={isButtonLoading}
                 >
                   <Save size={16} /> Salvar

@@ -24,7 +24,7 @@ export function CustomFormField<T extends FieldValues>({
   label,
   placeholder,
   type = "text",
-  className = "w-full",
+  className = "w-full ",
   onChange,
 }: CustomFormField<T>) {
   return (
@@ -36,6 +36,7 @@ export function CustomFormField<T extends FieldValues>({
           <FormLabel>{label}</FormLabel>
           <FormControl>
             <Input
+              className="dark:bg-zinc-950"
               type={type}
               placeholder={placeholder}
               {...field}

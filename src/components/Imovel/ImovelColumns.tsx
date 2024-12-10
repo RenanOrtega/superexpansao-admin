@@ -62,10 +62,10 @@ export const columns: ColumnDef<Imovel>[] = [
       const availability: string = row.getValue("availability");
 
       const availabilityStyles: { [key: string]: string } = {
-        Disponivel: "bg-green-500 text-white",
-        Alugado: "bg-blue-500 text-white",
-        Indisponivel: "bg-red-500 text-white",
-        Motivo: "bg-purple-500 text-white",
+        Disponivel: "bg-green-500 text-white dark:text-zinc-900",
+        Alugado: "bg-blue-500 text-white dark:text-zinc-900",
+        Indisponivel: "bg-red-500 text-white dark:text-zinc-900",
+        Motivo: "bg-purple-500 text-white dark:text-zinc-900",
       };
 
       const backgroundColor = availabilityStyles[availability] || "bg-gray-200";

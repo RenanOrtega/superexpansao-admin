@@ -27,6 +27,7 @@ export default function TelephoneFormField<T extends FieldValues>({
           <FormLabel>Telefone</FormLabel>
           <FormControl>
             <InputMask
+              className="dark:bg-zinc-950"
               mask="(99) 99999-9999"
               maskChar="_"
               placeholder="(00) 00000-0000"

@@ -50,7 +50,7 @@ export default function SelectFormField<T extends FieldValues>({
                 displayLabels[values.indexOf(field.value)]?.toString() || ""
               }
             >
-              <SelectTrigger>
+              <SelectTrigger className="dark:bg-zinc-950">
                 <SelectValue placeholder={placeholder} />
               </SelectTrigger>
               <SelectContent>

@@ -16,6 +16,14 @@ import TelephoneFormField from "../TelephoneFormField";
 import { ContatoCreateDialog } from "../Contato/ContatoCreateDialog";
 import { Contato, ContatoFormData } from "@/types/Contato";
 import { contatoService } from "@/services/contatoService";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../ui/table";
 
 export function EmpresaDetails() {
   const { id } = useParams();
@@ -137,7 +145,7 @@ export function EmpresaDetails() {
                 <LoadingButton
                   type="submit"
                   variant="default"
-                  className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700"
+                  className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 dark:bg-purple-500 dark:hover:bg-purple-700 dark:text-white"
                   isLoading={isButtonLoading}
                 >
                   <Save size={16} /> Salvar
@@ -148,34 +156,38 @@ export function EmpresaDetails() {
         </Container>
 
         <Container className="mt-5">
-          <div className="flex justify-between items-center">
+          <div className="flex gap-2 flex-col md:flex-row md:justify-between items-center mb-4">
             <h2 className="text-2xl font-bold">Contatos</h2>
             <ContatoCreateDialog
               onCreate={handleAddContato}
               empresaId={empresaId}
             />
           </div>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Nome</TableHead>
+                <TableHead>Cargo</TableHead>
+                <TableHead>Email</TableHead>
+                <TableHead>Telefone</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {contatos.map((contato) => (
+                <TableRow
+                  key={contato.id}
+                  className="hover:bg-gray-50 dark:hover:bg-zinc-700 cursor-pointer"
+                  onClick={() => navigate(`/contatos/${contato.id}`)}
+                >
+                  <TableCell>{contato.name}</TableCell>
+                  <TableCell>{contato.position}</TableCell>
+                  <TableCell>{contato.email}</TableCell>
+                  <TableCell>{contato.telephone}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         </Container>
-        <div className="grid grid-cols-1 gap-2 mt-5">
-          {contatos.map((contato) => {
-            return (
-              <div
-                onClick={() => {
-                  navigate(`/contatos/${contato.id}`);
-                }}
-              >
-                <Container className="cursor-pointer hover:border-blue-700 hover:border-x-8">
-                  <div className="grid grid-cols-4 gap-4 items-center">
-                    <div className="font-semibold truncate">{contato.name}</div>
-                    <div className="truncate">{contato.position}</div>
-                    <div className="truncate">{contato.email}</div>
-                    <div className="truncate">{contato.telephone}</div>
-                  </div>
-                </Container>
-              </div>
-            );
-          })}
-        </div>
         {contatos.length === 0 && (
           <div className="text-center text-gray-500 mt-4">
             Nenhum contato cadastrado

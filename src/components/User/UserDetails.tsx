@@ -113,7 +113,7 @@ export function UserDetails() {
                 <LoadingButton
                   type="submit"
                   variant="default"
-                  className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700"
+                  className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 dark:bg-purple-500 dark:hover:bg-purple-700 dark:text-white"
                   isLoading={isButtonLoading}
                 >
                   <Save size={16} /> Salvar

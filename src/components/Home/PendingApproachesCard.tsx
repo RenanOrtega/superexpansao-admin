@@ -28,7 +28,7 @@ export const PendingApproachesCard: React.FC = () => {
 
   if (isLoading) {
     return (
-      <Card className="w-full">
+      <Card className="w-full dark:bg-zinc-900">
         <CardHeader>
           <CardTitle>Abordagens Pendentes</CardTitle>
         </CardHeader>
@@ -40,7 +40,7 @@ export const PendingApproachesCard: React.FC = () => {
   }
 
   return (
-    <Card className="w-full">
+    <Card className="w-full dark:bg-zinc-900">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium">
           Abordagens Pendentes
@@ -57,7 +57,7 @@ export const PendingApproachesCard: React.FC = () => {
             {pendingApproaches.map((approach) => (
               <div
                 key={approach.id}
-                className="flex items-center justify-between bg-muted/50 p-3 rounded-lg"
+                className="flex items-center justify-between bg-muted/50 p-3 rounded-lg dark:bg-zinc-800"
               >
                 <div className="flex items-center space-x-3">
                   <Clock className="h-4 w-4 text-orange-500" />

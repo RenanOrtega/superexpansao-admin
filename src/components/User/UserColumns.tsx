@@ -22,9 +22,9 @@ export const columns: ColumnDef<User>[] = [
       const role: string = row.getValue("role");
 
       const roleStyles: { [key: string]: string } = {
-        Admin: "bg-red-500 text-white",
-        Moderador: "bg-blue-500 text-white",
-        Padrão: "bg-teal-500 text-white",
+        Admin: "bg-red-500 text-white dark:text-zinc-900",
+        Moderador: "bg-blue-500 text-white dark:text-zinc-900",
+        Padrão: "bg-teal-500 text-white dark:text-zinc-900",
       };
 
       const backgroundColor = roleStyles[role] || "bg-gray-200";
