@@ -25,8 +25,10 @@ import { format } from "date-fns";
 import { Calendar } from "../ui/calendar";
 import { ptBR } from "date-fns/locale";
 import SelectFormField from "../SelectFormField";
+import { useToast } from "@/hooks/use-toast";
 
 export function PedidoCreateDialog({ onCreate }: CreatePedidoDialogProps) {
+  const { toast } = useToast();
   const form = useForm<PedidoFormData>({
     resolver: zodResolver(pedidoSchema),
     defaultValues: {
@@ -74,10 +76,17 @@ export function PedidoCreateDialog({ onCreate }: CreatePedidoDialogProps) {
   const onSubmit = async (data: PedidoFormData) => {
     try {
       await onCreate({ ...data });
+      toast({
+        title: "Pedido criado com sucesso.",
+        className: "bg-green-400 dark:text-zinc-900",
+      });
       form.reset();
       setIsDialogOpen(false);
     } catch (error) {
-      console.error(error);
+      toast({
+        variant: "destructive",
+        title: "Algo deu errado.",
+      });
     }
   };
 

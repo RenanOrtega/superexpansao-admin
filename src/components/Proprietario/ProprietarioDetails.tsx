@@ -16,8 +16,10 @@ import CustomTag from "../CustomTag";
 import { LoadingButton } from "../LoadingButton";
 import Container from "../Container";
 import LoadingPage from "../LoadingPage";
+import { useToast } from "@/hooks/use-toast";
 
 export function ProprietarioDetails() {
+  const { toast } = useToast();
   const { id } = useParams();
   const navigate = useNavigate();
   const [isButtonLoading, setIsButtonLoading] = useState(false);
@@ -71,12 +73,19 @@ export function ProprietarioDetails() {
   }, [id, navigate, form]);
 
   const onSubmit = async (data: z.infer<typeof proprietarioSchema>) => {
-    setIsButtonLoading(true);
     try {
+      setIsButtonLoading(true);
       await proprietarioService.update(id!, { ...data, id });
+      toast({
+        title: "Proprietario atualizado com sucesso.",
+        className: "bg-green-400 dark:text-zinc-900",
+      });
       setIsButtonLoading(false);
     } catch (error) {
-      console.error("Erro ao salvar proprietário:", error);
+      toast({
+        variant: "destructive",
+        title: "Algo deu errado.",
+      });
     }
   };
   const handleAvailabilityTagColor = (key: string) => {

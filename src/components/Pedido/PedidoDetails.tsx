@@ -14,8 +14,10 @@ import { DateFormField } from "../DateFormFields";
 import SelectFormField from "../SelectFormField";
 import LoadingPage from "../LoadingPage";
 import { LoadingButton } from "../LoadingButton";
+import { useToast } from "@/hooks/use-toast";
 
 export function PedidoDetails() {
+  const { toast } = useToast();
   const { id } = useParams();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -108,9 +110,16 @@ export function PedidoDetails() {
     try {
       setIsButtonLoading(true);
       await pedidoService.update(id!, { ...data, id });
+      toast({
+        title: "Pedido criado com sucesso.",
+        className: "bg-green-400 dark:text-zinc-900",
+      });
       setIsButtonLoading(false);
     } catch (error) {
-      console.error("Erro ao salvar pedido:", error);
+      toast({
+        variant: "destructive",
+        title: "Algo deu errado.",
+      });
     }
   };
 

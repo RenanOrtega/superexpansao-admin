@@ -24,8 +24,10 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
+import { useToast } from "@/hooks/use-toast";
 
 export function ContatoDetails() {
+  const { toast } = useToast();
   const { id } = useParams();
   const navigate = useNavigate();
   const [isButtonLoading, setIsButtonLoading] = useState(false);
@@ -84,9 +86,16 @@ export function ContatoDetails() {
   ) => {
     try {
       var abordagemCreated = await abordagemService.create(data, contatoId);
+      toast({
+        title: "Abordagem criada com sucesso.",
+        className: "bg-green-400 dark:text-zinc-900",
+      });
       setAbordagens((prevAbordagem) => [...prevAbordagem, abordagemCreated]);
     } catch (error) {
-      console.log("DEU ERRO:" + error);
+      toast({
+        variant: "destructive",
+        title: "Algo deu errado.",
+      });
     }
   };
 
@@ -108,8 +117,11 @@ export function ContatoDetails() {
                 (data) => {
                   onSubmit(data);
                 },
-                (errors) => {
-                  console.error("Erros de validação:", errors);
+                (_errors) => {
+                  toast({
+                    variant: "destructive",
+                    title: "Algo deu errado.",
+                  });
                 }
               )}
               className="space-y-4"

@@ -34,9 +34,7 @@ export function EmpresaCreateDialog({ onCreate }: CreateEmpresaDialogProps) {
       await onCreate(data);
       form.reset();
       setIsDialogOpen(false);
-    } catch (error) {
-      console.error(error);
-    }
+    } catch (error) {}
   };
 
   return (

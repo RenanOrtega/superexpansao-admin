@@ -24,8 +24,10 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
+import { useToast } from "@/hooks/use-toast";
 
 export function EmpresaDetails() {
+  const { toast } = useToast();
   const { id } = useParams();
   const navigate = useNavigate();
   const [isButtonLoading, setIsButtonLoading] = useState(false);
@@ -74,18 +76,32 @@ export function EmpresaDetails() {
     setIsButtonLoading(true);
     try {
       await empresaService.update(id!, { ...data, id });
+      toast({
+        title: "Empresa atualizada com sucesso.",
+        className: "bg-green-400 dark:text-zinc-900",
+      });
       setIsButtonLoading(false);
     } catch (error) {
-      console.error("Erro ao salvar empresa:", error);
+      toast({
+        variant: "destructive",
+        title: "Algo deu errado.",
+      });
     }
   };
 
   const handleAddContato = async (data: ContatoFormData, empresaId: string) => {
     try {
       var contatoCreated = await contatoService.create(data, empresaId);
+      toast({
+        title: "Contato criado com sucesso.",
+        className: "bg-green-400 dark:text-zinc-900",
+      });
       setContatos((prevContatos) => [...prevContatos, contatoCreated]);
     } catch (error) {
-      console.log("DEU ERRO:" + error);
+      toast({
+        variant: "destructive",
+        title: "Algo deu errado.",
+      });
     }
   };
 

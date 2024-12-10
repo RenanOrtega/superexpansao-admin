@@ -13,8 +13,10 @@ import SelectFormField from "../SelectFormField";
 import { LoadingButton } from "../LoadingButton";
 import Container from "../Container";
 import LoadingPage from "../LoadingPage";
+import { useToast } from "@/hooks/use-toast";
 
 export function UserDetails() {
+  const { toast } = useToast();
   const { id } = useParams();
   const navigate = useNavigate();
   useState(false);
@@ -55,12 +57,19 @@ export function UserDetails() {
   }, [id, navigate, form]);
 
   const onSubmit = async (data: z.infer<typeof userUpdateSchema>) => {
-    setIsButtonLoading(true);
     try {
+      setIsButtonLoading(true);
       await userService.update(id!, { ...data, id });
+      toast({
+        title: "Colaborador atualizado com sucesso.",
+        className: "bg-green-400 dark:text-zinc-900",
+      });
       setIsButtonLoading(false);
     } catch (error) {
-      console.error("Erro ao salvar colaborador:", error);
+      toast({
+        variant: "destructive",
+        title: "Algo deu errado.",
+      });
     }
   };
 

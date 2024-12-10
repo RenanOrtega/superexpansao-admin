@@ -14,8 +14,10 @@ import SelectFormField from "../SelectFormField";
 import Container from "../Container";
 import LoadingPage from "../LoadingPage";
 import { LoadingButton } from "../LoadingButton";
+import { useToast } from "@/hooks/use-toast";
 
 export function ImovelDetails() {
+  const { toast } = useToast();
   const { id } = useParams();
   const navigate = useNavigate();
   const [imovel, setImovel] = useState<ImovelWithProprietario | null>(null);
@@ -85,9 +87,16 @@ export function ImovelDetails() {
     try {
       setIsButtonLoading(true);
       await imovelService.update(id!, { ...data, id });
+      toast({
+        title: "Imove atualizado com sucesso.",
+        className: "bg-green-400 dark:text-zinc-900",
+      });
       setIsButtonLoading(false);
     } catch (error) {
-      console.error("Erro ao salvar imovel:", error);
+      toast({
+        variant: "destructive",
+        title: "Algo deu errado.",
+      });
     }
   };
 

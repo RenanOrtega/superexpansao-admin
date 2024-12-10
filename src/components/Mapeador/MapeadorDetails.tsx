@@ -15,8 +15,10 @@ import Container from "../Container";
 import { DateFormField } from "../DateFormFields";
 import LoadingPage from "../LoadingPage";
 import { LoadingButton } from "../LoadingButton";
+import { useToast } from "@/hooks/use-toast";
 
 export function MapeadorDetails() {
+  const { toast } = useToast();
   const { id } = useParams();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -53,7 +55,10 @@ export function MapeadorDetails() {
         });
         setIsLoading(false);
       } catch (error) {
-        console.error("Erro ao buscar mapeador:", error);
+        toast({
+          variant: "destructive",
+          title: "Algo deu errado.",
+        });
         navigate("/mapeadores");
       }
     };
@@ -67,9 +72,16 @@ export function MapeadorDetails() {
     try {
       setIsButtonLoading(true);
       await mapeadorService.update(id!, { ...data, id });
+      toast({
+        title: "Mapeador atualizado com sucesso.",
+        className: "bg-green-400 dark:text-zinc-900",
+      });
       setIsButtonLoading(false);
     } catch (error) {
-      console.error("Erro ao salvar mapeador:", error);
+      toast({
+        variant: "destructive",
+        title: "Algo deu errado.",
+      });
     }
   };
 

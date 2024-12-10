@@ -17,8 +17,11 @@ import { DialogFooter } from "../ui/dialog";
 import TelephoneFormField from "../TelephoneFormField";
 import SelectFormField from "../SelectFormField";
 import { DateFormField } from "../DateFormFields";
+import { useToast } from "@/hooks/use-toast";
 
 export function MapeadorCreateDialog({ onCreate }: CreateMapeadorDialogProps) {
+  const { toast } = useToast();
+
   const form = useForm<MapeadorFormData>({
     resolver: zodResolver(mapeadorSchema),
     defaultValues: {
@@ -36,10 +39,17 @@ export function MapeadorCreateDialog({ onCreate }: CreateMapeadorDialogProps) {
   const onSubmit = async (data: MapeadorFormData) => {
     try {
       await onCreate(data);
+      toast({
+        title: "Mapeador criado com sucesso.",
+        className: "bg-green-400 dark:text-zinc-900",
+      });
       form.reset();
       setIsDialogOpen(false);
     } catch (error) {
-      console.error(error);
+      toast({
+        variant: "destructive",
+        title: "Algo deu errado.",
+      });
     }
   };
 

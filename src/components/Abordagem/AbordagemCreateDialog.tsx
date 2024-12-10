@@ -18,11 +18,13 @@ import TelephoneFormField from "../TelephoneFormField";
 import SelectFormField from "../SelectFormField";
 import { DateFormField } from "../DateFormFields";
 import { LoadingButton } from "../LoadingButton";
+import { useToast } from "@/hooks/use-toast";
 
 export function AbordagemCreateDialog({
   onCreate,
   contatoId,
 }: CreateAbordagemDialogProps) {
+  const { toast } = useToast();
   const form = useForm<AbordagemFormData>({
     resolver: zodResolver(abordagemSchema),
     defaultValues: {
@@ -52,7 +54,11 @@ export function AbordagemCreateDialog({
       setIsLoading(false);
       setIsDialogOpen(false);
     } catch (error) {
-      console.error(error);
+      toast({
+        variant: "destructive",
+        title: "Algo deu errado.",
+        description: `${error}`,
+      });
     }
   };
 

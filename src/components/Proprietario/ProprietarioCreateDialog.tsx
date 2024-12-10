@@ -15,10 +15,12 @@ import {
 import { CustomFormField } from "../CustomFormField";
 import { DialogFooter } from "../ui/dialog";
 import TelephoneFormField from "../TelephoneFormField";
+import { useToast } from "@/hooks/use-toast";
 
 export function ProprietarioCreateDialog({
   onCreate,
 }: CreateProprietarioDialogProps) {
+  const { toast } = useToast();
   const form = useForm<ProprietarioFormData>({
     resolver: zodResolver(proprietarioSchema),
     defaultValues: {
@@ -44,10 +46,17 @@ export function ProprietarioCreateDialog({
   const onSubmit = async (data: ProprietarioFormData) => {
     try {
       await onCreate(data);
+      toast({
+        title: "Proprietario criado com sucesso.",
+        className: "bg-green-400 dark:text-zinc-900",
+      });
       form.reset();
       setIsDialogOpen(false);
     } catch (error) {
-      console.error(error);
+      toast({
+        variant: "destructive",
+        title: "Algo deu errado.",
+      });
     }
   };
 

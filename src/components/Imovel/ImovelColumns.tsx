@@ -37,7 +37,7 @@ export const columns: ColumnDef<Imovel>[] = [
     accessorKey: "link",
     cell: ({ row }) => {
       const link: string = row.getValue("link");
-      console.log(link);
+
       if (link) {
         return (
           <a

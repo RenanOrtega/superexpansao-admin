@@ -19,10 +19,12 @@ import { useState } from "react";
 import { DialogFooter } from "../ui/dialog";
 import { Input } from "../ui/input";
 import SelectFormField from "../SelectFormField";
+import { useToast } from "@/hooks/use-toast";
 
 type UserFormData = z.infer<typeof userSchema>;
 
 export default function UserCreateDialog({ onCreate }: CreateUserDialogProps) {
+  const { toast } = useToast();
   const [showPassword, setShowPassword] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -38,12 +40,18 @@ export default function UserCreateDialog({ onCreate }: CreateUserDialogProps) {
 
   const onSubmit = async (data: UserFormData) => {
     try {
-      console.log(data);
       await onCreate(data);
+      toast({
+        title: "Colaborador criado com sucesso.",
+        className: "bg-green-400 dark:text-zinc-900",
+      });
       form.reset();
       setIsDialogOpen(false);
     } catch (error) {
-      console.log(error);
+      toast({
+        variant: "destructive",
+        title: "Algo deu errado.",
+      });
     }
   };
 

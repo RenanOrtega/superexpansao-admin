@@ -1,5 +1,6 @@
 import Sidebar from "../ui/sidebar";
 import { Outlet } from "react-router-dom";
+import { Toaster } from "../ui/toaster";
 
 const SidebarLayout = () => {
   return (
@@ -9,6 +10,7 @@ const SidebarLayout = () => {
         <div className="h-full p-6 bg-gray-100 dark:bg-zinc-950 overflow-y-auto">
           <Outlet />
         </div>
+        <Toaster />
       </main>
     </div>
   );

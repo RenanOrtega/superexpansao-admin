@@ -40,7 +40,6 @@ export function DynamicTable<T extends { id: string }>({
   const navigate = useNavigate();
   const { user } = useAuth();
   const userRole = user!.role;
-  console.log(userRole);
 
   const handlePageChange = (newPage: number) => {
     if (newPage < 1 || newPage > totalPages) return;
