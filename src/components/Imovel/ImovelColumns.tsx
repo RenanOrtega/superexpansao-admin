@@ -35,6 +35,25 @@ export const columns: ColumnDef<Imovel>[] = [
   {
     header: "Link",
     accessorKey: "link",
+    cell: ({ row }) => {
+      const link: string = row.getValue("link");
+      console.log(link);
+      if (link) {
+        return (
+          <a
+            href={link}
+            onClick={(e) => e.stopPropagation()}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-400 hover:text-blue-600"
+          >
+            Link
+          </a>
+        );
+      }
+
+      return "-";
+    },
   },
   {
     header: "Disponibilidade",
