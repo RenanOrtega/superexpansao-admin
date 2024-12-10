@@ -14,6 +14,9 @@ import { MapeadorDetails } from "@/components/Mapeador/MapeadorDetails";
 import ColaboradorPage from "@/pages/ColaboradorPage";
 import { UserDetails } from "@/components/User/UserDetails";
 import { PedidoDetails } from "@/components/Pedido/PedidoDetails";
+import EmpresaPage from "@/pages/EmpresaPage";
+import { EmpresaDetails } from "@/components/Empresa/EmpresaDetails";
+import { ContatoDetails } from "@/components/Contato/ContatoDetails";
 
 const Routes = () => {
   return (
@@ -30,6 +33,9 @@ const Routes = () => {
           <Route path="/imoveis/:id" element={<ImovelDetails />} />
           <Route path="/pedidos" element={<PedidoPage />} />
           <Route path="/pedidos/:id" element={<PedidoDetails />} />
+          <Route path="/empresas" element={<EmpresaPage />} />
+          <Route path="/empresas/:id" element={<EmpresaDetails />} />
+          <Route path="/contatos/:id" element={<ContatoDetails />} />
           <Route element={<ProtectedRoute allowedRoles={["Admin"]} />}>
             <Route path="/colaboradores" element={<ColaboradorPage />} />
             <Route path="/colaboradores/:id" element={<UserDetails />} />
