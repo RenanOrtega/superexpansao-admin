@@ -1,10 +1,8 @@
 import { useState } from "react";
-import { AuthResponse } from "../types/auth";
 import { useNavigate } from "react-router-dom";
 import { AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
-import { authService } from "@/services/authService";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -14,7 +12,7 @@ const LoginPage = () => {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { signIn } = useAuth();
+  const { login } = useAuth();
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -22,13 +20,13 @@ const LoginPage = () => {
     setIsLoading(true);
 
     try {
-      const data: AuthResponse = await authService.login({ email, password });
-      signIn(data.accessToken, email);
-      navigate("/");
+      setIsLoading(true);
+      await login(email, password);
     } catch (error) {
       console.error("Erro ao fazer login:", error);
     } finally {
       setIsLoading(false);
+      navigate("/");
     }
   };
 

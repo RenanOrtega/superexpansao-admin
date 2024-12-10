@@ -53,7 +53,7 @@ const menuItems = [
 ];
 
 const Sidebar = () => {
-  const { user, signOut } = useAuth();
+  const { user, logout } = useAuth();
 
   const [expanded, setExpanded] = useState(true);
   const location = useLocation();
@@ -130,7 +130,7 @@ const Sidebar = () => {
               </p>
             </div>
             <button
-              onClick={signOut}
+              onClick={logout}
               className="text-gray-500 hover:text-red-500 transition-colors"
             >
               <LogOut size={20} />
@@ -138,7 +138,7 @@ const Sidebar = () => {
           </div>
         ) : (
           <button
-            onClick={signOut}
+            onClick={logout}
             className="text-gray-500 hover:text-red-500 transition-colors"
           >
             <LogOut size={20} />

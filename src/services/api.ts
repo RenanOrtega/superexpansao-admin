@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from "axios";
+import { authService } from "./authService";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -11,31 +12,46 @@ const api: AxiosInstance = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("auth:token");
-
+    const token = authService.getAccessToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-
     return config;
   },
   (error) => Promise.reject(error)
 );
 
 api.interceptors.response.use(
-  (response: any) => response,
-  async (error: { config: any; response: { status: number } }) => {
-    console.log(error);
-    if (error.response?.status === 401 && error.config.url.includes("/login")) {
-      return Promise.reject(error);
-    }
-
+  (response) => response,
+  async (error) => {
     const originalRequest = error.config;
 
+    // Verificar se é um erro de autorização e não é uma tentativa de refresh
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-      localStorage.removeItem("auth:token");
-      window.location.href = "/login";
+
+      try {
+        const accessToken = authService.getAccessToken();
+        const refreshToken = authService.getRefreshToken();
+
+        if (!accessToken || !refreshToken) {
+          throw new Error("Tokens não disponíveis");
+        }
+
+        const newTokens = await authService.refreshToken(
+          accessToken,
+          refreshToken
+        );
+
+        authService.setTokens(newTokens);
+
+        originalRequest.headers.Authorization = `Bearer ${newTokens.accessToken}`;
+        return axios(originalRequest);
+      } catch (refreshError) {
+        authService.logout();
+        window.location.href = "/login";
+        return Promise.reject(refreshError);
+      }
     }
 
     return Promise.reject(error);

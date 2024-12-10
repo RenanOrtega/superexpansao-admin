@@ -7,6 +7,7 @@ export interface LoginCredentials {
 
 export interface AuthResponse {
   accessToken: string;
+  refreshToken: string;
 }
 
 export interface DecodedToken {
@@ -17,9 +18,7 @@ export interface DecodedToken {
 
 export interface AuthContextType {
   user: UserSession | null;
-  token: string | null;
-  signIn: (token: string, userEmail: string) => void;
-  signOut: () => void;
   isAuthenticated: boolean;
-  loading: boolean;
+  login: (email: string, password: string) => Promise<void>;
+  logout: () => void;
 }

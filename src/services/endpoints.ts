@@ -1,7 +1,7 @@
 const endpoints = {
   login: "/auth/login",
   logout: "/auth/logout",
-  me: "/auth/me",
+  refreshToken: "/auth/refresh-token",
   mapeador: "/mapeador",
   proprietario: "/proprietario",
   imovel: "/imovel",

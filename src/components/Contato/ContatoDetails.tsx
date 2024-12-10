@@ -16,6 +16,14 @@ import TelephoneFormField from "../TelephoneFormField";
 import { Abordagem, AbordagemFormData } from "@/types/Abordagem";
 import { AbordagemCreateDialog } from "../Abordagem/AbordagemCreateDialog";
 import { abordagemService } from "@/services/abordagemService";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../ui/table";
 
 export function ContatoDetails() {
   const { id } = useParams();
@@ -143,63 +151,62 @@ export function ContatoDetails() {
         </Container>
 
         <Container className="mt-5">
-          <div className="flex justify-between items-center mb-4">
+          <div className="flex gap-2 flex-col md:flex-row md:justify-between items-center mb-4">
             <h2 className="text-2xl font-bold">Abordagens</h2>
             <AbordagemCreateDialog
               onCreate={handleAddAbordagem}
               contatoId={contatoId}
             />
           </div>
-
-          <table className="w-full border-collapse">
-            <thead className="bg-gray-100">
-              <tr>
-                <th className="border p-2 text-left">Tipo de Abordagem</th>
-                <th className="border p-2 text-left">Comentário</th>
-                <th className="border p-2 text-left">Status</th>
-                <th className="border p-2 text-left">Telefone</th>
-                <th className="border p-2 text-center">Contatado</th>
-                <th className="border p-2 text-left">Última Abordagem</th>
-                <th className="border p-2 text-left">Próxima Abordagem</th>
-              </tr>
-            </thead>
-            <tbody>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Tipo de Abordagem</TableHead>
+                <TableHead>Comentário</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Telefone</TableHead>
+                <TableHead className="text-center">Contatado</TableHead>
+                <TableHead className="text-center">Última Abordagem</TableHead>
+                <TableHead className="text-center">Próxima Abordagem</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
               {abordagens.map((abordagem) => (
-                <tr
+                <TableRow
                   key={abordagem.id}
                   className="hover:bg-gray-50 cursor-pointer"
                   onClick={() => console.log(abordagem.id)}
                 >
-                  <td className="border p-2">{abordagem.approachType}</td>
-                  <td className="border p-2">{abordagem.comment}</td>
-                  <td className="border p-2">{abordagem.status}</td>
-                  <td className="border p-2">{abordagem.telephone}</td>
-                  <td className="border p-2 text-center">
+                  <TableCell>{abordagem.approachType}</TableCell>
+                  <TableCell>{abordagem.comment}</TableCell>
+                  <TableCell>{abordagem.status}</TableCell>
+                  <TableCell>{abordagem.telephone}</TableCell>
+                  <TableCell className="text-center">
                     <input
                       type="checkbox"
                       checked={abordagem.contactAddressed}
                       readOnly
                       className="form-checkbox"
                     />
-                  </td>
-                  <td className="border p-2">
+                  </TableCell>
+                  <TableCell className="text-center">
                     {abordagem.lastApproachDate
                       ? new Date(abordagem.lastApproachDate).toLocaleDateString(
                           "pt-BR"
                         )
                       : "-"}
-                  </td>
-                  <td className="border p-2">
+                  </TableCell>
+                  <TableCell className="text-center">
                     {abordagem.nextApproachDate
                       ? new Date(abordagem.nextApproachDate).toLocaleDateString(
                           "pt-BR"
                         )
                       : "-"}
-                  </td>
-                </tr>
+                  </TableCell>
+                </TableRow>
               ))}
-            </tbody>
-          </table>
+            </TableBody>
+          </Table>
 
           {abordagens.length === 0 && (
             <div className="text-center text-gray-500 mt-4">

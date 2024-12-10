@@ -2,21 +2,24 @@ import {
   createContext,
   useContext,
   useState,
-  useEffect,
   ReactNode,
+  useCallback,
 } from "react";
 import { AuthContextType, DecodedToken } from "../types/auth";
 import { jwtDecode } from "jwt-decode";
 import { UserSession } from "@/types/User";
+import { authService } from "@/services/authService";
 
-const AuthContext = createContext<AuthContextType>({
-  user: null,
-  token: null,
-  signIn: () => {},
-  signOut: () => {},
-  isAuthenticated: false,
-  loading: false,
-});
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+// const AuthContext = createContext<AuthContextType>({
+//   user: null,
+//   token: null,
+//   signIn: () => {},
+//   signOut: () => {},
+//   loading: false,
+//   isAuthenticated: false,
+// });
 
 export function useAuth(): AuthContextType {
   const context = useContext(AuthContext);
@@ -27,59 +30,85 @@ export function useAuth(): AuthContextType {
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<UserSession | null>(null);
-  const [token, setToken] = useState<string | null>(null);
+  const [user, setUser] = useState<UserSession | null>(() => {
+    const storedUser = localStorage.getItem("user");
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
 
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const storedToken = localStorage.getItem("auth:token");
+  // useEffect(() => {
+  //   const storedToken = localStorage.getItem("auth:token");
 
-    if (storedToken) {
-      try {
-        const decodedToken = jwtDecode<DecodedToken>(storedToken);
-        setToken(storedToken);
-        setUser({
-          name: decodedToken.unique_name,
-          email: decodedToken.email,
-          role: decodedToken.role,
-        });
-      } catch (error) {
-        signOut();
-      }
-    }
-    setLoading(false);
-  }, []);
+  //   if (storedToken) {
+  //     try {
+  //       const decodedToken = jwtDecode<DecodedToken>(storedToken);
+  //       setToken(storedToken);
+  //       setUser({
+  //         name: decodedToken.unique_name,
+  //         email: decodedToken.email,
+  //         role: decodedToken.role,
+  //       });
+  //     } catch (error) {
+  //       signOut();
+  //     }
+  //   }
+  //   setLoading(false);
+  // }, []);
 
-  const signIn = (token: string) => {
+  // const signIn = (token: string) => {
+  //   try {
+  //     const decodedToken = jwtDecode<DecodedToken>(token);
+  //     setUser({
+  //       name: decodedToken.unique_name,
+  //       email: decodedToken.email,
+  //       role: decodedToken.role,
+  //     });
+  //     setToken(token);
+  //     localStorage.setItem("auth:token", token);
+  //   } catch (error) {
+  //     logout();
+  //   }
+  // };
+
+  const login = async (email: string, password: string) => {
     try {
-      const decodedToken = jwtDecode<DecodedToken>(token);
+      const authResponse = await authService.login({ email, password });
+
+      const decodedToken = jwtDecode<DecodedToken>(authResponse.accessToken);
+
+      authService.setTokens(authResponse);
+      localStorage.setItem("user", JSON.stringify(decodedToken));
+
       setUser({
         name: decodedToken.unique_name,
         email: decodedToken.email,
         role: decodedToken.role,
       });
-      setToken(token);
-      localStorage.setItem("auth:token", token);
     } catch (error) {
-      signOut();
+      throw error;
     }
   };
 
-  const signOut = () => {
-    localStorage.removeItem("auth:token");
-    setToken(null);
+  const logout = useCallback(() => {
+    authService.logout();
     setUser(null);
-  };
+  }, []);
 
-  const value = {
-    user,
-    token,
-    signIn,
-    signOut,
-    isAuthenticated: !!user,
-    loading,
-  };
+  // const value = {
+  //   user,
+  //   token,
+  //   signIn,
+  //   logout,
+  //   isAuthenticated: !!user,
+  //   loading,
+  // };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  const isAuthenticated = !!user;
+
+  return (
+    <AuthContext.Provider value={{ user, isAuthenticated, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
 }
