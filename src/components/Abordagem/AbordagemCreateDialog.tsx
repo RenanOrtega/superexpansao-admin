@@ -62,7 +62,7 @@ export function AbordagemCreateDialog({
       open={isDialogOpen}
       onOpenChange={handleDialogChange}
       trigger={
-        <Button className="w-full sm:w-auto" variant="outline">
+        <Button className="w-full sm:w-auto">
           <Plus className="mr-2 h-4 w-4" /> Nova abordagem
         </Button>
       }
