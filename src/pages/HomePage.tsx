@@ -10,7 +10,8 @@ const HomePage = () => {
     <div className="flex flex-col">
       <Container>
         <h1 className="text-2xl">
-          Bem-vindo, <span className="text-orange-700">{user?.name}</span>
+          Bem-vindo,{" "}
+          <span className="text-orange-700">{user?.unique_name}</span>
         </h1>
       </Container>
       <div className="flex gap-3 mt-5">

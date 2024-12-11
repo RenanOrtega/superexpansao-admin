@@ -58,7 +58,7 @@ export interface User {
 }
 
 export interface UserSession {
-  name: string;
+  unique_name: string;
   email: string;
   role: string;
 }
