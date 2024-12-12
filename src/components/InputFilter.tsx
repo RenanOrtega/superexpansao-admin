@@ -44,7 +44,7 @@ export default function InputFilter({
   }
 
   return (
-    <div className="grid w-full items-center gap-1.5 dark:bg-zinc-900">
+    <div className="grid w-full items-center gap-1.5">
       <Label>{label}</Label>
       <Popover>
         <PopoverTrigger asChild>

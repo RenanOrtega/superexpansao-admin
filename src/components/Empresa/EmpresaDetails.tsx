@@ -116,7 +116,7 @@ export function EmpresaDetails() {
           <ArrowLeft size={16} /> Empresas
         </Button>
 
-        <Container>
+        <Container className="mb-5">
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(
@@ -170,15 +170,16 @@ export function EmpresaDetails() {
             </form>
           </Form>
         </Container>
-
         <Container className="mt-5">
           <div className="flex gap-2 flex-col md:flex-row md:justify-between items-center mb-4">
             <h2 className="text-2xl font-bold">Contatos</h2>
+            {/* <ContatoFilters /> */}
             <ContatoCreateDialog
               onCreate={handleAddContato}
               empresaId={empresaId}
             />
           </div>
+
           <Table>
             <TableHeader>
               <TableRow>

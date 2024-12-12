@@ -21,13 +21,13 @@ export const abordagemSchema = z.object({
   telephone: z.string().regex(/^\(\d{2}\) \d{5}-\d{4}$/, "Telefone inválido"),
   status: z.string().min(1, "Status é obrigatório"),
   comment: z.string().min(1, "Comentario é obrigatório"),
-  contactAddressed: z.boolean(),
+  contactAddressed: z.boolean().optional(),
   approachType: z.string().min(1, "Abordagem é obrigatório"),
-  lastApproachDate: z.date({
-    invalid_type_error: "Data de última abordagem invalida",
+  lastApproachDate: z.coerce.date({
+    required_error: "Última abordagem é obrigatória",
   }),
-  nextApproachDate: z.date({
-    invalid_type_error: "Data da próxima abordagem invalida",
+  nextApproachDate: z.coerce.date({
+    required_error: "Próxima abordagem é obrigatória",
   }),
 });
 

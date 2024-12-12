@@ -187,7 +187,7 @@ export function ContatoDetails() {
                 <TableRow
                   key={abordagem.id}
                   className="hover:bg-gray-50 dark:hover:bg-zinc-700 cursor-pointer"
-                  onClick={() => console.log(abordagem.id)}
+                  onClick={() => navigate(`/abordagens/${abordagem.id}`)}
                 >
                   <TableCell>{abordagem.approachType}</TableCell>
                   <TableCell>{abordagem.comment}</TableCell>

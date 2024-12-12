@@ -8,12 +8,22 @@ import { format } from "date-fns";
 import { DialogForm } from "../DialogForm";
 import { DialogFooter } from "../ui/dialog";
 import { EmpresaCreateDialog } from "./EmpresaCreateDialog";
+import InputFilter from "../InputFilter";
 
 export function EmpresaActions({
   activeFilters,
   onApplyFilters,
 }: EmpresaFiltersProps) {
-  const [filterForm, setFilterForm] = useState({});
+  const [filterForm, setFilterForm] = useState({
+    fantasyName: activeFilters.fantasyName || "",
+    category: activeFilters.category || "",
+    telephone: activeFilters.telephone || "",
+    sector: activeFilters.sector || "",
+    socialReason: activeFilters.socialReason || "",
+    updatedBy: activeFilters.updatedBy || "",
+    createdAt: activeFilters.createdAt || "",
+    updatedAt: activeFilters.updatedAt || "",
+  });
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -36,17 +46,14 @@ export function EmpresaActions({
     setCreatedAtDate(undefined);
     setUpdateAtDate(undefined);
     setFilterForm({
-      name: "",
-      source: "",
+      fantasyName: "",
+      category: "",
       telephone: "",
-      address: "",
-      neighboor: "",
-      city: "",
-      state: "",
-      email: "",
+      sector: "",
+      socialReason: "",
+      updatedAt: "",
       updatedBy: "",
       createdAt: "",
-      updatedAt: "",
     });
     onApplyFilters({ pageNumber: 1, pageSize: 10 });
   };
@@ -103,6 +110,81 @@ export function EmpresaActions({
             }
           >
             <>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                <InputFilter
+                  label="Nome fantasia"
+                  placeholder="Nome fantasia"
+                  type="text"
+                  onChange={(e) =>
+                    handleFilterFormChange("fantasyName", e.target.value)
+                  }
+                  value={filterForm.fantasyName}
+                />
+                <InputFilter
+                  label="Razão social"
+                  placeholder="Razão social"
+                  type="text"
+                  onChange={(e) =>
+                    handleFilterFormChange("socialReason", e.target.value)
+                  }
+                  value={filterForm.socialReason}
+                />
+                <InputFilter
+                  label="Setor"
+                  placeholder="Setor"
+                  type="text"
+                  onChange={(e) =>
+                    handleFilterFormChange("sector", e.target.value)
+                  }
+                  value={filterForm.sector}
+                />
+                <InputFilter
+                  label="Categoria"
+                  placeholder="Categoria"
+                  type="text"
+                  onChange={(e) =>
+                    handleFilterFormChange("category", e.target.value)
+                  }
+                  value={filterForm.category}
+                />
+              </div>
+
+              <InputFilter
+                label="Telefone"
+                placeholder="Telefone"
+                type="text"
+                onChange={(e) =>
+                  handleFilterFormChange("telephone", e.target.value)
+                }
+                value={filterForm.telephone}
+              />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-1.5">
+                <InputFilter
+                  label="Data de criação"
+                  placeholder="Selecione um data"
+                  type="date"
+                  date={createdAtDate}
+                  setDate={handleCreatedAtDate}
+                  value={filterForm.createdAt}
+                />
+                <InputFilter
+                  label="Data de atualização"
+                  placeholder="Selecione um data"
+                  type="date"
+                  date={updateAtDate}
+                  setDate={handleUpdateAtDate}
+                  value={filterForm.updatedAt}
+                />
+              </div>
+              <InputFilter
+                label="Atualizado por"
+                placeholder="Atualizado por"
+                type="text"
+                onChange={(e) =>
+                  handleFilterFormChange("updatedBy", e.target.value)
+                }
+                value={filterForm.updatedBy}
+              />
               <DialogFooter>
                 <Button
                   variant="outline"
