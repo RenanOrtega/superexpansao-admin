@@ -12,6 +12,8 @@ import { EmpresaFilterParams } from "@/types/Empresa/filters";
 import { empresaService } from "@/services/empresaService";
 import { columns } from "./EmpresaColumns";
 import { EmpresaActions } from "./EmpresaActions";
+import PageHeader from "../PageHeader";
+import { Building2 } from "lucide-react";
 
 export function EmpresaTable() {
   const [data, setData] = useState<PaginationResponse<Empresa>>({
@@ -92,12 +94,11 @@ export function EmpresaTable() {
 
   return (
     <>
-      <div className="mb-5 flex justify-between items-center">
-        <div>
-          <h1 className="text-2xl font-bold">Empresas</h1>
-          <p className="text-sm text-gray-600">Gerenciamento de empresas.</p>
-        </div>
-      </div>
+      <PageHeader
+        Icon={Building2}
+        title="Empresas"
+        subtitle="Gerenciamento de empresas."
+      />
       <EmpresaActions
         activeFilters={activeFilters}
         onApplyFilters={setActiveFilters}

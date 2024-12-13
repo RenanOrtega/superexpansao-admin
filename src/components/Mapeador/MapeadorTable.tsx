@@ -12,6 +12,8 @@ import { mapeadorService } from "@/services/mapeadorService";
 import { MapeadorActions } from "./MapeadorActions";
 import { columns } from "./MapeadorColumns";
 import { MapeadorFilterParams } from "@/types/Mapeador/filters";
+import { Bike } from "lucide-react";
+import PageHeader from "../PageHeader";
 
 export function MapeadorTable() {
   const [data, setData] = useState<PaginationResponse<Mapeador>>({
@@ -92,12 +94,11 @@ export function MapeadorTable() {
 
   return (
     <>
-      <div className="mb-5 flex justify-between items-center">
-        <div>
-          <h1 className="text-2xl font-bold">Mapeadores</h1>
-          <p className="text-sm text-gray-600">Gerenciamento de mapeadores.</p>
-        </div>
-      </div>
+      <PageHeader
+        Icon={Bike}
+        title="Mapeadores"
+        subtitle="Gerenciamento de mapeadores."
+      />
       <MapeadorActions
         activeFilters={activeFilters}
         onApplyFilters={setActiveFilters}

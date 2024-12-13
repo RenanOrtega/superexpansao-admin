@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Clock, PhoneCall } from "lucide-react";
 import { abordagemService } from "@/services/abordagemService";
 import { AbordagemWithContato } from "@/types/Abordagem";
+import { useAuth } from "@/contexts/AuthContext";
 
-export const PendingApproachesCard: React.FC = () => {
+export default function PendingApproachesCard() {
+  const { user } = useAuth();
   const [pendingApproaches, setPendingApproaches] = useState<
     AbordagemWithContato[]
   >([]);
@@ -14,7 +16,9 @@ export const PendingApproachesCard: React.FC = () => {
     const loadPendingApproaches = async () => {
       try {
         setIsLoading(true);
-        const abordagens = await abordagemService.getAllPending();
+        const abordagens = await abordagemService.getAllPending(
+          user?.email ?? ""
+        );
         setPendingApproaches(abordagens);
       } catch (error) {
         console.error("Erro ao carregar abordagens pendentes", error);
@@ -85,4 +89,4 @@ export const PendingApproachesCard: React.FC = () => {
       </CardContent>
     </Card>
   );
-};
+}

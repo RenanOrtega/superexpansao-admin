@@ -12,6 +12,8 @@ import { UserFilterParams } from "@/types/User/filters";
 import { userService } from "@/services/userService";
 import { columns } from "./UserColumns";
 import { UserActions } from "./UserActions";
+import { UserRoundPen } from "lucide-react";
+import PageHeader from "../PageHeader";
 
 export function UserTable() {
   const [data, setData] = useState<PaginationResponse<User>>({
@@ -92,14 +94,11 @@ export function UserTable() {
 
   return (
     <>
-      <div className="mb-5 flex justify-between items-center">
-        <div>
-          <h1 className="text-2xl font-bold">Colaboradores</h1>
-          <p className="text-sm text-gray-600">
-            Gerenciamento de colaboradores.
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        Icon={UserRoundPen}
+        title="Colaboradores"
+        subtitle="Gerenciamento de colaboradores."
+      />
       <UserActions
         activeFilters={activeFilters}
         onApplyFilters={setActiveFilters}

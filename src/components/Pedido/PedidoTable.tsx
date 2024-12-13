@@ -12,6 +12,9 @@ import { pedidoService } from "@/services/pedidoService";
 import { PedidoFilterParams } from "@/types/Pedido/filters";
 import { columns } from "./PedidoColumns";
 import { PedidoActions } from "./PedidoActions";
+import Container from "../Container";
+import { Package } from "lucide-react";
+import PageHeader from "../PageHeader";
 
 export function PedidoTable() {
   const [data, setData] = useState<PaginationResponse<Pedido>>({
@@ -92,12 +95,11 @@ export function PedidoTable() {
 
   return (
     <>
-      <div className="mb-5 flex justify-between items-center">
-        <div>
-          <h1 className="text-2xl font-bold">Pedidos</h1>
-          <p className="text-sm text-gray-600">Gerenciamento de pedidos.</p>
-        </div>
-      </div>
+      <PageHeader
+        Icon={Package}
+        title="Pedidos"
+        subtitle="Gerenciamento de pedidos"
+      />
       <PedidoActions
         activeFilters={activeFilters}
         onApplyFilters={setActiveFilters}

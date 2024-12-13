@@ -1,6 +1,6 @@
 import Container from "@/components/Container";
 import { PedidoTableHome } from "@/components/Home/PedidoTableHome";
-import { PendingApproachesCard } from "@/components/Home/PendingApproachesCard";
+import PendingApproachesCard from "@/components/Home/PendingApproachesCard";
 import { useAuth } from "@/contexts/AuthContext";
 
 const HomePage = () => {

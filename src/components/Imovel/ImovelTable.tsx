@@ -12,6 +12,8 @@ import { ImovelFilterParams } from "@/types/Imovel/filters";
 import { ImovelActions } from "./ImovelActions";
 import { imovelService } from "@/services/imovelService";
 import { columns } from "./ImovelColumns";
+import { Building } from "lucide-react";
+import PageHeader from "../PageHeader";
 
 export function ImovelTable() {
   const [data, setData] = useState<PaginationResponse<Imovel>>({
@@ -92,12 +94,11 @@ export function ImovelTable() {
 
   return (
     <>
-      <div className="mb-5 flex justify-between items-center">
-        <div>
-          <h1 className="text-2xl font-bold">Imóveis</h1>
-          <p className="text-sm text-gray-600">Gerenciamento do Imóvel.</p>
-        </div>
-      </div>
+      <PageHeader
+        Icon={Building}
+        title="Imóveis"
+        subtitle="Gerenciamento de imóveis."
+      />
       <ImovelActions
         activeFilters={activeFilters}
         onApplyFilters={setActiveFilters}

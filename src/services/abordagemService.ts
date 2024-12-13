@@ -25,9 +25,9 @@ export const abordagemService = {
     return response.data;
   },
 
-  async getAllPending() {
+  async getAllPending(email: string) {
     const response = await api.get<AbordagemWithContato[]>(
-      `${endpoints.abordagem}/pendings`
+      `${endpoints.abordagem}/pendings/${email}`
     );
 
     return response.data;

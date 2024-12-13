@@ -11,6 +11,7 @@ import {
   UserRoundPen,
   Sun,
   Moon,
+  Package,
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
@@ -35,7 +36,7 @@ const menuItems = [
   },
   {
     label: "Pedidos",
-    icon: ShoppingCart,
+    icon: Package,
     path: "/pedidos",
   },
   {

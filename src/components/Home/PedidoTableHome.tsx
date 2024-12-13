@@ -11,6 +11,8 @@ import { Pedido } from "@/types/Pedido";
 import { pedidoService } from "@/services/pedidoService";
 import { PedidoFilterParams } from "@/types/Pedido/filters";
 import { columns } from "./PedidoColumnsHome";
+import Container from "../Container";
+import { ListOrdered, Package } from "lucide-react";
 
 export function PedidoTableHome() {
   const [data, setData] = useState<PaginationResponse<Pedido>>({
@@ -92,6 +94,9 @@ export function PedidoTableHome() {
   return (
     <>
       {error && <div className="text-red-500">{error}</div>}
+      <Container className="mb-2 flex gap-2">
+        <Package size={20} /> Pedidos
+      </Container>
       <DynamicTable<Pedido>
         table={table}
         onDelete={handleDelete}

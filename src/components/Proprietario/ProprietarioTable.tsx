@@ -12,6 +12,8 @@ import { columns } from "./ProprietarioColumns";
 import { Proprietario } from "@/types/Proprietario";
 import { proprietarioService } from "@/services/proprietarioService";
 import { ProprietarioFilterParams } from "@/types/Proprietario/filters";
+import { Users } from "lucide-react";
+import PageHeader from "../PageHeader";
 
 export function ProprietarioTable() {
   const [data, setData] = useState<PaginationResponse<Proprietario>>({
@@ -92,14 +94,11 @@ export function ProprietarioTable() {
 
   return (
     <>
-      <div className="mb-5 flex justify-between items-center">
-        <div>
-          <h1 className="text-2xl font-bold">Proprietarios</h1>
-          <p className="text-sm text-gray-600">
-            Gerenciamento de proprietarios.
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        Icon={Users}
+        title="Proprietarios"
+        subtitle="Gerenciamento de proprietarios."
+      />
       <ProprietarioActions
         activeFilters={activeFilters}
         onApplyFilters={setActiveFilters}
