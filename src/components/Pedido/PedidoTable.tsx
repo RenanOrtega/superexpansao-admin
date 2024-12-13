@@ -12,7 +12,6 @@ import { pedidoService } from "@/services/pedidoService";
 import { PedidoFilterParams } from "@/types/Pedido/filters";
 import { columns } from "./PedidoColumns";
 import { PedidoActions } from "./PedidoActions";
-import Container from "../Container";
 import { Package } from "lucide-react";
 import PageHeader from "../PageHeader";
 

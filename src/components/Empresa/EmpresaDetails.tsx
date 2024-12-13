@@ -25,6 +25,8 @@ import {
   TableRow,
 } from "../ui/table";
 import { useToast } from "@/hooks/use-toast";
+import ContatoFilters from "../Contato/ContatoFilters";
+import { ContatoFilterParams } from "@/types/Contato/filters";
 
 export function EmpresaDetails() {
   const { toast } = useToast();
@@ -33,7 +35,6 @@ export function EmpresaDetails() {
   const [isButtonLoading, setIsButtonLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [empresaId, setEmpresaId] = useState<string>("");
-  const [contatos, setContatos] = useState<Contato[]>([]);
 
   const form = useForm<z.infer<typeof empresaSchema>>({
     resolver: zodResolver(empresaSchema),
@@ -58,7 +59,7 @@ export function EmpresaDetails() {
           socialReason: response.socialReason,
           telephone: response.telephone,
         });
-        setContatos(response.contatos);
+        setFilteredContatos(response.contatos);
         setEmpresaId(response.id);
         setIsLoading(false);
       } catch (error) {
@@ -96,13 +97,33 @@ export function EmpresaDetails() {
         title: "Contato criado com sucesso.",
         className: "bg-green-400 dark:text-zinc-900",
       });
-      setContatos((prevContatos) => [...prevContatos, contatoCreated]);
+      setFilteredContatos((prevContatos) => [...prevContatos, contatoCreated]);
     } catch (error) {
       toast({
         variant: "destructive",
         title: "Algo deu errado.",
       });
     }
+  };
+  const [filteredContatos, setFilteredContatos] = useState<Contato[]>([]);
+
+  const handleFilterContatos = (filters: ContatoFilterParams) => {
+    console.log(filters);
+    const filtered = filteredContatos.filter((contato) => {
+      return (
+        (!filters.name ||
+          contato.name.toLowerCase().includes(filters.name.toLowerCase())) &&
+        (!filters.email ||
+          contato.email.toLowerCase().includes(filters.email.toLowerCase())) &&
+        (!filters.telephone || contato.telephone.includes(filters.telephone)) &&
+        (!filters.position ||
+          contato.position
+            .toLowerCase()
+            .includes(filters.position.toLowerCase()))
+      );
+    });
+    console.log(filtered);
+    setFilteredContatos(filtered);
   };
 
   return (
@@ -173,13 +194,12 @@ export function EmpresaDetails() {
         <Container className="mt-5">
           <div className="flex gap-2 flex-col md:flex-row md:justify-between items-center mb-4">
             <h2 className="text-2xl font-bold">Contatos</h2>
-            {/* <ContatoFilters /> */}
             <ContatoCreateDialog
               onCreate={handleAddContato}
               empresaId={empresaId}
             />
           </div>
-
+          <ContatoFilters onFilter={handleFilterContatos} />
           <Table>
             <TableHeader>
               <TableRow>
@@ -190,7 +210,7 @@ export function EmpresaDetails() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {contatos.map((contato) => (
+              {filteredContatos.map((contato) => (
                 <TableRow
                   key={contato.id}
                   className="hover:bg-gray-50 dark:hover:bg-zinc-700 cursor-pointer"
@@ -205,9 +225,9 @@ export function EmpresaDetails() {
             </TableBody>
           </Table>
         </Container>
-        {contatos.length === 0 && (
+        {filteredContatos.length === 0 && (
           <div className="text-center text-gray-500 mt-4">
-            Nenhum contato cadastrado
+            Nenhum contato encontrado
           </div>
         )}
       </div>

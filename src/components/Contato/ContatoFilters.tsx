@@ -1,97 +1,74 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { ContatoFiltersProps } from "@/types/Contato/filters";
-import { Filter } from "lucide-react";
-import { format } from "date-fns";
-import { DialogForm } from "../DialogForm";
-import { DialogFooter } from "../ui/dialog";
+import { Search, X } from "lucide-react";
+import { ContatoFilterParams } from "@/types/Contato/filters";
 
-export function ContatoFilters({
-  activeFilters,
-  onApplyFilters,
-}: ContatoFiltersProps) {
-  const [filterForm, setFilterForm] = useState({});
+interface ContatoFiltersProps {
+  onFilter: (filters: ContatoFilterParams) => void;
+}
 
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+export default function ContatoFilters({ onFilter }: ContatoFiltersProps) {
+  const [filters, setFilters] = useState<ContatoFilterParams>({});
 
-  const [updateAtDate, setUpdateAtDate] = useState<Date | undefined>(
-    activeFilters.updatedAt ? new Date(activeFilters.updatedAt) : undefined
-  );
-
-  const [createdAtDate, setCreatedAtDate] = useState<Date | undefined>(
-    activeFilters.updatedAt ? new Date(activeFilters.updatedAt) : undefined
-  );
-
-  const handleFilterFormChange = (key: string, value: string) => {
-    setFilterForm((prev) => ({
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFilters((prev) => ({
       ...prev,
-      [key]: value,
+      [name]: value || undefined,
     }));
   };
 
-  const handleClearFilters = () => {
-    setCreatedAtDate(undefined);
-    setUpdateAtDate(undefined);
-    setFilterForm({});
-    onApplyFilters({ pageNumber: 1, pageSize: 10 });
+  const applyFilters = () => {
+    console.log(filters);
+    onFilter(filters);
   };
 
-  const handleApplyFilters = () => {
-    onApplyFilters({ ...activeFilters, ...filterForm, pageNumber: 1 });
-    setIsDialogOpen(false);
-  };
-
-  const handleUpdateAtDate = (selectedDate?: Date) => {
-    setUpdateAtDate(selectedDate);
-    handleFilterFormChange(
-      "updatedAt",
-      selectedDate ? format(selectedDate, "yyyy-MM-dd") : ""
-    );
-  };
-
-  const handleCreatedAtDate = (selectedDate?: Date) => {
-    setCreatedAtDate(selectedDate);
-    handleFilterFormChange(
-      "createdAt",
-      selectedDate ? format(selectedDate, "yyyy-MM-dd") : ""
-    );
+  const clearFilters = () => {
+    setFilters({});
+    onFilter({});
   };
 
   return (
-    <div className="w-full space-y-4 md:space-y-0 mb-5">
-      <div className="flex flex-col sm:flex-row justify-between gap-2">
-        <div className="flex flex-col sm:flex-row gap-2">
-          <DialogForm
-            open={isDialogOpen}
-            onOpenChange={setIsDialogOpen}
-            title="Filtrar contato"
-            trigger={
-              <Button className="w-full sm:w-auto">
-                <Filter />
-                Filtrar
-              </Button>
-            }
-          >
-            <>
-              <DialogFooter>
-                <Button
-                  variant="outline"
-                  onClick={handleClearFilters}
-                  className="w-full sm:w-auto"
-                >
-                  Limpar Filtros
-                </Button>
-                <Button
-                  onClick={handleApplyFilters}
-                  className="w-full sm:w-auto"
-                >
-                  Aplicar
-                </Button>
-              </DialogFooter>
-            </>
-          </DialogForm>
-        </div>
-      </div>
+    <div className="flex gap-2 mb-5 mt-10">
+      <Input
+        name="name"
+        placeholder="Nome"
+        value={filters.name || ""}
+        onChange={handleInputChange}
+        className="w-full"
+      />
+      <Input
+        name="email"
+        placeholder="Email"
+        value={filters.email || ""}
+        onChange={handleInputChange}
+        className="w-full"
+      />
+      <Input
+        name="telephone"
+        placeholder="Telefone"
+        value={filters.telephone || ""}
+        onChange={handleInputChange}
+        className="w-full"
+      />
+      <Input
+        name="position"
+        placeholder="Cargo"
+        value={filters.position || ""}
+        onChange={handleInputChange}
+        className="w-full"
+      />
+      <Button onClick={applyFilters} className="flex items-center gap-2">
+        <Search size={16} /> Filtrar
+      </Button>
+      <Button
+        variant="outline"
+        onClick={clearFilters}
+        className="flex items-center gap-2"
+      >
+        <X size={16} /> Limpar
+      </Button>
     </div>
   );
 }

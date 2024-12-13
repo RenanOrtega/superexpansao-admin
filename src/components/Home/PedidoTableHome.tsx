@@ -12,7 +12,7 @@ import { pedidoService } from "@/services/pedidoService";
 import { PedidoFilterParams } from "@/types/Pedido/filters";
 import { columns } from "./PedidoColumnsHome";
 import Container from "../Container";
-import { ListOrdered, Package } from "lucide-react";
+import { Package } from "lucide-react";
 
 export function PedidoTableHome() {
   const [data, setData] = useState<PaginationResponse<Pedido>>({

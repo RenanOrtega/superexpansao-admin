@@ -1,6 +1,5 @@
 import {
   Users,
-  ShoppingCart,
   Building2,
   LogOut,
   Bike,

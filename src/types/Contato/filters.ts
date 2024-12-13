@@ -1,12 +1,11 @@
 import { GenericFilterParams } from "../filters";
 
 export interface ContatoFilterParams extends GenericFilterParams {
+  email?: string;
+  telephone?: string;
+  name?: string;
+  position?: string;
   updatedAt?: string;
   createdAt?: string;
   updatedBy?: string;
-}
-
-export interface ContatoFiltersProps {
-  activeFilters: ContatoFilterParams;
-  onApplyFilters: (filters: ContatoFilterParams) => void;
 }
