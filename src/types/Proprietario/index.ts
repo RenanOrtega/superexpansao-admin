@@ -25,7 +25,7 @@ export const proprietarioSchema = z.object({
   name: z.string().min(1, "Nome é obrigatório"),
   source: z.string().min(1, "Fonte é obrigatório"),
   telephone: z.string().regex(/^\(\d{2}\) \d{5}-\d{4}$/, "Telefone inválido"),
-  address: z.string().min(1, "Endereço é obrigatório"),
+  address: z.string().min(1, "Logradouro é obrigatório"),
   neighboor: z.string().min(1, "Bairro é obrigatório"),
   city: z.string().min(1, "Cidade é obrigatória"),
   state: z.string().min(1, "Estado é obrigatória"),

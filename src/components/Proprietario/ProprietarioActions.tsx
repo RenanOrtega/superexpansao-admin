@@ -168,14 +168,14 @@ export function ProprietarioActions({
                   </AccordionContent>
                 </AccordionItem>
 
-                {/* Endereço Section */}
+                {/* Logradouro Section */}
                 <AccordionItem value="address">
                   <AccordionTrigger>Localização</AccordionTrigger>
                   <AccordionContent className="m-3">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                       <InputFilter
-                        label="Endereço"
-                        placeholder="Endereço"
+                        label="Logradouro"
+                        placeholder="Logradouro"
                         type="text"
                         onChange={(e) =>
                           handleFilterFormChange("address", e.target.value)

@@ -5,7 +5,7 @@ import CustomTag from "../CustomTag";
 
 export const columns: ColumnDef<Imovel>[] = [
   {
-    header: "Endereço",
+    header: "Logradouro",
     accessorKey: "address",
     cell: ({ row }) => (
       <span className="font-semibold">{row.getValue("address")}</span>

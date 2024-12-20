@@ -59,7 +59,7 @@ export function EmpresaDetails() {
           socialReason: response.socialReason,
           telephone: response.telephone,
         });
-        setFilteredContatos(response.contatos);
+        setContatos(response.contatos);
         setEmpresaId(response.id);
         setIsLoading(false);
       } catch (error) {
@@ -97,7 +97,7 @@ export function EmpresaDetails() {
         title: "Contato criado com sucesso.",
         className: "bg-green-400 dark:text-zinc-900",
       });
-      setFilteredContatos((prevContatos) => [...prevContatos, contatoCreated]);
+      setContatos((prevContatos) => [...prevContatos, contatoCreated]);
     } catch (error) {
       toast({
         variant: "destructive",
@@ -105,11 +105,13 @@ export function EmpresaDetails() {
       });
     }
   };
-  const [filteredContatos, setFilteredContatos] = useState<Contato[]>([]);
 
-  const handleFilterContatos = (filters: ContatoFilterParams) => {
-    console.log(filters);
-    const filtered = filteredContatos.filter((contato) => {
+  const [contatos, setContatos] = useState<Contato[]>([]);
+  const [filteredContatos, setFilteredContatos] = useState<Contato[]>([]);
+  const [filters, setFilters] = useState<ContatoFilterParams>({});
+
+  useEffect(() => {
+    const filtered = contatos.filter((contato) => {
       return (
         (!filters.name ||
           contato.name.toLowerCase().includes(filters.name.toLowerCase())) &&
@@ -122,8 +124,11 @@ export function EmpresaDetails() {
             .includes(filters.position.toLowerCase()))
       );
     });
-    console.log(filtered);
     setFilteredContatos(filtered);
+  }, [filters, contatos]);
+
+  const handleFilterContatos = (newFilters: ContatoFilterParams) => {
+    setFilters(newFilters);
   };
 
   return (

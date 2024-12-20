@@ -19,7 +19,7 @@ export const columns: ColumnDef<Proprietario>[] = [
     accessorKey: "telephone",
   },
   {
-    header: "Endereço",
+    header: "Logradouro",
     accessorKey: "address",
   },
   {

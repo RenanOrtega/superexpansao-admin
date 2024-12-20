@@ -189,8 +189,8 @@ export function PedidoDetails() {
               <CustomFormField
                 control={form.control}
                 name="order"
-                label="Numero do pedido"
-                placeholder="Numero do pedido"
+                label="Pedido"
+                placeholder="Pedido"
               />
               <CustomFormField
                 control={form.control}

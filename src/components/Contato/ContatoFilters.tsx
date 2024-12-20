@@ -39,6 +39,13 @@ export default function ContatoFilters({ onFilter }: ContatoFiltersProps) {
         className="w-full"
       />
       <Input
+        name="position"
+        placeholder="Cargo"
+        value={filters.position || ""}
+        onChange={handleInputChange}
+        className="w-full"
+      />
+      <Input
         name="email"
         placeholder="Email"
         value={filters.email || ""}
@@ -49,13 +56,6 @@ export default function ContatoFilters({ onFilter }: ContatoFiltersProps) {
         name="telephone"
         placeholder="Telefone"
         value={filters.telephone || ""}
-        onChange={handleInputChange}
-        className="w-full"
-      />
-      <Input
-        name="position"
-        placeholder="Cargo"
-        value={filters.position || ""}
         onChange={handleInputChange}
         className="w-full"
       />

@@ -80,8 +80,8 @@ export function ImovelCreateDialog({ onCreate }: CreateImovelDialogProps) {
               <CustomFormField
                 control={form.control}
                 name="address"
-                label="Endereço"
-                placeholder="Endereço do Imóvel"
+                label="Logradouro"
+                placeholder="Logradouro do Imóvel"
               />
               <div className="flex gap-3">
                 <CustomFormField

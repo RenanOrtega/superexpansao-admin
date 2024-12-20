@@ -92,8 +92,8 @@ export function ProprietarioCreateDialog({
             <CustomFormField
               control={form.control}
               name="address"
-              label="Endereço"
-              placeholder="Endereço"
+              label="Logradouro"
+              placeholder="Logradouro"
             />
             <CustomFormField
               control={form.control}

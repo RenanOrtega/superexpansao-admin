@@ -25,6 +25,8 @@ import {
   TableRow,
 } from "../ui/table";
 import { useToast } from "@/hooks/use-toast";
+import { AbordagemFilterParams } from "@/types/Abordagem/filters";
+import AbordagemFilters from "../Abordagem/AbordagemFilters";
 
 export function ContatoDetails() {
   const { toast } = useToast();
@@ -32,8 +34,38 @@ export function ContatoDetails() {
   const navigate = useNavigate();
   const [isButtonLoading, setIsButtonLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [abordagens, setAbordagens] = useState<Abordagem[]>([]);
   const [contatoId, setContatoId] = useState<string>("");
+
+  const [abordagens, setAbordagens] = useState<Abordagem[]>([]);
+
+  const [filters, setFilters] = useState<AbordagemFilterParams>({});
+  const [filteredAbordagens, setFilteredAbordagens] = useState<Abordagem[]>([]);
+
+  useEffect(() => {
+    const filtered = abordagens.filter((abordagem) => {
+      return (
+        (!filters.approachType ||
+          abordagem.approachType
+            .toLowerCase()
+            .includes(filters.approachType.toLowerCase())) &&
+        (!filters.status ||
+          abordagem.status
+            .toLowerCase()
+            .includes(filters.status.toLowerCase())) &&
+        (!filters.telephone ||
+          abordagem.telephone.includes(filters.telephone)) &&
+        (!filters.addressed ||
+          abordagem.contactAddressed === filters.contactAddressed) &&
+        (!filters.lastApproachDate ||
+          abordagem.lastApproachDate === new Date(filters.lastApproachDate))
+      );
+    });
+    setFilteredAbordagens(filtered);
+  }, [filters, abordagens]);
+
+  const handleFilterAbordagens = (newFilters: AbordagemFilterParams) => {
+    setFilters(newFilters);
+  };
 
   const form = useForm<z.infer<typeof contatoSchema>>({
     resolver: zodResolver(contatoSchema),
@@ -170,6 +202,9 @@ export function ContatoDetails() {
               contatoId={contatoId}
             />
           </div>
+          <div className="my-5">
+            <AbordagemFilters onFilter={handleFilterAbordagens} />
+          </div>
           <Table>
             <TableHeader>
               <TableRow>
@@ -183,7 +218,7 @@ export function ContatoDetails() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {abordagens.map((abordagem) => (
+              {filteredAbordagens.map((abordagem) => (
                 <TableRow
                   key={abordagem.id}
                   className="hover:bg-gray-50 dark:hover:bg-zinc-700 cursor-pointer"
@@ -220,7 +255,7 @@ export function ContatoDetails() {
             </TableBody>
           </Table>
 
-          {abordagens.length === 0 && (
+          {filteredAbordagens.length === 0 && (
             <div className="text-center text-gray-500 mt-4">
               Nenhuma abordagem cadastrada
             </div>

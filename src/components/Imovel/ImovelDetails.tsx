@@ -119,8 +119,8 @@ export function ImovelDetails() {
                 <CustomFormField
                   control={form.control}
                   name="address"
-                  label="Endereço"
-                  placeholder="Endereço do Imóvel"
+                  label="Logradouro"
+                  placeholder="Logradouro do Imóvel"
                   className="mb-3"
                 />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">

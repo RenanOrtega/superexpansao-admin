@@ -147,8 +147,8 @@ export function ImovelActions({
                   <AccordionContent className="m-3">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                       <InputFilter
-                        label="Endereço"
-                        placeholder="Filtrar por endereço"
+                        label="Logradouro"
+                        placeholder="Filtrar por Logradouro"
                         type="text"
                         value={filterForm.address}
                         onChange={(e) =>
