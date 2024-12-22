@@ -11,3 +11,8 @@ export interface AbordagemFilterParams extends GenericFilterParams {
   createdAt?: string;
   updatedBy?: string;
 }
+
+export interface AbordagemFiltersProps {
+  activeFilters: AbordagemFilterParams;
+  onApplyFilters: (filters: AbordagemFilterParams) => void;
+}

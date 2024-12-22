@@ -210,7 +210,7 @@ export function PedidoDetails() {
                 name="status"
                 label="Status"
                 placeholder="Status"
-              />{" "}
+              />
               <CustomFormField
                 control={form.control}
                 name="zeroPoint"

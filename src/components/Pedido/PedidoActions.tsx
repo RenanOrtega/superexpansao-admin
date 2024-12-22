@@ -14,33 +14,41 @@ import { pedidoService } from "@/services/pedidoService";
 import InputFilter from "../InputFilter";
 import { PedidoCreateDialog } from "./PedidoCreateDialog";
 import { PedidoFiltersProps } from "@/types/Pedido/filters";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { Label } from "../ui/label";
 
 export function PedidoActions({
   activeFilters,
   onApplyFilters,
 }: PedidoFiltersProps) {
   const [filterForm, setFilterForm] = useState({
-    address: activeFilters.address || "",
-    neighborhood: activeFilters.neighborhood || "",
+    performer: activeFilters.performer || "",
+    coordinator: activeFilters.coordinator || "",
+    expander: activeFilters.expander || "",
+    entryDate: activeFilters.entryDate || "",
+    deliveryDate: activeFilters.deliveryDate || "",
+    client: activeFilters.client || "",
+    order: activeFilters.order || "",
+    propertyType: activeFilters.propertyType || "",
+    parkingSpaces: activeFilters.parkingSpaces || undefined,
+    status: activeFilters.status || "",
+    zeroPoint: activeFilters.zeroPoint || "",
+    propertyValue: activeFilters.propertyValue || "",
+    onlineCreated: activeFilters.onlineCreated || "",
+    onlineDate: activeFilters.onlineDate || "",
     city: activeFilters.city || "",
     state: activeFilters.state || "",
-    zone: activeFilters.zone || "",
-    propertyProfile: activeFilters.propertyProfile || "",
-    availability: activeFilters.availability || "",
-    minRentValue: activeFilters.minRentValue || undefined,
-    maxRentValue: activeFilters.maxRentValue || undefined,
-    minSaleValue: activeFilters.minSaleValue || undefined,
-    maxSaleValue: activeFilters.maxSaleValue || undefined,
-    minIptuValue: activeFilters.minIptuValue || undefined,
-    maxIptuValue: activeFilters.maxIptuValue || undefined,
-    minSearchMeterage: activeFilters.minSearchMeterage || undefined,
-    maxSearchMeterage: activeFilters.maxSearchMeterage || undefined,
-    minTotalArea: activeFilters.minTotalArea || undefined,
-    maxTotalArea: activeFilters.maxTotalArea || undefined,
-    realEstate: activeFilters.realEstate || "",
-    proprietarioId: activeFilters.proprietarioId || "",
+    mappingCompleted: activeFilters.mappingCompleted || "",
     createdAt: activeFilters.createdAt || "",
     updatedAt: activeFilters.updatedAt || "",
+    updatedBy: activeFilters.updatedBy || "",
   });
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -49,6 +57,15 @@ export function PedidoActions({
   );
   const [updatedAtDate, setUpdatedAtDate] = useState<Date | undefined>(
     activeFilters.updatedAt ? new Date(activeFilters.updatedAt) : undefined
+  );
+  const [entryDate, setEntryDate] = useState<Date | undefined>(
+    activeFilters.entryDate ? new Date(activeFilters.entryDate) : undefined
+  );
+  const [deliveryDate, setDeliveryDate] = useState<Date | undefined>(
+    activeFilters.entryDate ? new Date(activeFilters.entryDate) : undefined
+  );
+  const [onlineDate, setOnlineDate] = useState<Date | undefined>(
+    activeFilters.onlineDate ? new Date(activeFilters.onlineDate) : undefined
   );
 
   const handleFilterFormChange = (key: string, value: string) => {
@@ -61,28 +78,29 @@ export function PedidoActions({
   const handleClearFilters = () => {
     setCreatedAtDate(undefined);
     setUpdatedAtDate(undefined);
+    setDeliveryDate(undefined);
+    setEntryDate(undefined);
     setFilterForm({
-      address: "",
-      neighborhood: "",
+      performer: "",
+      coordinator: "",
+      expander: "",
+      client: "",
+      deliveryDate: "",
+      entryDate: "",
+      onlineCreated: "",
+      onlineDate: "",
+      order: "",
+      parkingSpaces: undefined,
+      propertyType: "",
+      propertyValue: "",
+      status: "",
+      zeroPoint: "",
       city: "",
+      mappingCompleted: "",
       state: "",
-      zone: "",
-      propertyProfile: "",
-      availability: "",
-      minRentValue: undefined,
-      maxRentValue: undefined,
-      minSaleValue: undefined,
-      maxSaleValue: undefined,
-      minIptuValue: undefined,
-      maxIptuValue: undefined,
-      minSearchMeterage: undefined,
-      maxSearchMeterage: undefined,
-      minTotalArea: undefined,
-      maxTotalArea: undefined,
-      realEstate: "",
-      proprietarioId: "",
       createdAt: "",
       updatedAt: "",
+      updatedBy: "",
     });
     onApplyFilters({ pageNumber: 1, pageSize: 10 });
   };
@@ -92,18 +110,21 @@ export function PedidoActions({
     setIsDialogOpen(false);
   };
 
-  const handleCreatedAtDate = (selectedDate?: Date) => {
-    setCreatedAtDate(selectedDate);
-    handleFilterFormChange(
-      "createdAt",
-      selectedDate ? format(selectedDate, "yyyy-MM-dd") : ""
-    );
-  };
+  const handleDate = (fieldName: string, selectedDate?: Date) => {
+    const setters: { [key: string]: (date: Date | undefined) => void } = {
+      entryDate: setEntryDate,
+      deliveryDate: setDeliveryDate,
+      onlineDate: setOnlineDate,
+      updatedAtDate: setUpdatedAtDate,
+      createdAtDate: setCreatedAtDate,
+    };
 
-  const handleUpdatedAtDate = (selectedDate?: Date) => {
-    setUpdatedAtDate(selectedDate);
+    if (setters[fieldName]) {
+      setters[fieldName](selectedDate);
+    }
+
     handleFilterFormChange(
-      "updatedAt",
+      fieldName,
       selectedDate ? format(selectedDate, "yyyy-MM-dd") : ""
     );
   };
@@ -140,25 +161,230 @@ export function PedidoActions({
           >
             <>
               <Accordion type="multiple" className="w-full space-y-4 mb-5">
+                <AccordionItem value="team">
+                  <AccordionTrigger>Equipe</AccordionTrigger>
+                  <AccordionContent>
+                    <div className="grid md:grid-cols-3 gap-2 grid-cols-1">
+                      <InputFilter
+                        label="Coordenador"
+                        placeholder="Coordenador"
+                        type="text"
+                        onChange={(e) =>
+                          handleFilterFormChange("coordinator", e.target.value)
+                        }
+                        value={filterForm.coordinator}
+                      />
+                      <InputFilter
+                        label="Responsavel"
+                        placeholder="Responsavel"
+                        type="text"
+                        onChange={(e) =>
+                          handleFilterFormChange("performer", e.target.value)
+                        }
+                        value={filterForm.performer}
+                      />
+                      <InputFilter
+                        label="Expansor"
+                        placeholder="Expansor"
+                        type="text"
+                        onChange={(e) =>
+                          handleFilterFormChange("expander", e.target.value)
+                        }
+                        value={filterForm.expander}
+                      />
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="details">
+                  <AccordionTrigger>Detalhes</AccordionTrigger>
+                  <AccordionContent className="space-y-2">
+                    <div className="grid md:grid-cols-2 gap-2 grid-cols-1">
+                      <InputFilter
+                        type="date"
+                        label="Data de entrada"
+                        placeholder="Selecione uma data"
+                        date={entryDate}
+                        fieldName="entryDate"
+                        handleDate={handleDate}
+                      />
+                      <InputFilter
+                        type="date"
+                        label="Data de entrega"
+                        placeholder="Selecione uma data"
+                        date={deliveryDate}
+                        fieldName="deliveryDate"
+                        handleDate={handleDate}
+                      />
+                      <InputFilter
+                        label="Cliente"
+                        placeholder="Cliente"
+                        type="text"
+                        onChange={(e) =>
+                          handleFilterFormChange("client", e.target.value)
+                        }
+                        value={filterForm.client}
+                      />
+                      <InputFilter
+                        label="Pedido"
+                        placeholder="Pedido"
+                        type="text"
+                        onChange={(e) =>
+                          handleFilterFormChange("order", e.target.value)
+                        }
+                        value={filterForm.order}
+                      />
+                      <InputFilter
+                        label="Tipo do imóvel"
+                        placeholder="Tipo do imóvel"
+                        type="text"
+                        onChange={(e) =>
+                          handleFilterFormChange("propertyType", e.target.value)
+                        }
+                        value={filterForm.propertyType}
+                      />
+                      <InputFilter
+                        type="date"
+                        label="Data online"
+                        placeholder="Selecione uma data"
+                        date={onlineDate}
+                        fieldName="onlineDate"
+                        handleDate={handleDate}
+                      />
+                    </div>
+                    <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
+                      <InputFilter
+                        label="Vagas"
+                        placeholder="Vagas"
+                        type="number"
+                        onChange={(e) =>
+                          handleFilterFormChange(
+                            "parkingSpaces",
+                            e.target.value
+                          )
+                        }
+                        value={filterForm.parkingSpaces}
+                      />
+                      <InputFilter
+                        label="Status"
+                        placeholder="Status"
+                        type="text"
+                        onChange={(e) =>
+                          handleFilterFormChange("status", e.target.value)
+                        }
+                        value={filterForm.status}
+                      />
+                      <InputFilter
+                        label="Ponto zero"
+                        placeholder="Ponto zero"
+                        type="text"
+                        onChange={(e) =>
+                          handleFilterFormChange("zeroPoint", e.target.value)
+                        }
+                        value={filterForm.zeroPoint}
+                      />
+                    </div>
+                    <InputFilter
+                      label="Vulgo do imóvel"
+                      placeholder="Vulgo do imóvel"
+                      type="text"
+                      onChange={(e) =>
+                        handleFilterFormChange("propertyValue", e.target.value)
+                      }
+                      value={filterForm.propertyValue}
+                    />
+                    <Select
+                      onValueChange={(e) =>
+                        handleFilterFormChange("onlineCreated", e)
+                      }
+                      value={filterForm.onlineCreated}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Filtre por online criado" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem className="cursor-pointer" value="true">
+                          Sim
+                        </SelectItem>
+                        <SelectItem className="cursor-pointer" value="false">
+                          Não
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="local">
+                  <AccordionTrigger>Localização</AccordionTrigger>
+                  <AccordionContent>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-2">
+                      <InputFilter
+                        label="Cidade"
+                        placeholder="Cidade"
+                        type="text"
+                        onChange={(e) =>
+                          handleFilterFormChange("city", e.target.value)
+                        }
+                        value={filterForm.city}
+                      />
+                      <InputFilter
+                        label="Estado"
+                        placeholder="Estado"
+                        type="text"
+                        onChange={(e) =>
+                          handleFilterFormChange("state", e.target.value)
+                        }
+                        value={filterForm.state}
+                      />
+                    </div>
+                    <Select
+                      onValueChange={(e) =>
+                        handleFilterFormChange("mappingCompleted", e)
+                      }
+                      value={filterForm.mappingCompleted}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Filtre por mapeamento completo" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem className="cursor-pointer" value="true">
+                          Sim
+                        </SelectItem>
+                        <SelectItem className="cursor-pointer" value="false">
+                          Não
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </AccordionContent>
+                </AccordionItem>
                 <AccordionItem value="system-info">
                   <AccordionTrigger>Informações do Sistema</AccordionTrigger>
-                  <AccordionContent className="m-3">
-                    <div className="flex gap-3">
+                  <AccordionContent>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-1.5">
                       <InputFilter
                         type="date"
                         label="Data de criação"
                         placeholder="Selecione uma data"
                         date={createdAtDate}
-                        setDate={handleCreatedAtDate}
+                        fieldName="createdAtDate"
+                        handleDate={handleDate}
                       />
                       <InputFilter
                         type="date"
                         label="Data de atualização"
                         placeholder="Selecione uma data"
                         date={updatedAtDate}
-                        setDate={handleUpdatedAtDate}
+                        fieldName="updatedAtDate"
+                        handleDate={handleDate}
                       />
                     </div>
+                    <InputFilter
+                      label="Atualizado por"
+                      placeholder="Atualizado por"
+                      type="text"
+                      onChange={(e) =>
+                        handleFilterFormChange("updatedBy", e.target.value)
+                      }
+                      value={filterForm.updatedBy}
+                    />
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>

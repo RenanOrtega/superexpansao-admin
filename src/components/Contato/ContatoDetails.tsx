@@ -26,7 +26,7 @@ import {
 } from "../ui/table";
 import { useToast } from "@/hooks/use-toast";
 import { AbordagemFilterParams } from "@/types/Abordagem/filters";
-import AbordagemFilters from "../Abordagem/AbordagemFilters";
+import { AbordagemFilters } from "../Abordagem/AbordagemFilters";
 
 export function ContatoDetails() {
   const { toast } = useToast();
@@ -38,32 +38,8 @@ export function ContatoDetails() {
 
   const [abordagens, setAbordagens] = useState<Abordagem[]>([]);
 
-  const [filters, setFilters] = useState<AbordagemFilterParams>({});
-  const [filteredAbordagens, setFilteredAbordagens] = useState<Abordagem[]>([]);
-
-  useEffect(() => {
-    const filtered = abordagens.filter((abordagem) => {
-      return (
-        (!filters.approachType ||
-          abordagem.approachType
-            .toLowerCase()
-            .includes(filters.approachType.toLowerCase())) &&
-        (!filters.status ||
-          abordagem.status
-            .toLowerCase()
-            .includes(filters.status.toLowerCase())) &&
-        (!filters.telephone ||
-          abordagem.telephone.includes(filters.telephone)) &&
-        (!filters.addressed ||
-          abordagem.contactAddressed === filters.contactAddressed) &&
-        (!filters.lastApproachDate ||
-          abordagem.lastApproachDate === new Date(filters.lastApproachDate))
-      );
-    });
-    setFilteredAbordagens(filtered);
-  }, [filters, abordagens]);
-
   const handleFilterAbordagens = (newFilters: AbordagemFilterParams) => {
+    console.log(newFilters);
     setFilters(newFilters);
   };
 
@@ -81,6 +57,7 @@ export function ContatoDetails() {
     const fetchContato = async () => {
       try {
         setIsLoading(true);
+
         const response = await contatoService.getById(id);
         form.reset({
           email: response.email,
@@ -88,6 +65,7 @@ export function ContatoDetails() {
           position: response.position,
           telephone: response.telephone,
         });
+
         setContatoId(response.id);
         setAbordagens(response.abordagens);
         setIsLoading(false);
@@ -130,6 +108,15 @@ export function ContatoDetails() {
       });
     }
   };
+
+  const [filters, setFilters] = useState<AbordagemFilterParams>({
+    approachType: "",
+    createdAt: "",
+    updatedAt: "",
+    updatedBy: "",
+    pageNumber: 1,
+    pageSize: 10,
+  });
 
   return (
     <LoadingPage isLoading={isLoading}>
@@ -202,9 +189,10 @@ export function ContatoDetails() {
               contatoId={contatoId}
             />
           </div>
-          <div className="my-5">
-            <AbordagemFilters onFilter={handleFilterAbordagens} />
-          </div>
+          <AbordagemFilters
+            activeFilters={filters}
+            onApplyFilters={handleFilterAbordagens}
+          />
           <Table>
             <TableHeader>
               <TableRow>
@@ -218,7 +206,7 @@ export function ContatoDetails() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filteredAbordagens.map((abordagem) => (
+              {abordagens.map((abordagem) => (
                 <TableRow
                   key={abordagem.id}
                   className="hover:bg-gray-50 dark:hover:bg-zinc-700 cursor-pointer"
@@ -255,7 +243,7 @@ export function ContatoDetails() {
             </TableBody>
           </Table>
 
-          {filteredAbordagens.length === 0 && (
+          {abordagens.length === 0 && (
             <div className="text-center text-gray-500 mt-4">
               Nenhuma abordagem cadastrada
             </div>

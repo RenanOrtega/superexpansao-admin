@@ -30,7 +30,7 @@ export function MapeadorActions({
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const [date, setDate] = useState<Date | undefined>(
+  const [lastMappingDate, setLastMappingDate] = useState<Date | undefined>(
     activeFilters.lastMapping ? new Date(activeFilters.lastMapping) : undefined
   );
 
@@ -42,7 +42,7 @@ export function MapeadorActions({
   };
 
   const handleClearFilters = () => {
-    setDate(undefined);
+    setLastMappingDate(undefined);
     setFilterForm({ name: "", city: "", vehicle: "", lastMapping: "" });
     onApplyFilters({ pageNumber: 1, pageSize: 10 });
     setIsDialogOpen(false);
@@ -63,10 +63,17 @@ export function MapeadorActions({
     }
   };
 
-  const handleDateSelect = (selectedDate?: Date) => {
-    setDate(selectedDate);
+  const handleDate = (fieldName: string, selectedDate?: Date) => {
+    const setters: { [key: string]: (date: Date | undefined) => void } = {
+      lastMappingDate: setLastMappingDate,
+    };
+
+    if (setters[fieldName]) {
+      setters[fieldName](selectedDate);
+    }
+
     handleFilterFormChange(
-      "lastMapping",
+      fieldName,
       selectedDate ? format(selectedDate, "yyyy-MM-dd") : ""
     );
   };
@@ -132,8 +139,9 @@ export function MapeadorActions({
                 label="Último mapeamento"
                 placeholder="Selecione um data"
                 type="date"
-                date={date}
-                setDate={handleDateSelect}
+                date={lastMappingDate}
+                fieldName="lastMappingDate"
+                handleDate={handleDate}
                 value={filterForm.lastMapping}
               />
               <DialogFooter>

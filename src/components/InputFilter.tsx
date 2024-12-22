@@ -16,7 +16,8 @@ interface InputFilterProps {
   placeholder: string;
   label: string;
   date?: Date;
-  setDate?: (date?: Date) => void;
+  fieldName?: string;
+  handleDate?: (fieldName: string, date?: Date) => void;
 }
 
 export default function InputFilter({
@@ -26,11 +27,12 @@ export default function InputFilter({
   placeholder,
   label,
   date,
-  setDate,
+  fieldName,
+  handleDate,
 }: InputFilterProps) {
   if (type !== "date") {
     return (
-      <div className="grid w-full items-center gap-1.5 ">
+      <div className="grid w-full items-center gap-1.5">
         <Label htmlFor={label}>{label}</Label>
         <Input
           type={type}
@@ -67,7 +69,9 @@ export default function InputFilter({
           <Calendar
             mode="single"
             selected={date}
-            onSelect={setDate}
+            onSelect={(newDate) =>
+              handleDate && fieldName && handleDate(fieldName, newDate)
+            }
             locale={ptBR}
             initialFocus
           />

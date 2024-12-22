@@ -94,18 +94,18 @@ export function ImovelActions({
     setIsDialogOpen(false);
   };
 
-  const handleCreatedAtDate = (selectedDate?: Date) => {
-    setCreatedAtDate(selectedDate);
-    handleFilterFormChange(
-      "createdAt",
-      selectedDate ? format(selectedDate, "yyyy-MM-dd") : ""
-    );
-  };
+  const handleDate = (fieldName: string, selectedDate?: Date) => {
+    const setters: { [key: string]: (date: Date | undefined) => void } = {
+      updatedAtDate: setUpdatedAtDate,
+      createdAtDate: setCreatedAtDate,
+    };
 
-  const handleUpdatedAtDate = (selectedDate?: Date) => {
-    setUpdatedAtDate(selectedDate);
+    if (setters[fieldName]) {
+      setters[fieldName](selectedDate);
+    }
+
     handleFilterFormChange(
-      "updatedAt",
+      fieldName,
       selectedDate ? format(selectedDate, "yyyy-MM-dd") : ""
     );
   };
@@ -358,14 +358,16 @@ export function ImovelActions({
                         label="Data de criação"
                         placeholder="Selecione uma data"
                         date={createdAtDate}
-                        setDate={handleCreatedAtDate}
+                        fieldName="createdAtDate"
+                        handleDate={handleDate}
                       />
                       <InputFilter
                         type="date"
                         label="Data de atualização"
                         placeholder="Selecione uma data"
                         date={updatedAtDate}
-                        setDate={handleUpdatedAtDate}
+                        fieldName="updatedAtDate"
+                        handleDate={handleDate}
                       />
                     </div>
                   </AccordionContent>
