@@ -25,8 +25,8 @@ import {
   TableRow,
 } from "../ui/table";
 import { useToast } from "@/hooks/use-toast";
+import AbordagemFilters from "../Abordagem/AbordagemFilters";
 import { AbordagemFilterParams } from "@/types/Abordagem/filters";
-import { AbordagemFilters } from "../Abordagem/AbordagemFilters";
 
 export function ContatoDetails() {
   const { toast } = useToast();
@@ -36,12 +36,10 @@ export function ContatoDetails() {
   const [isLoading, setIsLoading] = useState(false);
   const [contatoId, setContatoId] = useState<string>("");
 
-  const [abordagens, setAbordagens] = useState<Abordagem[]>([]);
+  const [filteredAbordagens, setFilteredAbordagens] = useState<Abordagem[]>([]);
+  const [filters, setFilters] = useState<AbordagemFilterParams>({});
 
-  const handleFilterAbordagens = (newFilters: AbordagemFilterParams) => {
-    console.log(newFilters);
-    setFilters(newFilters);
-  };
+  const [abordagens, setAbordagens] = useState<Abordagem[]>([]);
 
   const form = useForm<z.infer<typeof contatoSchema>>({
     resolver: zodResolver(contatoSchema),
@@ -68,6 +66,7 @@ export function ContatoDetails() {
 
         setContatoId(response.id);
         setAbordagens(response.abordagens);
+        setFilteredAbordagens(response.abordagens);
         setIsLoading(false);
       } catch (error) {
         console.error("Erro ao buscar proprietário:", error);
@@ -79,6 +78,52 @@ export function ContatoDetails() {
       fetchContato();
     }
   }, [id, navigate, form]);
+
+  useEffect(() => {
+    const filtered = abordagens.filter((abordagem) => {
+      const matchesApproachType =
+        !filters.approachType ||
+        abordagem.approachType
+          .toLowerCase()
+          .includes(filters.approachType.toLowerCase());
+
+      const matchesStatus =
+        !filters.status ||
+        abordagem.status.toLowerCase().includes(filters.status.toLowerCase());
+
+      const matchesTelephone =
+        !filters.telephone || abordagem.telephone.includes(filters.telephone);
+
+      const matchesLastApproachDate =
+        !filters.lastApproachDate ||
+        new Date(abordagem.lastApproachDate).toISOString().split("T")[0] ===
+          filters.lastApproachDate;
+
+      const matchesNextApproachDate =
+        !filters.nextApproachDate ||
+        new Date(abordagem.nextApproachDate).toISOString().split("T")[0] ===
+          filters.nextApproachDate;
+
+      const matchesContactAddressed =
+        filters.contactAddressed === undefined ||
+        abordagem.contactAddressed === filters.contactAddressed;
+
+      return (
+        matchesApproachType &&
+        matchesStatus &&
+        matchesTelephone &&
+        matchesLastApproachDate &&
+        matchesNextApproachDate &&
+        matchesContactAddressed
+      );
+    });
+
+    setFilteredAbordagens(filtered);
+  }, [filters, abordagens]);
+
+  const handleFilterAbordagens = (newFilters: AbordagemFilterParams) => {
+    setFilters(newFilters);
+  };
 
   const onSubmit = async (data: z.infer<typeof contatoSchema>) => {
     setIsButtonLoading(true);
@@ -108,15 +153,6 @@ export function ContatoDetails() {
       });
     }
   };
-
-  const [filters, setFilters] = useState<AbordagemFilterParams>({
-    approachType: "",
-    createdAt: "",
-    updatedAt: "",
-    updatedBy: "",
-    pageNumber: 1,
-    pageSize: 10,
-  });
 
   return (
     <LoadingPage isLoading={isLoading}>
@@ -182,17 +218,14 @@ export function ContatoDetails() {
         </Container>
 
         <Container className="mt-5">
-          <div className="flex gap-2 flex-col md:flex-row md:justify-between items-center mb-4">
+          <div className="flex gap-2 flex-row justify-between items-center">
             <h2 className="text-2xl font-bold">Abordagens</h2>
             <AbordagemCreateDialog
               onCreate={handleAddAbordagem}
               contatoId={contatoId}
             />
           </div>
-          <AbordagemFilters
-            activeFilters={filters}
-            onApplyFilters={handleFilterAbordagens}
-          />
+          <AbordagemFilters onFilter={handleFilterAbordagens} />
           <Table>
             <TableHeader>
               <TableRow>
@@ -206,7 +239,7 @@ export function ContatoDetails() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {abordagens.map((abordagem) => (
+              {filteredAbordagens.map((abordagem) => (
                 <TableRow
                   key={abordagem.id}
                   className="hover:bg-gray-50 dark:hover:bg-zinc-700 cursor-pointer"
@@ -243,7 +276,7 @@ export function ContatoDetails() {
             </TableBody>
           </Table>
 
-          {abordagens.length === 0 && (
+          {filteredAbordagens.length === 0 && (
             <div className="text-center text-gray-500 mt-4">
               Nenhuma abordagem cadastrada
             </div>

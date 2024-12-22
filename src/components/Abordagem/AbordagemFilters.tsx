@@ -1,139 +1,135 @@
-import { useState } from "react";
-import { format } from "date-fns";
-import { Button } from "@/components/ui/button";
-import { Filter } from "lucide-react";
-import { AbordagemFiltersProps } from "@/types/Abordagem/filters";
-import { DialogForm } from "../DialogForm";
-import InputFilter from "../InputFilter";
-import { DialogFooter } from "../ui/dialog";
+import React, { useState } from "react";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
+import { Search, X } from "lucide-react";
+import { AbordagemFilterParams } from "@/types/Abordagem/filters";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
-export function AbordagemFilters({
-  activeFilters,
-  onApplyFilters,
-}: AbordagemFiltersProps) {
-  const [filterForm, setFilterForm] = useState({
-    approachType: activeFilters.approachType || "",
-    createdAt: activeFilters.createdAt || "",
-    updatedAt: activeFilters.updatedAt || "",
-    updatedBy: activeFilters.updatedBy || "",
-  });
+interface AbordagemFiltersProps {
+  onFilter: (filters: AbordagemFilterParams) => void;
+}
 
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [createdAtDate, setCreatedAtDate] = useState<Date | undefined>(
-    activeFilters.createdAt ? new Date(activeFilters.createdAt) : undefined
-  );
-  const [updatedAtDate, setUpdatedAtDate] = useState<Date | undefined>(
-    activeFilters.updatedAt ? new Date(activeFilters.updatedAt) : undefined
-  );
+export default function AbordagemFilters({ onFilter }: AbordagemFiltersProps) {
+  const [filters, setFilters] = useState<AbordagemFilterParams>({});
 
-  const handleFilterFormChange = (key: string, value: string) => {
-    setFilterForm((prev) => ({
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFilters((prev) => ({
       ...prev,
-      [key]: value,
+      [name]: value || undefined,
     }));
   };
 
-  const handleClearFilters = () => {
-    setCreatedAtDate(undefined);
-    setUpdatedAtDate(undefined);
-    setFilterForm({
-      approachType: "",
-      createdAt: "",
-      updatedAt: "",
-      updatedBy: "",
-    });
-    onApplyFilters({ pageNumber: 1, pageSize: 10 });
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFilters((prev) => ({
+      ...prev,
+      [name]: value || undefined,
+    }));
   };
 
-  const handleApplyFilters = () => {
-    console.log(activeFilters);
-    onApplyFilters({ ...activeFilters, ...filterForm, pageNumber: 1 });
-    setIsDialogOpen(false);
+  const handleContactAddressedChange = (value: string) => {
+    setFilters((prev) => ({
+      ...prev,
+      contactAddressed: value === "" ? undefined : value === "true",
+    }));
   };
 
-  const handleCreatedAtDate = (selectedDate?: Date) => {
-    setCreatedAtDate(selectedDate);
-    handleFilterFormChange(
-      "createdAt",
-      selectedDate ? format(selectedDate, "yyyy-MM-dd") : ""
-    );
+  const applyFilters = () => {
+    onFilter(filters);
   };
 
-  const handleUpdatedAtDate = (selectedDate?: Date) => {
-    setUpdatedAtDate(selectedDate);
-    handleFilterFormChange(
-      "updatedAt",
-      selectedDate ? format(selectedDate, "yyyy-MM-dd") : ""
-    );
+  const clearFilters = () => {
+    setFilters({});
+    onFilter({});
   };
 
   return (
-    <div className="w-full space-y-4 md:space-y-0 mb-5">
-      <div className="flex flex-col sm:flex-row gap-2">
-        <DialogForm
-          open={isDialogOpen}
-          onOpenChange={setIsDialogOpen}
-          title="Filtrar abordagem"
-          trigger={
-            <Button className="w-full sm:w-auto">
-              <Filter />
-              Filtrar
-            </Button>
-          }
+    <div className="my-5">
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-2">
+        <div className="flex flex-col">
+          <label className="text-sm">Tipo abordagem</label>
+          <Input
+            name="approachType"
+            placeholder="Tipo de Abordagem"
+            value={filters.approachType || ""}
+            onChange={handleInputChange}
+            className="w-full"
+          />
+        </div>
+        <div className="flex flex-col">
+          <label className="text-sm">Status</label>
+          <Input
+            name="status"
+            placeholder="Status"
+            value={filters.status || ""}
+            onChange={handleInputChange}
+            className="w-full"
+          />
+        </div>
+        <div className="flex flex-col">
+          <label className="text-sm">Telefone</label>
+          <Input
+            name="telephone"
+            placeholder="Telefone"
+            value={filters.telephone || ""}
+            onChange={handleInputChange}
+            className="w-full"
+          />
+        </div>
+        <div className="flex flex-col">
+          <label className="text-sm">Última Abordagem</label>
+          <Input
+            type="date"
+            name="lastApproachDate"
+            value={filters.lastApproachDate || ""}
+            onChange={handleDateChange}
+            className="w-full"
+          />
+        </div>
+        <div className="flex flex-col">
+          <label className="text-sm">Próxima Abordagem</label>
+          <Input
+            type="date"
+            name="nextApproachDate"
+            value={filters.nextApproachDate || ""}
+            onChange={handleDateChange}
+            className="w-full"
+          />
+        </div>
+        <div className="flex flex-col">
+          <label className="text-sm">Contatado</label>
+          <Select
+            value={filters.contactAddressed?.toString() || ""}
+            onValueChange={handleContactAddressedChange}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Selecione..." />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="true">Sim</SelectItem>
+              <SelectItem value="false">Não</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+      <div className="flex justify-end gap-2 mt-5">
+        <Button onClick={applyFilters} className="flex items-center gap-2">
+          <Search size={16} /> Filtrar
+        </Button>
+        <Button
+          variant="outline"
+          onClick={clearFilters}
+          className="flex items-center gap-2"
         >
-          <>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-              <InputFilter
-                label="Tipo de abordagem"
-                placeholder="Filtrar por tipo de abordagem"
-                type="text"
-                value={filterForm.approachType}
-                onChange={(e) =>
-                  handleFilterFormChange("approachType", e.target.value)
-                }
-              />
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-1.5">
-              <InputFilter
-                label="Data de criação"
-                placeholder="Selecione um data"
-                type="date"
-                date={createdAtDate}
-                setDate={handleCreatedAtDate}
-                value={filterForm.createdAt}
-              />
-              <InputFilter
-                label="Data de atualização"
-                placeholder="Selecione um data"
-                type="date"
-                date={updatedAtDate}
-                setDate={handleUpdatedAtDate}
-                value={filterForm.updatedAt}
-              />
-            </div>
-            <InputFilter
-              label="Atualizado por"
-              placeholder="Atualizado por"
-              type="text"
-              onChange={(e) =>
-                handleFilterFormChange("updatedBy", e.target.value)
-              }
-              value={filterForm.updatedBy}
-            />
-            <DialogFooter>
-              <Button
-                variant="outline"
-                onClick={handleClearFilters}
-                className="w-full sm:w-auto"
-              >
-                Limpar Filtros
-              </Button>
-              <Button onClick={handleApplyFilters} className="w-full sm:w-auto">
-                Aplicar
-              </Button>
-            </DialogFooter>
-          </>
-        </DialogForm>
+          <X size={16} /> Limpar
+        </Button>
       </div>
     </div>
   );
