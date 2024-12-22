@@ -74,18 +74,18 @@ export function UserActions({
     }
   };
 
-  const handleCreatedAtDate = (selectedDate?: Date) => {
-    setCreatedAtDate(selectedDate);
-    handleFilterFormChange(
-      "createdAt",
-      selectedDate ? format(selectedDate, "yyyy-MM-dd") : ""
-    );
-  };
+  const handleDate = (fieldName: string, selectedDate?: Date) => {
+    const setters: { [key: string]: (date: Date | undefined) => void } = {
+      updatedAtDate: setUpdatedAtDate,
+      createdAtDate: setCreatedAtDate,
+    };
 
-  const handleUpdatedAtDate = (selectedDate?: Date) => {
-    setUpdatedAtDate(selectedDate);
+    if (setters[fieldName]) {
+      setters[fieldName](selectedDate);
+    }
+
     handleFilterFormChange(
-      "updatedAt",
+      fieldName,
       selectedDate ? format(selectedDate, "yyyy-MM-dd") : ""
     );
   };
@@ -153,17 +153,19 @@ export function UserActions({
                   label="Data de criação"
                   type="date"
                   placeholder="Selecione uma data"
-                  date={createdAtDate}
-                  setDate={handleCreatedAtDate}
                   value={filterForm.createdAt}
+                  fieldName="createdAtDate"
+                  date={createdAtDate}
+                  handleDate={handleDate}
                 />
                 <InputFilter
                   label="Data de atualização"
                   type="date"
                   placeholder="Selecione uma data"
-                  date={updatedAtDate}
-                  setDate={handleUpdatedAtDate}
                   value={filterForm.updatedAt}
+                  fieldName="updatedAtDate"
+                  date={updatedAtDate}
+                  handleDate={handleDate}
                 />
               </div>
               <InputFilter

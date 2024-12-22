@@ -27,7 +27,7 @@ export function EmpresaActions({
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const [updateAtDate, setUpdateAtDate] = useState<Date | undefined>(
+  const [updateAtDate, setUpdatedAtDate] = useState<Date | undefined>(
     activeFilters.updatedAt ? new Date(activeFilters.updatedAt) : undefined
   );
 
@@ -44,7 +44,7 @@ export function EmpresaActions({
 
   const handleClearFilters = () => {
     setCreatedAtDate(undefined);
-    setUpdateAtDate(undefined);
+    setUpdatedAtDate(undefined);
     setFilterForm({
       fantasyName: "",
       category: "",
@@ -73,18 +73,18 @@ export function EmpresaActions({
     }
   };
 
-  const handleUpdateAtDate = (selectedDate?: Date) => {
-    setUpdateAtDate(selectedDate);
-    handleFilterFormChange(
-      "updatedAt",
-      selectedDate ? format(selectedDate, "yyyy-MM-dd") : ""
-    );
-  };
+  const handleDate = (fieldName: string, selectedDate?: Date) => {
+    const setters: { [key: string]: (date: Date | undefined) => void } = {
+      updatedAtDate: setUpdatedAtDate,
+      createdAtDate: setCreatedAtDate,
+    };
 
-  const handleCreatedAtDate = (selectedDate?: Date) => {
-    setCreatedAtDate(selectedDate);
+    if (setters[fieldName]) {
+      setters[fieldName](selectedDate);
+    }
+
     handleFilterFormChange(
-      "createdAt",
+      fieldName,
       selectedDate ? format(selectedDate, "yyyy-MM-dd") : ""
     );
   };
@@ -164,7 +164,8 @@ export function EmpresaActions({
                   placeholder="Selecione um data"
                   type="date"
                   date={createdAtDate}
-                  setDate={handleCreatedAtDate}
+                  fieldName="createdAtDate"
+                  handleDate={handleDate}
                   value={filterForm.createdAt}
                 />
                 <InputFilter
@@ -172,7 +173,8 @@ export function EmpresaActions({
                   placeholder="Selecione um data"
                   type="date"
                   date={updateAtDate}
-                  setDate={handleUpdateAtDate}
+                  fieldName="updatedAtDate"
+                  handleDate={handleDate}
                   value={filterForm.updatedAt}
                 />
               </div>
