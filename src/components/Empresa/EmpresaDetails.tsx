@@ -41,7 +41,6 @@ export function EmpresaDetails() {
     defaultValues: {
       fantasyName: "",
       category: "",
-      sector: "",
       socialReason: "",
       telephone: "",
     },
@@ -55,7 +54,6 @@ export function EmpresaDetails() {
         form.reset({
           category: response.category,
           fantasyName: response.fantasyName,
-          sector: response.sector,
           socialReason: response.socialReason,
           telephone: response.telephone,
         });
@@ -173,12 +171,6 @@ export function EmpresaDetails() {
                   name="category"
                   label="Categoria"
                   placeholder="Categoria"
-                />
-                <CustomFormField
-                  control={form.control}
-                  name="sector"
-                  label="Setor"
-                  placeholder="Setor"
                 />
                 <TelephoneFormField control={form.control} name="telephone" />
               </div>

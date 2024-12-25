@@ -49,9 +49,9 @@ const menuItems = [
     path: "/clientes",
   },
   {
-    label: "Colaboradores",
+    label: "Usuarios",
     icon: UserRoundPen,
-    path: "/colaboradores",
+    path: "/usuarios",
   },
 ];
 
@@ -100,7 +100,7 @@ const Sidebar = () => {
         <ul>
           {menuItems
             .filter((item) =>
-              item.label === "Colaboradores" ? user?.role === "Admin" : true
+              item.label === "Usuarios" ? user?.role === "Admin" : true
             )
             .map((item) => (
               <Link to={item.path} key={item.path}>

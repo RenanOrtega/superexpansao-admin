@@ -92,8 +92,8 @@ export function UserTable() {
     <>
       <PageHeader
         Icon={UserRoundPen}
-        title="Colaboradores"
-        subtitle="Gerenciamento de colaboradores."
+        title="usuarios"
+        subtitle="Gerenciamento de usuarios."
       />
       <UserActions
         activeFilters={activeFilters}
@@ -108,7 +108,7 @@ export function UserTable() {
         pageNumber={data.pageNumber}
         hasNextPage={data.hasNextPage}
         hasPreviousPage={data.hasPreviousPage}
-        path="colaboradores"
+        path="usuarios"
       />
     </>
   );

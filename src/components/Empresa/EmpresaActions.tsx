@@ -18,7 +18,6 @@ export function EmpresaActions({
     fantasyName: activeFilters.fantasyName || "",
     category: activeFilters.category || "",
     telephone: activeFilters.telephone || "",
-    sector: activeFilters.sector || "",
     socialReason: activeFilters.socialReason || "",
     updatedBy: activeFilters.updatedBy || "",
     createdAt: activeFilters.createdAt || "",
@@ -49,7 +48,6 @@ export function EmpresaActions({
       fantasyName: "",
       category: "",
       telephone: "",
-      sector: "",
       socialReason: "",
       updatedAt: "",
       updatedBy: "",
@@ -123,15 +121,6 @@ export function EmpresaActions({
                     handleFilterFormChange("socialReason", e.target.value)
                   }
                   value={filterForm.socialReason}
-                />
-                <InputFilter
-                  label="Setor"
-                  placeholder="Setor"
-                  type="text"
-                  onChange={(e) =>
-                    handleFilterFormChange("sector", e.target.value)
-                  }
-                  value={filterForm.sector}
                 />
                 <InputFilter
                   label="Categoria"

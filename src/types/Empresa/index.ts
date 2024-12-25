@@ -6,7 +6,6 @@ export interface Empresa {
   fantasyName: string;
   socialReason: string;
   category: string;
-  sector: string;
   telephone: string;
   updatedAt: Date;
   createdAt: Date;
@@ -22,7 +21,6 @@ export const empresaSchema = z.object({
   socialReason: z.string().min(1, "Razão social é obrigatório"),
   category: z.string().min(1, "Categoria é obrigatório"),
   telephone: z.string().regex(/^\(\d{2}\) \d{5}-\d{4}$/, "Telefone inválido"),
-  sector: z.string().min(1, "Setor é obrigatório"),
 });
 
 export type EmpresaFormData = z.infer<typeof empresaSchema>;

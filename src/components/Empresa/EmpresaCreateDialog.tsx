@@ -70,12 +70,6 @@ export function EmpresaCreateDialog({ onCreate }: CreateEmpresaDialogProps) {
             name="category"
             placeholder="Categoria"
           />
-          <CustomFormField
-            control={form.control}
-            label="Setor"
-            name="sector"
-            placeholder="Setor"
-          />
           <TelephoneFormField control={form.control} name="telephone" />
           <DialogFooter>
             <Button type="submit">Enviar</Button>

@@ -45,7 +45,7 @@ export function UserDetails() {
         });
         setIsLoading(false);
       } catch (error) {
-        navigate("/colaboradores");
+        navigate("/usuarios");
       }
     };
 
@@ -59,7 +59,7 @@ export function UserDetails() {
       setIsButtonLoading(true);
       await userService.update(id!, { ...data, id });
       toast({
-        title: "Colaborador atualizado com sucesso.",
+        title: "Usuario atualizado com sucesso.",
         className: "bg-green-400 dark:text-zinc-900",
       });
       setIsButtonLoading(false);
@@ -76,10 +76,10 @@ export function UserDetails() {
       <div className="container mx-auto">
         <Button
           variant="outline"
-          onClick={() => navigate("/colaboradores")}
+          onClick={() => navigate("/usuarios")}
           className="mb-4 flex items-center gap-2"
         >
-          <ArrowLeft size={16} /> Colaboradores
+          <ArrowLeft size={16} /> Usuarios
         </Button>
         <Container>
           <Form {...form}>

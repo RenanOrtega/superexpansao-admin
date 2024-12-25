@@ -19,10 +19,6 @@ export const columns: ColumnDef<Empresa>[] = [
     accessorKey: "category",
   },
   {
-    header: "Setor",
-    accessorKey: "sector",
-  },
-  {
     header: "Telefone",
     accessorKey: "telephone",
   },

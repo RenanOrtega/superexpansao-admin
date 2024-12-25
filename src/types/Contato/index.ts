@@ -22,7 +22,7 @@ export const contatoSchema = z.object({
   name: z.string().min(1, "Nome é obrigatório"),
   position: z.string().min(1, "Cargo é obrigatório"),
   telephone: z.string().regex(/^\(\d{2}\) \d{5}-\d{4}$/, "Telefone inválido"),
-  email: z.string().min(1, "Setor é obrigatório"),
+  email: z.string().min(1, "Email é obrigatório"),
 });
 
 export type ContatoFormData = z.infer<typeof contatoSchema>;

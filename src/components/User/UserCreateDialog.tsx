@@ -42,7 +42,7 @@ export default function UserCreateDialog({ onCreate }: CreateUserDialogProps) {
     try {
       await onCreate(data);
       toast({
-        title: "Colaborador criado com sucesso.",
+        title: "Usuario criado com sucesso.",
         className: "bg-green-400 dark:text-zinc-900",
       });
       form.reset();

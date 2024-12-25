@@ -95,7 +95,7 @@ export function UserActions({
           <DialogForm
             open={isDialogOpen}
             onOpenChange={setIsDialogOpen}
-            title="Filtrar colaborador"
+            title="Filtrar usuario"
             trigger={
               <Button className="w-full sm:w-auto">
                 <Filter />
