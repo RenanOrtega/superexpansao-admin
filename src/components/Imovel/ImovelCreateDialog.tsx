@@ -47,14 +47,9 @@ export function ImovelCreateDialog({ onCreate }: CreateImovelDialogProps) {
   };
 
   const onSubmit = async (data: ImovelFormData) => {
-    console.log(data.saleValue);
-    try {
-      await onCreate(data);
-      form.reset();
-      setIsDialogOpen(false);
-    } catch (error) {
-      console.error(error);
-    }
+    await onCreate(data);
+    form.reset();
+    setIsDialogOpen(false);
   };
 
   return (

@@ -5,7 +5,10 @@ export interface Mapeador {
   name: string;
   telephone: string;
   city: string;
+  zone: string;
   vehicle: string;
+  cameraType: string;
+  celphoneModel: string;
   observations: string;
   pix: string;
   lastMapping: Date;
@@ -18,7 +21,10 @@ export const mapeadorSchema = z.object({
   name: z.string().min(1, "Nome é obrigatório"),
   telephone: z.string().regex(/^\(\d{2}\) \d{5}-\d{4}$/, "Telefone inválido"),
   city: z.string().min(1, "Cidade é obrigatória"),
+  zone: z.string().min(1, "Zona é obrigatória"),
   vehicle: z.string().min(1, "Veículo é obrigatório"),
+  cameraType: z.string().min(1, "Camera é obrigatório"),
+  celphoneModel: z.string().min(1, "Celular é obrigatório"),
   pix: z.string().optional(),
   observations: z.string().optional(),
   lastMapping: z.coerce.date({

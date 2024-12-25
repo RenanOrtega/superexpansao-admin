@@ -20,7 +20,6 @@ export default function ContatoFilters({ onFilter }: ContatoFiltersProps) {
   };
 
   const applyFilters = () => {
-    console.log(filters);
     onFilter(filters);
   };
 

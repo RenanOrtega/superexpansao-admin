@@ -162,7 +162,7 @@ export function ContatoDetails() {
           onClick={() => navigate(-1)}
           className="mb-4 flex items-center gap-2"
         >
-          <ArrowLeft size={16} /> Empresa
+          <ArrowLeft size={16} /> Voltar
         </Button>
 
         <Container>

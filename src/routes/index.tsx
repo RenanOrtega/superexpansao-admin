@@ -34,8 +34,8 @@ const Routes = () => {
           <Route path="/imoveis/:id" element={<ImovelDetails />} />
           <Route path="/pedidos" element={<PedidoPage />} />
           <Route path="/pedidos/:id" element={<PedidoDetails />} />
-          <Route path="/empresas" element={<EmpresaPage />} />
-          <Route path="/empresas/:id" element={<EmpresaDetails />} />
+          <Route path="/clientes" element={<EmpresaPage />} />
+          <Route path="/clientes/:id" element={<EmpresaDetails />} />
           <Route path="/contatos/:id" element={<ContatoDetails />} />
           <Route path="/abordagens/:id" element={<AbordagemDetails />} />
           <Route element={<ProtectedRoute allowedRoles={["Admin"]} />}>

@@ -44,9 +44,9 @@ const menuItems = [
     path: "/mapeadores",
   },
   {
-    label: "Empresas",
+    label: "Clientes",
     icon: Building2,
-    path: "/empresas",
+    path: "/clientes",
   },
   {
     label: "Colaboradores",

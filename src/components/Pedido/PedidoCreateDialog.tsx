@@ -266,7 +266,7 @@ export function PedidoCreateDialog({ onCreate }: CreatePedidoDialogProps) {
               />
               <SelectFormField
                 control={form.control}
-                label="Online criado"
+                label="Online feito"
                 name="onlineCreated"
                 placeholder="Selecione"
                 values={[true, false]}

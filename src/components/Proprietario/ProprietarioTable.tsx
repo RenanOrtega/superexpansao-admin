@@ -50,20 +50,16 @@ export function ProprietarioTable() {
   }, [activeFilters]);
 
   const handleDelete = async (id: string) => {
-    try {
-      await proprietarioService.delete(id);
-      setData((prevData) => {
-        const updatedItems = prevData.items.filter((item) => item.id !== id);
-        return {
-          ...prevData,
-          items: updatedItems,
-          totalItems: prevData.totalItems - 1,
-          totalPages: Math.ceil((prevData.totalItems - 1) / prevData.pageSize),
-        };
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    await proprietarioService.delete(id);
+    setData((prevData) => {
+      const updatedItems = prevData.items.filter((item) => item.id !== id);
+      return {
+        ...prevData,
+        items: updatedItems,
+        totalItems: prevData.totalItems - 1,
+        totalPages: Math.ceil((prevData.totalItems - 1) / prevData.pageSize),
+      };
+    });
   };
 
   const handlePageChange = (newPage: number) => {

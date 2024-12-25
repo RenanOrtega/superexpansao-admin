@@ -76,13 +76,8 @@ export function ProprietarioActions({
   };
 
   const handleCreateProprietario = async (data: ProprietarioFormData) => {
-    try {
-      const createdProprieatario = await proprietarioService.create(data);
-      onApplyFilters({ ...activeFilters, ...filterForm, pageNumber: 1 });
-      console.log("Proprieatario criado com sucesso:", createdProprieatario);
-    } catch (error) {
-      console.error("Erro ao criar proprietario:", error);
-    }
+    await proprietarioService.create(data);
+    onApplyFilters({ ...activeFilters, ...filterForm, pageNumber: 1 });
   };
 
   const handleDate = (fieldName: string, selectedDate?: Date) => {

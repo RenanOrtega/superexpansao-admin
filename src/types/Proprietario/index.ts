@@ -19,6 +19,7 @@ export interface Proprietario {
 
 export interface ProprietarioWithImoveis extends Proprietario {
   imoveis: Imovel[];
+  imoveisCount: number;
 }
 
 export const proprietarioSchema = z.object({

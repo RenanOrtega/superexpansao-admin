@@ -23,7 +23,10 @@ export function MapeadorActions({
 }: MapeadorFiltersProps) {
   const [filterForm, setFilterForm] = useState({
     name: activeFilters.name || "",
+    cameraType: activeFilters.cameraType || "",
+    celphoneModel: activeFilters.celphoneModel || "",
     city: activeFilters.city || "",
+    zone: activeFilters.zone || "",
     vehicle: activeFilters.vehicle || "",
     lastMapping: activeFilters.lastMapping || "",
   });
@@ -43,7 +46,15 @@ export function MapeadorActions({
 
   const handleClearFilters = () => {
     setLastMappingDate(undefined);
-    setFilterForm({ name: "", city: "", vehicle: "", lastMapping: "" });
+    setFilterForm({
+      name: "",
+      city: "",
+      zone: "",
+      vehicle: "",
+      cameraType: "",
+      celphoneModel: "",
+      lastMapping: "",
+    });
     onApplyFilters({ pageNumber: 1, pageSize: 10 });
     setIsDialogOpen(false);
   };
@@ -54,13 +65,8 @@ export function MapeadorActions({
   };
 
   const handleCreateMapeador = async (data: MapeadorFormData) => {
-    try {
-      const createdMapeador = await mapeadorService.create(data);
-      onApplyFilters({ ...activeFilters, ...filterForm, pageNumber: 1 });
-      console.log("Mapeador criado com sucesso:", createdMapeador);
-    } catch (error) {
-      console.error("Erro ao criar mapeador:", error);
-    }
+    await mapeadorService.create(data);
+    onApplyFilters({ ...activeFilters, ...filterForm, pageNumber: 1 });
   };
 
   const handleDate = (fieldName: string, selectedDate?: Date) => {
@@ -99,16 +105,14 @@ export function MapeadorActions({
             }
           >
             <div className="space-y-4">
+              <InputFilter
+                label="Nome"
+                placeholder="Filtrar por nome"
+                value={filterForm.name}
+                type="text"
+                onChange={(e) => handleFilterFormChange("name", e.target.value)}
+              />
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                <InputFilter
-                  label="Nome"
-                  placeholder="Filtrar por nome"
-                  value={filterForm.name}
-                  type="text"
-                  onChange={(e) =>
-                    handleFilterFormChange("name", e.target.value)
-                  }
-                />
                 <InputFilter
                   label="Cidade"
                   placeholder="Filtrar por cidade"
@@ -116,6 +120,35 @@ export function MapeadorActions({
                   type="text"
                   onChange={(e) =>
                     handleFilterFormChange("city", e.target.value)
+                  }
+                />
+                <InputFilter
+                  label="Zona"
+                  placeholder="Filtrar por zona"
+                  value={filterForm.zone}
+                  type="text"
+                  onChange={(e) =>
+                    handleFilterFormChange("zone", e.target.value)
+                  }
+                />
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                <InputFilter
+                  label="Tipo de camera"
+                  placeholder="Filtrar por camera"
+                  value={filterForm.cameraType}
+                  type="text"
+                  onChange={(e) =>
+                    handleFilterFormChange("cameraType", e.target.value)
+                  }
+                />
+                <InputFilter
+                  label="Modelo do celular"
+                  placeholder="Filtrar por celular"
+                  value={filterForm.celphoneModel}
+                  type="text"
+                  onChange={(e) =>
+                    handleFilterFormChange("celphoneModel", e.target.value)
                   }
                 />
               </div>

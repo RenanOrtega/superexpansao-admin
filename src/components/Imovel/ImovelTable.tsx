@@ -50,20 +50,16 @@ export function ImovelTable() {
   }, [activeFilters]);
 
   const handleDelete = async (id: string) => {
-    try {
-      await imovelService.delete(id);
-      setData((prevData) => {
-        const updatedItems = prevData.items.filter((item) => item.id !== id);
-        return {
-          ...prevData,
-          items: updatedItems,
-          totalItems: prevData.totalItems - 1,
-          totalPages: Math.ceil((prevData.totalItems - 1) / prevData.pageSize),
-        };
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    await imovelService.delete(id);
+    setData((prevData) => {
+      const updatedItems = prevData.items.filter((item) => item.id !== id);
+      return {
+        ...prevData,
+        items: updatedItems,
+        totalItems: prevData.totalItems - 1,
+        totalPages: Math.ceil((prevData.totalItems - 1) / prevData.pageSize),
+      };
+    });
   };
 
   const handlePageChange = (newPage: number) => {

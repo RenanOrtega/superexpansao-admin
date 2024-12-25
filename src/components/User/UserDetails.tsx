@@ -38,7 +38,6 @@ export function UserDetails() {
       try {
         setIsLoading(true);
         const response = await userService.getById(id);
-        console.log(response);
         form.reset({
           email: response.email,
           name: response.name,
@@ -46,7 +45,6 @@ export function UserDetails() {
         });
         setIsLoading(false);
       } catch (error) {
-        console.error("Erro ao buscar colaborador:", error);
         navigate("/colaboradores");
       }
     };

@@ -29,6 +29,8 @@ export function MapeadorCreateDialog({ onCreate }: CreateMapeadorDialogProps) {
       telephone: "",
       city: "",
       vehicle: "",
+      cameraType: "",
+      celphoneModel: "",
       pix: "",
       observations: "",
       lastMapping: undefined,
@@ -82,13 +84,34 @@ export function MapeadorCreateDialog({ onCreate }: CreateMapeadorDialogProps) {
             />
             <TelephoneFormField control={form.control} name="telephone" />
           </div>
-
-          <CustomFormField
-            control={form.control}
-            name="city"
-            label="Cidade"
-            placeholder="Cidade"
-          />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+            <CustomFormField
+              control={form.control}
+              name="city"
+              label="Cidade"
+              placeholder="Cidade"
+            />
+            <CustomFormField
+              control={form.control}
+              name="zone"
+              label="Zona"
+              placeholder="Zona"
+            />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+            <CustomFormField
+              control={form.control}
+              name="cameraType"
+              label="Tipo de camera"
+              placeholder="Tipo de camera"
+            />
+            <CustomFormField
+              control={form.control}
+              name="celphoneModel"
+              label="Modelo do celular"
+              placeholder="Modelo do celular"
+            />
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
             <SelectFormField
               control={form.control}

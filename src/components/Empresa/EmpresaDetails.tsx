@@ -64,7 +64,7 @@ export function EmpresaDetails() {
         setIsLoading(false);
       } catch (error) {
         console.error("Erro ao buscar proprietário:", error);
-        navigate("/empresas");
+        navigate("/clientes");
       }
     };
 
@@ -78,7 +78,7 @@ export function EmpresaDetails() {
     try {
       await empresaService.update(id!, { ...data, id });
       toast({
-        title: "Empresa atualizada com sucesso.",
+        title: "Cliente atualizada com sucesso.",
         className: "bg-green-400 dark:text-zinc-900",
       });
       setIsButtonLoading(false);
@@ -136,10 +136,10 @@ export function EmpresaDetails() {
       <div className="container mx-auto p-4">
         <Button
           variant="outline"
-          onClick={() => navigate("/empresas")}
+          onClick={() => navigate("/clientes")}
           className="mb-4 flex items-center gap-2"
         >
-          <ArrowLeft size={16} /> Empresas
+          <ArrowLeft size={16} /> Clientes
         </Button>
 
         <Container className="mb-5">

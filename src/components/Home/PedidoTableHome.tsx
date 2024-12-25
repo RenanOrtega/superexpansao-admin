@@ -49,20 +49,16 @@ export function PedidoTableHome() {
   }, [activeFilters]);
 
   const handleDelete = async (id: string) => {
-    try {
-      await pedidoService.delete(id);
-      setData((prevData) => {
-        const updatedItems = prevData.items.filter((item) => item.id !== id);
-        return {
-          ...prevData,
-          items: updatedItems,
-          totalItems: prevData.totalItems - 1,
-          totalPages: Math.ceil((prevData.totalItems - 1) / prevData.pageSize),
-        };
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    await pedidoService.delete(id);
+    setData((prevData) => {
+      const updatedItems = prevData.items.filter((item) => item.id !== id);
+      return {
+        ...prevData,
+        items: updatedItems,
+        totalItems: prevData.totalItems - 1,
+        totalPages: Math.ceil((prevData.totalItems - 1) / prevData.pageSize),
+      };
+    });
   };
 
   const handlePageChange = (newPage: number) => {

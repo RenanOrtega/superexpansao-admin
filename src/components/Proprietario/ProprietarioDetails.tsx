@@ -40,6 +40,9 @@ export function ProprietarioDetails() {
   });
 
   const [imoveis, setImoveis] = useState<Imovel[]>([]);
+  const [countImoveis, setCountImoveis] = useState<number | undefined>(
+    undefined
+  );
 
   useEffect(() => {
     const fetchProprietario = async () => {
@@ -60,6 +63,7 @@ export function ProprietarioDetails() {
         });
 
         setImoveis(response.imoveis);
+        setCountImoveis(response.imoveisCount);
         setIsLoading(false);
       } catch (error) {
         console.error("Erro ao buscar proprietário:", error);
@@ -193,7 +197,12 @@ export function ProprietarioDetails() {
         </Container>
 
         <Container className="mt-8">
-          <h2 className="text-2xl font-bold mb-4">Imóveis</h2>
+          <div className="grid grid-cols-1 mb-5">
+            <h2 className="text-2xl font-bold">Imóveis</h2>
+            <span className="text-sm opacity-40">
+              Quantidade: {countImoveis}
+            </span>
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {imoveis.map((imovel) => (
               <Card

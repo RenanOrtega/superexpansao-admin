@@ -28,6 +28,7 @@ export function MapeadorDetails() {
     resolver: zodResolver(mapeadorSchema),
     defaultValues: {
       city: "",
+      zone: "",
       name: "",
       observations: "",
       pix: "",
@@ -43,15 +44,17 @@ export function MapeadorDetails() {
       try {
         setIsLoading(true);
         const response = await mapeadorService.getById(id);
-        console.log(response);
         form.reset({
           city: response.city,
+          zone: response.zone,
           lastMapping: response.lastMapping,
           name: response.name,
           observations: response.observations,
           pix: response.pix,
           telephone: response.telephone,
           vehicle: response.vehicle,
+          cameraType: response.cameraType,
+          celphoneModel: response.celphoneModel,
         });
         setIsLoading(false);
       } catch (error) {
@@ -123,7 +126,21 @@ export function MapeadorDetails() {
                 label="Cidade"
                 placeholder="Cidade"
               />
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <CustomFormField
+                  control={form.control}
+                  name="cameraType"
+                  label="Tipo de camera"
+                  placeholder="Tipo de camera"
+                />
+                <CustomFormField
+                  control={form.control}
+                  name="celphoneModel"
+                  label="Modelo do celular"
+                  placeholder="Modelo do celular"
+                />
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <SelectFormField
                   control={form.control}
                   label="Veículo"

@@ -111,13 +111,8 @@ export function ImovelActions({
   };
 
   const handleCreateImovel = async (data: ImovelFormData) => {
-    try {
-      const createdImovel = await imovelService.create(data);
-      onApplyFilters({ ...activeFilters, ...filterForm, pageNumber: 1 });
-      console.log("Imovel criado com sucesso:", createdImovel);
-    } catch (error) {
-      console.error("Erro ao criar imovel:", error);
-    }
+    await imovelService.create(data);
+    onApplyFilters({ ...activeFilters, ...filterForm, pageNumber: 1 });
   };
 
   return (

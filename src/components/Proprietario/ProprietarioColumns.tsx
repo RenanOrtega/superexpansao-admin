@@ -35,6 +35,10 @@ export const columns: ColumnDef<Proprietario>[] = [
     accessorKey: "state",
   },
   {
+    header: "Qtd Imóveis",
+    accessorKey: "imoveisCount",
+  },
+  {
     header: "Fonte",
     accessorKey: "source",
   },

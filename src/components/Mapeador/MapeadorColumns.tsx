@@ -20,6 +20,10 @@ export const columns: ColumnDef<Mapeador>[] = [
     accessorKey: "city",
   },
   {
+    header: "Zona",
+    accessorKey: "zone",
+  },
+  {
     header: "Veículo",
     accessorKey: "vehicle",
     cell: ({ row }) => {
@@ -34,6 +38,14 @@ export const columns: ColumnDef<Mapeador>[] = [
 
       return <CustomTag text={vehicle} className={backgroundColor} />;
     },
+  },
+  {
+    header: "Camera",
+    accessorKey: "cameraType",
+  },
+  {
+    header: "Celular",
+    accessorKey: "celphoneModel",
   },
   {
     header: "Pix",

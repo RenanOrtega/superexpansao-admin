@@ -128,13 +128,8 @@ export function PedidoActions({
   };
 
   const handleCreatePedido = async (data: PedidoFormData) => {
-    try {
-      const createdPedido = await pedidoService.create(data);
-      onApplyFilters({ ...activeFilters, ...filterForm, pageNumber: 1 });
-      console.log("Pedido criado com sucesso:", createdPedido);
-    } catch (error) {
-      console.error("Erro ao criar pedido:", error);
-    }
+    await pedidoService.create(data);
+    onApplyFilters({ ...activeFilters, ...filterForm, pageNumber: 1 });
   };
 
   return (
@@ -297,7 +292,7 @@ export function PedidoActions({
                       value={filterForm.onlineCreated}
                     >
                       <SelectTrigger>
-                        <SelectValue placeholder="Filtre por online criado" />
+                        <SelectValue placeholder="Filtre por online feito" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem className="cursor-pointer" value="true">

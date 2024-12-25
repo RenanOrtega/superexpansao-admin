@@ -50,20 +50,16 @@ export function EmpresaTable() {
   }, [activeFilters]);
 
   const handleDelete = async (id: string) => {
-    try {
-      await empresaService.delete(id);
-      setData((prevData) => {
-        const updatedItems = prevData.items.filter((item) => item.id !== id);
-        return {
-          ...prevData,
-          items: updatedItems,
-          totalItems: prevData.totalItems - 1,
-          totalPages: Math.ceil((prevData.totalItems - 1) / prevData.pageSize),
-        };
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    await empresaService.delete(id);
+    setData((prevData) => {
+      const updatedItems = prevData.items.filter((item) => item.id !== id);
+      return {
+        ...prevData,
+        items: updatedItems,
+        totalItems: prevData.totalItems - 1,
+        totalPages: Math.ceil((prevData.totalItems - 1) / prevData.pageSize),
+      };
+    });
   };
 
   const handlePageChange = (newPage: number) => {
@@ -96,8 +92,8 @@ export function EmpresaTable() {
     <>
       <PageHeader
         Icon={Building2}
-        title="Empresas"
-        subtitle="Gerenciamento de empresas."
+        title="Clientes"
+        subtitle="Gerenciamento de clientes."
       />
       <EmpresaActions
         activeFilters={activeFilters}
@@ -112,7 +108,7 @@ export function EmpresaTable() {
         pageNumber={data.pageNumber}
         hasNextPage={data.hasNextPage}
         hasPreviousPage={data.hasPreviousPage}
-        path="empresas"
+        path="clientes"
         showDeleteButton={true}
       />
     </>

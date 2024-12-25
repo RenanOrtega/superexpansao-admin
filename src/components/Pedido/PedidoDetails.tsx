@@ -59,7 +59,6 @@ export function PedidoDetails() {
       try {
         setIsLoading(true);
         const response = await pedidoService.getById(id);
-        console.log(response);
         form.reset({
           builtArea: response.builtArea,
           city: response.city,
@@ -96,7 +95,6 @@ export function PedidoDetails() {
         });
         setIsLoading(false);
       } catch (error) {
-        console.error("Erro ao buscar pedido:", error);
         navigate("/pedidos");
       }
     };
@@ -231,7 +229,7 @@ export function PedidoDetails() {
               />
               <SelectFormField
                 control={form.control}
-                label="Online criado"
+                label="Online feito"
                 name="onlineCreated"
                 placeholder="Selecione"
                 values={[true, false]}

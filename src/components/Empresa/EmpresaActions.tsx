@@ -64,13 +64,8 @@ export function EmpresaActions({
   };
 
   const handleCreateEmpresa = async (data: EmpresaFormData) => {
-    try {
-      const createdProprieatario = await empresaService.create(data);
-      onApplyFilters({ ...activeFilters, ...filterForm, pageNumber: 1 });
-      console.log("Proprieatario criado com sucesso:", createdProprieatario);
-    } catch (error) {
-      console.error("Erro ao criar empresa:", error);
-    }
+    await empresaService.create(data);
+    onApplyFilters({ ...activeFilters, ...filterForm, pageNumber: 1 });
   };
 
   const handleDate = (fieldName: string, selectedDate?: Date) => {
@@ -101,7 +96,7 @@ export function EmpresaActions({
           <DialogForm
             open={isDialogOpen}
             onOpenChange={setIsDialogOpen}
-            title="Filtrar empresa"
+            title="Filtrar cliente"
             trigger={
               <Button className="w-full sm:w-auto">
                 <Filter />
