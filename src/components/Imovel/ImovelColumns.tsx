@@ -75,22 +75,50 @@ export const columns: ColumnDef<Imovel>[] = [
   {
     header: "Aluguel",
     accessorKey: "rentValue",
+    cell: ({ row }) => {
+      const rentValue: string = row.getValue("rentValue");
+      return `R$ ${rentValue}`;
+    },
   },
   {
     header: "Venda",
     accessorKey: "saleValue",
+    cell: ({ row }) => {
+      const saleValue: string = row.getValue("saleValue");
+      return `R$ ${saleValue}`;
+    },
   },
   {
-    header: "Iptu",
-    accessorKey: "iptuValue",
+    header: "Iptu mensal",
+    accessorKey: "iptuMonthly",
+    cell: ({ row }) => {
+      const iptuMonthly: string = row.getValue("iptuMonthly");
+      return `R$ ${iptuMonthly}`;
+    },
+  },
+  {
+    header: "Iptu anual",
+    accessorKey: "iptuAnnual",
+    cell: ({ row }) => {
+      const iptuAnnual: string = row.getValue("iptuAnnual");
+      return `R$ ${iptuAnnual}`;
+    },
   },
   {
     header: "Metragem",
     accessorKey: "searchMeterage",
+    cell: ({ row }) => {
+      const searchMeterage: string = row.getValue("searchMeterage");
+      return `${searchMeterage}m2`;
+    },
   },
   {
     header: "Area Total",
     accessorKey: "totalArea",
+    cell: ({ row }) => {
+      const totalArea: string = row.getValue("totalArea");
+      return `${totalArea}m2`;
+    },
   },
   {
     header: "Imobiliaria",

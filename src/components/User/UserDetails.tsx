@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "../ui/button";
-import { ArrowLeft, Save } from "lucide-react";
+import { ArrowLeft, Edit, Save } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -22,6 +22,7 @@ export function UserDetails() {
   useState(false);
   const [isButtonLoading, setIsButtonLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   const form = useForm<z.infer<typeof userUpdateSchema>>({
     resolver: zodResolver(userUpdateSchema),
@@ -63,6 +64,7 @@ export function UserDetails() {
         className: "bg-green-400 dark:text-zinc-900",
       });
       setIsButtonLoading(false);
+      setIsEditing(false);
     } catch (error) {
       toast({
         variant: "destructive",
@@ -74,13 +76,23 @@ export function UserDetails() {
   return (
     <LoadingPage isLoading={isLoading}>
       <div className="container mx-auto">
-        <Button
-          variant="outline"
-          onClick={() => navigate("/usuarios")}
-          className="mb-4 flex items-center gap-2"
-        >
-          <ArrowLeft size={16} /> Usuarios
-        </Button>
+        <div className="flex flex-col md:flex-row justify-between mb-3 md:mb-0">
+          <Button
+            variant="outline"
+            onClick={() => navigate("/usuarios")}
+            className="mb-4 flex items-center gap-2"
+          >
+            <ArrowLeft size={16} /> Usuarios
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => setIsEditing(!isEditing)}
+            className="flex items-center gap-2"
+          >
+            <Edit size={16} />
+            {isEditing ? "Desabilitar edição" : "Habilitar edição"}
+          </Button>
+        </div>
         <Container>
           <Form {...form}>
             <form
@@ -100,12 +112,14 @@ export function UserDetails() {
                   name="name"
                   label="Nome"
                   placeholder="Nome do Mapeador"
+                  disabled={!isEditing}
                 />
                 <CustomFormField
                   control={form.control}
                   name="email"
                   label="Email"
                   placeholder="Nome do Mapeador"
+                  disabled={!isEditing}
                 />
                 <SelectFormField
                   control={form.control}
@@ -113,6 +127,7 @@ export function UserDetails() {
                   label="Permissão"
                   placeholder="Selecionne a permissão"
                   values={["Admin", "Moderador", "Padrão"]}
+                  disabled={!isEditing}
                 />
               </div>
 

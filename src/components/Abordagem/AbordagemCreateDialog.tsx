@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Plus, Save } from "lucide-react";
-import { Form } from "../ui/form";
+import { Form, FormField } from "../ui/form";
 import { DialogForm } from "../DialogForm";
 import { useState } from "react";
 import { DialogFooter } from "../ui/dialog";
@@ -19,6 +19,7 @@ import SelectFormField from "../SelectFormField";
 import { DateFormField } from "../DateFormFields";
 import { LoadingButton } from "../LoadingButton";
 import { useToast } from "@/hooks/use-toast";
+import { UserCombobox } from "../User/UserCombobox";
 
 export function AbordagemCreateDialog({
   onCreate,
@@ -32,6 +33,7 @@ export function AbordagemCreateDialog({
       comment: "",
       status: "",
       telephone: "",
+      userEmail: "",
       contactAddressed: false,
       lastApproachDate: undefined,
       nextApproachDate: undefined,
@@ -98,6 +100,13 @@ export function AbordagemCreateDialog({
               labels={["Sim", "Não"]}
             />
           </div>
+          <FormField
+            name="userEmail"
+            control={form.control}
+            render={({ field: { value, onChange } }) => (
+              <UserCombobox value={value} onChange={onChange} />
+            )}
+          />
           <CustomFormField
             control={form.control}
             label="Tipo de abordagem"

@@ -30,7 +30,8 @@ export function ImovelCreateDialog({ onCreate }: CreateImovelDialogProps) {
       link: "",
       propertyProfile: "",
       realEstate: "",
-      iptuValue: 0,
+      iptuMonthly: 0,
+      iptuAnnual: 0,
       rentValue: 0,
       saleValue: 0,
       searchMeterage: 0,
@@ -107,7 +108,7 @@ export function ImovelCreateDialog({ onCreate }: CreateImovelDialogProps) {
                 />
               </div>
             </TabsContent>
-            <TabsContent value="details" className="flex flex-col gap-3">
+            <TabsContent value="details" className="space-y-2">
               <FormField
                 name="proprietarioId"
                 control={form.control}
@@ -122,20 +123,22 @@ export function ImovelCreateDialog({ onCreate }: CreateImovelDialogProps) {
                 placeholder="Seleciona a disponibilidade"
                 values={["Disponivel", "Alugado", "Indisponivel", "Motivo"]}
               />
-              <CustomFormField
-                control={form.control}
-                name="link"
-                label="Link"
-                type="text"
-                placeholder="Link"
-              />
-              <CustomFormField
-                control={form.control}
-                name="propertyProfile"
-                label="Perfil"
-                type="text"
-                placeholder="Perfil do Imóvel"
-              />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                <CustomFormField
+                  control={form.control}
+                  name="link"
+                  label="Link"
+                  type="text"
+                  placeholder="Link"
+                />
+                <CustomFormField
+                  control={form.control}
+                  name="propertyProfile"
+                  label="Perfil"
+                  type="text"
+                  placeholder="Perfil do Imóvel"
+                />
+              </div>
               <CustomFormField
                 control={form.control}
                 name="realEstate"
@@ -143,7 +146,7 @@ export function ImovelCreateDialog({ onCreate }: CreateImovelDialogProps) {
                 type="text"
                 placeholder="Imobiliaria"
               />
-              <div className="flex gap-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                 <CustomFormField
                   control={form.control}
                   name="searchMeterage"
@@ -166,13 +169,26 @@ export function ImovelCreateDialog({ onCreate }: CreateImovelDialogProps) {
                 />
               </div>
             </TabsContent>
-            <TabsContent value="financial" className="flex flex-col gap-3">
+            <TabsContent
+              value="financial"
+              className="grid grid-cols-1 md:grid-cols-2 gap-2"
+            >
               <CustomFormField
                 control={form.control}
-                name="iptuValue"
-                label="Valor do IPTU"
+                name="iptuMonthly"
+                label="Valor do IPTU mensal"
                 type="number"
-                placeholder="IPTU"
+                placeholder="IPTU mensal"
+                onChange={(value) => {
+                  return value === "" ? undefined : Number(value);
+                }}
+              />
+              <CustomFormField
+                control={form.control}
+                name="iptuAnnual"
+                label="Valor do IPTU anual"
+                type="number"
+                placeholder="IPTU anual"
                 onChange={(value) => {
                   return value === "" ? undefined : Number(value);
                 }}

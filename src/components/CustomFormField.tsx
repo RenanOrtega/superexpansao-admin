@@ -16,6 +16,7 @@ interface CustomFormField<T extends FieldValues> {
   type?: "text" | "number" | "password";
   className?: string;
   onChange?: (value: string | number | undefined) => any;
+  disabled?: boolean;
 }
 
 export function CustomFormField<T extends FieldValues>({
@@ -26,6 +27,7 @@ export function CustomFormField<T extends FieldValues>({
   type = "text",
   className = "w-full ",
   onChange,
+  disabled,
 }: CustomFormField<T>) {
   return (
     <FormField
@@ -39,6 +41,7 @@ export function CustomFormField<T extends FieldValues>({
               className="dark:bg-zinc-950"
               type={type}
               placeholder={placeholder}
+              disabled={disabled}
               {...field}
               value={field.value ?? ""}
               onChange={(e) => {

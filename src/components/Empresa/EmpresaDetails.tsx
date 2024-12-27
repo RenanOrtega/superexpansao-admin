@@ -3,7 +3,7 @@ import { empresaSchema } from "@/types/Empresa";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "../ui/button";
-import { ArrowLeft, Save } from "lucide-react";
+import { ArrowLeft, Edit, Save } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,6 +27,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import ContatoFilters from "../Contato/ContatoFilters";
 import { ContatoFilterParams } from "@/types/Contato/filters";
+import { format } from "date-fns";
 
 export function EmpresaDetails() {
   const { toast } = useToast();
@@ -35,6 +36,7 @@ export function EmpresaDetails() {
   const [isButtonLoading, setIsButtonLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [empresaId, setEmpresaId] = useState<string>("");
+  const [isEditing, setIsEditing] = useState(false);
 
   const form = useForm<z.infer<typeof empresaSchema>>({
     resolver: zodResolver(empresaSchema),
@@ -80,6 +82,7 @@ export function EmpresaDetails() {
         className: "bg-green-400 dark:text-zinc-900",
       });
       setIsButtonLoading(false);
+      setIsEditing(false);
     } catch (error) {
       toast({
         variant: "destructive",
@@ -110,36 +113,85 @@ export function EmpresaDetails() {
 
   useEffect(() => {
     const filtered = contatos.filter((contato) => {
+      const matchesName =
+        !filters.name ||
+        contato.name.toLowerCase().includes(filters.name.toLowerCase());
+
+      const matchesEmail =
+        !filters.email ||
+        contato.email.toLowerCase().includes(filters.email.toLowerCase());
+
+      const matchesTelephone =
+        !filters.telephone || contato.telephone.includes(filters.telephone);
+
+      const matchesPosition =
+        !filters.position ||
+        contato.position.toLowerCase().includes(filters.position.toLowerCase());
+
+      const matchesCity =
+        !filters.city ||
+        contato.city.toLowerCase().includes(filters.city.toLowerCase());
+
+      const matchesState =
+        !filters.state ||
+        contato.state.toLowerCase().includes(filters.state.toLowerCase());
+
+      const matchesArea =
+        !filters.areaOfActivity ||
+        contato.areaOfActivity
+          .toLowerCase()
+          .includes(filters.areaOfActivity.toLowerCase());
+
+      const matchesCreatedAt =
+        !filters.createdAt ||
+        new Date(contato.createdAt).toISOString().split("T")[0] ===
+          filters.createdAt;
+
+      const matchesUpdatedAt =
+        !filters.updatedAt ||
+        new Date(contato.updatedAt).toISOString().split("T")[0] ===
+          filters.updatedAt;
+
       return (
-        (!filters.name ||
-          contato.name.toLowerCase().includes(filters.name.toLowerCase())) &&
-        (!filters.email ||
-          contato.email.toLowerCase().includes(filters.email.toLowerCase())) &&
-        (!filters.telephone || contato.telephone.includes(filters.telephone)) &&
-        (!filters.position ||
-          contato.position
-            .toLowerCase()
-            .includes(filters.position.toLowerCase()))
+        matchesName &&
+        matchesEmail &&
+        matchesTelephone &&
+        matchesPosition &&
+        matchesCity &&
+        matchesState &&
+        matchesArea &&
+        matchesCreatedAt &&
+        matchesUpdatedAt
       );
     });
+
     setFilteredContatos(filtered);
   }, [filters, contatos]);
-
   const handleFilterContatos = (newFilters: ContatoFilterParams) => {
+    console.log(newFilters);
     setFilters(newFilters);
   };
 
   return (
     <LoadingPage isLoading={isLoading}>
       <div className="container mx-auto p-4">
-        <Button
-          variant="outline"
-          onClick={() => navigate("/clientes")}
-          className="mb-4 flex items-center gap-2"
-        >
-          <ArrowLeft size={16} /> Clientes
-        </Button>
-
+        <div className="flex flex-col md:flex-row justify-between mb-3 md:mb-0">
+          <Button
+            variant="outline"
+            onClick={() => navigate("/clientes")}
+            className="mb-4 flex items-center gap-2"
+          >
+            <ArrowLeft size={16} /> Clientes
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => setIsEditing(!isEditing)}
+            className="flex items-center gap-2"
+          >
+            <Edit size={16} />
+            {isEditing ? "Desabilitar edição" : "Habilitar edição"}
+          </Button>
+        </div>
         <Container className="mb-5">
           <Form {...form}>
             <form
@@ -159,20 +211,27 @@ export function EmpresaDetails() {
                   name="fantasyName"
                   label="Nome fantasia"
                   placeholder="Nome fantasia"
+                  disabled={!isEditing}
                 />
                 <CustomFormField
                   control={form.control}
                   name="socialReason"
                   label="Razão social"
                   placeholder="Razão social"
+                  disabled={!isEditing}
                 />
                 <CustomFormField
                   control={form.control}
                   name="category"
                   label="Categoria"
                   placeholder="Categoria"
+                  disabled={!isEditing}
                 />
-                <TelephoneFormField control={form.control} name="telephone" />
+                <TelephoneFormField
+                  control={form.control}
+                  name="telephone"
+                  disabled={!isEditing}
+                />
               </div>
 
               <div className="flex justify-end">
@@ -189,21 +248,28 @@ export function EmpresaDetails() {
           </Form>
         </Container>
         <Container className="mt-5">
-          <div className="flex gap-2 flex-col md:flex-row md:justify-between items-center mb-4">
+          <div className="flex flex-col md:flex-row justify-between">
             <h2 className="text-2xl font-bold">Contatos</h2>
-            <ContatoCreateDialog
-              onCreate={handleAddContato}
-              empresaId={empresaId}
-            />
+            <div className="flex flex-col md:flex-row gap-2 md:mb-5">
+              <ContatoCreateDialog
+                onCreate={handleAddContato}
+                empresaId={empresaId}
+              />
+              <ContatoFilters onFilter={handleFilterContatos} />
+            </div>
           </div>
-          <ContatoFilters onFilter={handleFilterContatos} />
           <Table>
             <TableHeader>
               <TableRow>
                 <TableHead>Nome</TableHead>
                 <TableHead>Cargo</TableHead>
+                <TableHead>Cidade</TableHead>
+                <TableHead>Estado</TableHead>
+                <TableHead>Area de atuação</TableHead>
                 <TableHead>Email</TableHead>
                 <TableHead>Telefone</TableHead>
+                <TableHead>Criado em</TableHead>
+                <TableHead>Atualizado em</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -215,8 +281,21 @@ export function EmpresaDetails() {
                 >
                   <TableCell>{contato.name}</TableCell>
                   <TableCell>{contato.position}</TableCell>
+                  <TableCell>{contato.city}</TableCell>
+                  <TableCell>{contato.state}</TableCell>
+                  <TableCell>{contato.areaOfActivity}</TableCell>
                   <TableCell>{contato.email}</TableCell>
                   <TableCell>{contato.telephone}</TableCell>
+                  <TableCell>
+                    {contato.createdAt
+                      ? format(contato.createdAt, "dd/MM/yyyy")
+                      : "-"}
+                  </TableCell>
+                  <TableCell>
+                    {contato.updatedAt
+                      ? format(contato.updatedAt, "dd/MM/yyyy")
+                      : "-"}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

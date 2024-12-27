@@ -21,6 +21,7 @@ interface SelectFormFieldProps<T extends FieldValues> {
   placeholder: string;
   values: any[];
   labels?: any[];
+  disabled?: boolean;
 }
 
 export default function SelectFormField<T extends FieldValues>({
@@ -30,6 +31,7 @@ export default function SelectFormField<T extends FieldValues>({
   placeholder,
   values,
   labels,
+  disabled,
 }: SelectFormFieldProps<T>) {
   const displayLabels = labels || values;
 
@@ -50,7 +52,7 @@ export default function SelectFormField<T extends FieldValues>({
                 displayLabels[values.indexOf(field.value)]?.toString() || ""
               }
             >
-              <SelectTrigger className="dark:bg-zinc-950">
+              <SelectTrigger className="dark:bg-zinc-950" disabled={disabled}>
                 <SelectValue placeholder={placeholder} />
               </SelectTrigger>
               <SelectContent>
@@ -59,6 +61,7 @@ export default function SelectFormField<T extends FieldValues>({
                     key={values[index].toString()}
                     value={label.toString()}
                     className="cursor-pointer"
+                    disabled={disabled}
                   >
                     {label}
                   </SelectItem>

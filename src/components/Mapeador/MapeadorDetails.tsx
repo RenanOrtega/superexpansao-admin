@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "../ui/button";
-import { ArrowLeft, Save } from "lucide-react";
+import { ArrowLeft, Edit, Save } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -23,6 +23,7 @@ export function MapeadorDetails() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isButtonLoading, setIsButtonLoading] = useState<boolean>(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   const form = useForm<z.infer<typeof mapeadorSchema>>({
     resolver: zodResolver(mapeadorSchema),
@@ -80,6 +81,7 @@ export function MapeadorDetails() {
         className: "bg-green-400 dark:text-zinc-900",
       });
       setIsButtonLoading(false);
+      setIsEditing(false);
     } catch (error) {
       toast({
         variant: "destructive",
@@ -91,13 +93,23 @@ export function MapeadorDetails() {
   return (
     <LoadingPage isLoading={isLoading}>
       <div className="container mx-auto">
-        <Button
-          variant="outline"
-          onClick={() => navigate("/mapeadores")}
-          className="mb-4 flex items-center gap-2"
-        >
-          <ArrowLeft size={16} /> Mapeadores
-        </Button>
+        <div className="flex flex-col md:flex-row justify-between mb-3 md:mb-0">
+          <Button
+            variant="outline"
+            onClick={() => navigate("/mapeadores")}
+            className="mb-4 flex items-center gap-2"
+          >
+            <ArrowLeft size={16} /> Mapeadores
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => setIsEditing(!isEditing)}
+            className="flex items-center gap-2"
+          >
+            <Edit size={16} />
+            {isEditing ? "Desabilitar edição" : "Habilitar edição"}
+          </Button>
+        </div>
         <Container>
           <Form {...form}>
             <form
@@ -117,14 +129,20 @@ export function MapeadorDetails() {
                   name="name"
                   label="Nome"
                   placeholder="Nome do Mapeador"
+                  disabled={!isEditing}
                 />
-                <TelephoneFormField control={form.control} name="telephone" />
+                <TelephoneFormField
+                  control={form.control}
+                  name="telephone"
+                  disabled={!isEditing}
+                />
               </div>
               <CustomFormField
                 control={form.control}
                 name="city"
                 label="Cidade"
                 placeholder="Cidade"
+                disabled={!isEditing}
               />
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <CustomFormField
@@ -132,12 +150,14 @@ export function MapeadorDetails() {
                   name="cameraType"
                   label="Tipo de camera"
                   placeholder="Tipo de camera"
+                  disabled={!isEditing}
                 />
                 <CustomFormField
                   control={form.control}
                   name="celphoneModel"
                   label="Modelo do celular"
                   placeholder="Modelo do celular"
+                  disabled={!isEditing}
                 />
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -147,24 +167,28 @@ export function MapeadorDetails() {
                   name="vehicle"
                   placeholder="Selecione um veículo"
                   values={["Moto", "Carro"]}
+                  disabled={!isEditing}
                 />
                 <CustomFormField
                   control={form.control}
                   name="pix"
                   label="PIX"
                   placeholder="Chave PIX"
+                  disabled={!isEditing}
                 />
               </div>
               <DateFormField
                 control={form.control}
                 label="Último mapeamento"
                 name="lastMapping"
+                disabled={!isEditing}
               />
               <CustomFormField
                 control={form.control}
                 name="observations"
                 label="Observações"
                 placeholder="Observações"
+                disabled={!isEditing}
               />
               <div className="flex justify-end">
                 <LoadingButton

@@ -33,8 +33,10 @@ export function ImovelActions({
     maxRentValue: activeFilters.maxRentValue || undefined,
     minSaleValue: activeFilters.minSaleValue || undefined,
     maxSaleValue: activeFilters.maxSaleValue || undefined,
-    minIptuValue: activeFilters.minIptuValue || undefined,
-    maxIptuValue: activeFilters.maxIptuValue || undefined,
+    minIptuAnnual: activeFilters.minIptuAnnual || undefined,
+    maxIptuAnnual: activeFilters.maxIptuAnnual || undefined,
+    minIptuMonthly: activeFilters.minIptuMonthly || undefined,
+    maxIptuMonthly: activeFilters.maxIptuMonthly || undefined,
     minSearchMeterage: activeFilters.minSearchMeterage || undefined,
     maxSearchMeterage: activeFilters.maxSearchMeterage || undefined,
     minTotalArea: activeFilters.minTotalArea || undefined,
@@ -75,8 +77,10 @@ export function ImovelActions({
       maxRentValue: undefined,
       minSaleValue: undefined,
       maxSaleValue: undefined,
-      minIptuValue: undefined,
-      maxIptuValue: undefined,
+      minIptuAnnual: undefined,
+      maxIptuAnnual: undefined,
+      minIptuMonthly: undefined,
+      maxIptuMonthly: undefined,
       minSearchMeterage: undefined,
       maxSearchMeterage: undefined,
       minTotalArea: undefined,
@@ -275,21 +279,51 @@ export function ImovelActions({
                         }
                       />
                       <InputFilter
-                        label="IPTU Mín"
+                        label="Mín IPTU Anual"
                         placeholder="Filtrar mínimo"
                         type="number"
-                        value={filterForm.minIptuValue}
+                        value={filterForm.minIptuAnnual}
                         onChange={(e) =>
-                          handleFilterFormChange("minIptuValue", e.target.value)
+                          handleFilterFormChange(
+                            "minIptuAnnual",
+                            e.target.value
+                          )
                         }
                       />
                       <InputFilter
-                        label="IPTU Máx"
+                        label="Máx IPTU Anual"
                         placeholder="Filtrar máximo"
                         type="number"
-                        value={filterForm.maxIptuValue}
+                        value={filterForm.maxIptuAnnual}
                         onChange={(e) =>
-                          handleFilterFormChange("maxIptuValue", e.target.value)
+                          handleFilterFormChange(
+                            "maxIptuAnnual",
+                            e.target.value
+                          )
+                        }
+                      />
+                      <InputFilter
+                        label="Mín IPTU Mensal"
+                        placeholder="Filtrar mínimo"
+                        type="number"
+                        value={filterForm.minIptuMonthly}
+                        onChange={(e) =>
+                          handleFilterFormChange(
+                            "minIptuMonthly",
+                            e.target.value
+                          )
+                        }
+                      />
+                      <InputFilter
+                        label="Máx IPTU Mensal"
+                        placeholder="Filtrar máximo"
+                        type="number"
+                        value={filterForm.maxIptuMonthly}
+                        onChange={(e) =>
+                          handleFilterFormChange(
+                            "maxIptuMonthly",
+                            e.target.value
+                          )
                         }
                       />
                     </div>

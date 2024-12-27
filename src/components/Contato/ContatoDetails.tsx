@@ -3,7 +3,7 @@ import { contatoSchema } from "@/types/Contato";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "../ui/button";
-import { ArrowLeft, Save } from "lucide-react";
+import { ArrowLeft, Edit, Save } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -35,6 +35,7 @@ export function ContatoDetails() {
   const [isButtonLoading, setIsButtonLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [contatoId, setContatoId] = useState<string>("");
+  const [isEditing, setIsEditing] = useState(false);
 
   const [filteredAbordagens, setFilteredAbordagens] = useState<Abordagem[]>([]);
   const [filters, setFilters] = useState<AbordagemFilterParams>({});
@@ -48,6 +49,9 @@ export function ContatoDetails() {
       name: "",
       position: "",
       telephone: "",
+      city: "",
+      state: "",
+      areaOfActivity: "",
     },
   });
 
@@ -68,6 +72,7 @@ export function ContatoDetails() {
         setAbordagens(response.abordagens);
         setFilteredAbordagens(response.abordagens);
         setIsLoading(false);
+        setIsEditing(false);
       } catch (error) {
         console.error("Erro ao buscar proprietário:", error);
         navigate("/contatos");
@@ -108,13 +113,20 @@ export function ContatoDetails() {
         filters.contactAddressed === undefined ||
         abordagem.contactAddressed === filters.contactAddressed;
 
+      const matchesUserEmail =
+        !filters.userEmail ||
+        abordagem.userEmail
+          .toLowerCase()
+          .includes(filters.userEmail.toLowerCase());
+
       return (
         matchesApproachType &&
         matchesStatus &&
         matchesTelephone &&
         matchesLastApproachDate &&
         matchesNextApproachDate &&
-        matchesContactAddressed
+        matchesContactAddressed &&
+        matchesUserEmail
       );
     });
 
@@ -157,14 +169,23 @@ export function ContatoDetails() {
   return (
     <LoadingPage isLoading={isLoading}>
       <div className="container mx-auto p-4">
-        <Button
-          variant="outline"
-          onClick={() => navigate(-1)}
-          className="mb-4 flex items-center gap-2"
-        >
-          <ArrowLeft size={16} /> Voltar
-        </Button>
-
+        <div className="flex flex-col md:flex-row justify-between mb-3 md:mb-0">
+          <Button
+            variant="outline"
+            onClick={() => navigate(-1)}
+            className="mb-4 flex items-center gap-2"
+          >
+            <ArrowLeft size={16} /> Voltar
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => setIsEditing(!isEditing)}
+            className="flex items-center gap-2"
+          >
+            <Edit size={16} />
+            {isEditing ? "Desabilitar edição" : "Habilitar edição"}
+          </Button>
+        </div>
         <Container>
           <Form {...form}>
             <form
@@ -181,25 +202,60 @@ export function ContatoDetails() {
               )}
               className="space-y-4"
             >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
                 <CustomFormField
                   control={form.control}
                   name="name"
                   label="Nome"
                   placeholder="Nome"
+                  disabled={!isEditing}
                 />
                 <CustomFormField
                   control={form.control}
                   name="email"
                   label="Email"
                   placeholder="Email"
+                  disabled={!isEditing}
                 />
-                <TelephoneFormField control={form.control} name="telephone" />
+                <TelephoneFormField
+                  control={form.control}
+                  name="telephone"
+                  disabled={!isEditing}
+                />
+                <CustomFormField
+                  control={form.control}
+                  name="city"
+                  label="Cidade"
+                  placeholder="Cidade"
+                  disabled={!isEditing}
+                />
+                <CustomFormField
+                  control={form.control}
+                  name="state"
+                  label="Estado"
+                  placeholder="Estado"
+                  disabled={!isEditing}
+                />
+                <CustomFormField
+                  control={form.control}
+                  name="areaOfActivity"
+                  label="Area de atuação"
+                  placeholder="Area de atuação"
+                  disabled={!isEditing}
+                />
                 <CustomFormField
                   control={form.control}
                   name="position"
                   label="Cargo"
                   placeholder="Cargo"
+                  disabled={!isEditing}
+                />
+                <CustomFormField
+                  control={form.control}
+                  name="observations"
+                  label="Observações"
+                  placeholder="Observações"
+                  disabled={!isEditing}
                 />
               </div>
 
@@ -218,14 +274,16 @@ export function ContatoDetails() {
         </Container>
 
         <Container className="mt-5">
-          <div className="flex gap-2 flex-row justify-between items-center">
-            <h2 className="text-2xl font-bold">Abordagens</h2>
-            <AbordagemCreateDialog
-              onCreate={handleAddAbordagem}
-              contatoId={contatoId}
-            />
+          <div className="flex flex-col md:flex-row justify-between">
+            <h2 className="text-2xl font-bold">Contatos</h2>
+            <div className="flex flex-col md:flex-row gap-2 md:mb-5">
+              <AbordagemCreateDialog
+                onCreate={handleAddAbordagem}
+                contatoId={contatoId}
+              />
+              <AbordagemFilters onFilter={handleFilterAbordagens} />
+            </div>
           </div>
-          <AbordagemFilters onFilter={handleFilterAbordagens} />
           <Table>
             <TableHeader>
               <TableRow>
@@ -233,6 +291,7 @@ export function ContatoDetails() {
                 <TableHead>Comentário</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead>Telefone</TableHead>
+                <TableHead>Responsável</TableHead>
                 <TableHead className="text-center">Contatado</TableHead>
                 <TableHead className="text-center">Última Abordagem</TableHead>
                 <TableHead className="text-center">Próxima Abordagem</TableHead>
@@ -249,6 +308,7 @@ export function ContatoDetails() {
                   <TableCell>{abordagem.comment}</TableCell>
                   <TableCell>{abordagem.status}</TableCell>
                   <TableCell>{abordagem.telephone}</TableCell>
+                  <TableCell>{abordagem.userEmail}</TableCell>
                   <TableCell className="text-center">
                     <input
                       type="checkbox"

@@ -7,6 +7,7 @@ export interface AbordagemFilterParams extends GenericFilterParams {
   lastApproachDate?: string;
   nextApproachDate?: string;
   contactAddressed?: boolean;
+  userEmail?: string;
   updatedAt?: string;
   createdAt?: string;
   updatedBy?: string;

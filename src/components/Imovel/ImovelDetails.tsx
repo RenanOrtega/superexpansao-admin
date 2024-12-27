@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "../ui/button";
-import { ArrowLeft, Save } from "lucide-react";
+import { ArrowLeft, Edit, Save } from "lucide-react";
 import { imovelSchema, ImovelWithProprietario } from "@/types/Imovel";
 import { imovelService } from "@/services/imovelService";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,6 +23,7 @@ export function ImovelDetails() {
   const [imovel, setImovel] = useState<ImovelWithProprietario | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isButtonLoading, setIsButtonLoading] = useState<boolean>(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   const form = useForm<z.infer<typeof imovelSchema>>({
     resolver: zodResolver(imovelSchema),
@@ -30,7 +31,8 @@ export function ImovelDetails() {
       address: "",
       availability: "",
       city: "",
-      iptuValue: 0,
+      iptuMonthly: 0,
+      iptuAnnual: 0,
       link: "",
       neighborhood: "",
       propertyProfile: "",
@@ -56,7 +58,8 @@ export function ImovelDetails() {
           address: response.address,
           availability: response.availability,
           city: response.city,
-          iptuValue: response.iptuValue,
+          iptuMonthly: response.iptuMonthly,
+          iptuAnnual: response.iptuAnnual,
           link: response.link,
           neighborhood: response.neighborhood,
           propertyProfile: response.propertyProfile,
@@ -72,6 +75,7 @@ export function ImovelDetails() {
 
         setImovel(response);
         setIsLoading(false);
+        setIsEditing(false);
       } catch (error) {
         console.error("Erro ao buscar imovel:", error);
         navigate("/imoveis");
@@ -103,14 +107,23 @@ export function ImovelDetails() {
   return (
     <LoadingPage isLoading={isLoading}>
       <div className="container mx-auto p-4">
-        <Button
-          variant="outline"
-          onClick={() => navigate("/imoveis")}
-          className="mb-4 flex items-center gap-2"
-        >
-          <ArrowLeft size={16} /> Imóveis
-        </Button>
-
+        <div className="flex flex-col md:flex-row justify-between mb-3 md:mb-0">
+          <Button
+            variant="outline"
+            onClick={() => navigate("/imoveis")}
+            className="mb-4 flex items-center gap-2"
+          >
+            <ArrowLeft size={16} /> Imóveis
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => setIsEditing(!isEditing)}
+            className="flex items-center gap-2"
+          >
+            <Edit size={16} />
+            {isEditing ? "Desabilitar edição" : "Habilitar edição"}
+          </Button>
+        </div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <div className="flex flex-col md:flex-row gap-5">
@@ -122,6 +135,7 @@ export function ImovelDetails() {
                   label="Logradouro"
                   placeholder="Logradouro do Imóvel"
                   className="mb-3"
+                  disabled={!isEditing}
                 />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
                   <CustomFormField
@@ -129,12 +143,14 @@ export function ImovelDetails() {
                     name="city"
                     label="Cidade"
                     placeholder="Cidade"
+                    disabled={!isEditing}
                   />
                   <CustomFormField
                     control={form.control}
                     name="state"
                     label="Estado"
                     placeholder="Estado"
+                    disabled={!isEditing}
                   />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -143,12 +159,14 @@ export function ImovelDetails() {
                     name="neighborhood"
                     label="Bairro"
                     placeholder="Bairro"
+                    disabled={!isEditing}
                   />
                   <CustomFormField
                     control={form.control}
                     name="zone"
                     label="Zona"
                     placeholder="Zona"
+                    disabled={!isEditing}
                   />
                 </div>
               </Container>
@@ -180,7 +198,11 @@ export function ImovelDetails() {
                   control={form.control}
                   name="proprietarioId"
                   render={({ field: { value, onChange } }) => (
-                    <ProprietarioCombobox value={value} onChange={onChange} />
+                    <ProprietarioCombobox
+                      value={value}
+                      onChange={onChange}
+                      disabled={!isEditing}
+                    />
                   )}
                 />
                 <SelectFormField
@@ -189,6 +211,7 @@ export function ImovelDetails() {
                   label="Disponibilidade"
                   placeholder="Seleciona a disponibilidade"
                   values={["Disponivel", "Alugado", "Indisponivel", "Motivo"]}
+                  disabled={!isEditing}
                 />
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
@@ -197,12 +220,14 @@ export function ImovelDetails() {
                   name="link"
                   label="Link"
                   placeholder="Link"
+                  disabled={!isEditing}
                 />
                 <CustomFormField
                   control={form.control}
                   name="propertyProfile"
                   label="Perfil"
                   placeholder="Perfil do Imóvel"
+                  disabled={!isEditing}
                 />
               </div>
               <CustomFormField
@@ -210,42 +235,57 @@ export function ImovelDetails() {
                 name="realEstate"
                 label="Imobiliária"
                 placeholder="Imobiliária"
+                disabled={!isEditing}
               />
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
                 <CustomFormField
                   control={form.control}
                   name="searchMeterage"
-                  label="Metragem de busca"
+                  label="Metragem de busca - m2"
                   type="number"
                   placeholder="Metragem"
                   onChange={(value) =>
                     value === "" ? undefined : Number(value)
                   }
+                  disabled={!isEditing}
                 />
                 <CustomFormField
                   control={form.control}
                   name="totalArea"
-                  label="Total da área"
+                  label="Total da área - m2"
                   type="number"
                   placeholder="Total da área"
                   onChange={(value) =>
                     value === "" ? undefined : Number(value)
                   }
+                  disabled={!isEditing}
                 />
               </div>
             </Container>
             <Container>
               <h2 className="font-bold mb-4 text-lg">Valores</h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
                 <CustomFormField
                   control={form.control}
-                  name="iptuValue"
-                  label="Valor do IPTU"
+                  name="iptuMonthly"
+                  label="Valor do IPTU mensal"
                   type="number"
-                  placeholder="IPTU"
+                  placeholder="IPTU mensal"
                   onChange={(value) =>
                     value === "" ? undefined : Number(value)
                   }
+                  disabled={!isEditing}
+                />
+                <CustomFormField
+                  control={form.control}
+                  name="iptuAnnual"
+                  label="Valor do IPTU anual"
+                  type="number"
+                  placeholder="IPTU anual"
+                  onChange={(value) =>
+                    value === "" ? undefined : Number(value)
+                  }
+                  disabled={!isEditing}
                 />
                 <CustomFormField
                   control={form.control}
@@ -256,6 +296,7 @@ export function ImovelDetails() {
                   onChange={(value) =>
                     value === "" ? undefined : Number(value)
                   }
+                  disabled={!isEditing}
                 />
                 <CustomFormField
                   control={form.control}
@@ -266,6 +307,7 @@ export function ImovelDetails() {
                   onChange={(value) =>
                     value === "" ? undefined : Number(value)
                   }
+                  disabled={!isEditing}
                 />
               </div>
             </Container>

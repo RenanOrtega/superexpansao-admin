@@ -5,6 +5,9 @@ export interface ContatoFilterParams extends GenericFilterParams {
   telephone?: string;
   name?: string;
   position?: string;
+  city?: string;
+  state?: string;
+  areaOfActivity?: string;
   updatedAt?: string;
   createdAt?: string;
   updatedBy?: string;

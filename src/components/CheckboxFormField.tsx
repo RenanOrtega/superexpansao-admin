@@ -15,12 +15,18 @@ interface CustomCheckboxProps<
   control: Control<TFieldValues>;
   name: TName;
   label: string;
+  disabled?: boolean;
 }
 
 export function CustomCheckboxField<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
->({ control, name, label }: CustomCheckboxProps<TFieldValues, TName>) {
+>({
+  control,
+  name,
+  label,
+  disabled,
+}: CustomCheckboxProps<TFieldValues, TName>) {
   return (
     <FormField
       control={control}
@@ -28,7 +34,11 @@ export function CustomCheckboxField<
       render={({ field }) => (
         <FormItem className="flex space-x-3 space-y-0">
           <FormControl>
-            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+            <Checkbox
+              checked={field.value}
+              onCheckedChange={field.onChange}
+              disabled={disabled}
+            />
           </FormControl>
           <div className="space-y-1 leading-none">
             <FormLabel>{label}</FormLabel>

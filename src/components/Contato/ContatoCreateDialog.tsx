@@ -28,6 +28,10 @@ export function ContatoCreateDialog({
       name: "",
       position: "",
       telephone: "",
+      city: "",
+      state: "",
+      areaOfActivity: "",
+      observations: "",
     },
   });
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -87,14 +91,38 @@ export function ContatoCreateDialog({
               name="position"
               placeholder="Cargo"
             />
+            <CustomFormField
+              control={form.control}
+              label="Cidade"
+              name="city"
+              placeholder="Cidade"
+            />
+            <CustomFormField
+              control={form.control}
+              label="Estado"
+              name="state"
+              placeholder="Estado"
+            />
           </div>
+          <TelephoneFormField control={form.control} name="telephone" />
+          <CustomFormField
+            control={form.control}
+            label="Area de atuação"
+            name="areaOfActivity"
+            placeholder="Area de atuação"
+          />
           <CustomFormField
             control={form.control}
             label="Email"
             name="email"
             placeholder="Email"
           />
-          <TelephoneFormField control={form.control} name="telephone" />
+          <CustomFormField
+            control={form.control}
+            label="Observações"
+            name="observations"
+            placeholder="Observações"
+          />
           <DialogFooter>
             <LoadingButton isLoading={isButtonLoading}>
               <Save className="mr-2 h-4 w-4" /> Criar

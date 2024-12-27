@@ -7,7 +7,12 @@ export interface Contato {
   position: string;
   telephone: string;
   email: string;
+  city: string;
+  state: string;
+  areaOfActivity: string;
   contatoId: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface ContatoWithContato extends Contato {
@@ -23,6 +28,10 @@ export const contatoSchema = z.object({
   position: z.string().min(1, "Cargo é obrigatório"),
   telephone: z.string().regex(/^\(\d{2}\) \d{5}-\d{4}$/, "Telefone inválido"),
   email: z.string().min(1, "Email é obrigatório"),
+  city: z.string().min(1, "Cidade é obrigatório"),
+  state: z.string().min(1, "Estado é obrigatório"),
+  areaOfActivity: z.string().min(1, "Area é obrigatório"),
+  observations: z.string().optional(),
 });
 
 export type ContatoFormData = z.infer<typeof contatoSchema>;

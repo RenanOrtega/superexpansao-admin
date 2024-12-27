@@ -3,7 +3,7 @@ import { proprietarioSchema } from "@/types/Proprietario";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "../ui/button";
-import { ArrowLeft, Save } from "lucide-react";
+import { ArrowLeft, Edit, Save } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Imovel } from "@/types/Imovel";
 import { useForm } from "react-hook-form";
@@ -24,6 +24,7 @@ export function ProprietarioDetails() {
   const navigate = useNavigate();
   const [isButtonLoading, setIsButtonLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   const form = useForm<z.infer<typeof proprietarioSchema>>({
     resolver: zodResolver(proprietarioSchema),
@@ -85,6 +86,7 @@ export function ProprietarioDetails() {
         className: "bg-green-400 dark:text-zinc-900",
       });
       setIsButtonLoading(false);
+      setIsEditing(false);
     } catch (error) {
       toast({
         variant: "destructive",
@@ -106,14 +108,23 @@ export function ProprietarioDetails() {
   return (
     <LoadingPage isLoading={isLoading}>
       <div className="container mx-auto p-4">
-        <Button
-          variant="outline"
-          onClick={() => navigate("/proprietarios")}
-          className="mb-4 flex items-center gap-2"
-        >
-          <ArrowLeft size={16} /> Proprietarios
-        </Button>
-
+        <div className="flex flex-col md:flex-row justify-between mb-3 md:mb-0">
+          <Button
+            variant="outline"
+            onClick={() => navigate("/proprietarios")}
+            className="mb-4 flex items-center gap-2"
+          >
+            <ArrowLeft size={16} /> Proprietarios
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => setIsEditing(!isEditing)}
+            className="flex items-center gap-2"
+          >
+            <Edit size={16} />{" "}
+            {isEditing ? "Desabilitar edição" : "Habilitar edição"}
+          </Button>
+        </div>
         <Container>
           <Form {...form}>
             <form
@@ -133,13 +144,19 @@ export function ProprietarioDetails() {
                   name="name"
                   label="Nome"
                   placeholder="Nome do propretário"
+                  disabled={!isEditing}
                 />
-                <TelephoneFormField control={form.control} name="telephone" />
+                <TelephoneFormField
+                  control={form.control}
+                  name="telephone"
+                  disabled={!isEditing}
+                />
                 <CustomFormField
                   control={form.control}
                   name="email"
                   label="Email"
                   placeholder="Email"
+                  disabled={!isEditing}
                 />
               </div>
 
@@ -149,24 +166,28 @@ export function ProprietarioDetails() {
                   name="address"
                   label="Logradouro"
                   placeholder="Logradouro"
+                  disabled={!isEditing}
                 />
                 <CustomFormField
                   control={form.control}
                   name="neighboor"
                   label="Bairro"
                   placeholder="Bairro"
+                  disabled={!isEditing}
                 />
                 <CustomFormField
                   control={form.control}
                   name="state"
                   label="Estado"
                   placeholder="Estado"
+                  disabled={!isEditing}
                 />
                 <CustomFormField
                   control={form.control}
                   name="city"
                   label="Cidade"
                   placeholder="Cidade"
+                  disabled={!isEditing}
                 />
               </div>
               <CustomFormField
@@ -174,12 +195,14 @@ export function ProprietarioDetails() {
                 name="source"
                 label="Fonte"
                 placeholder="Fonte"
+                disabled={!isEditing}
               />
               <CustomFormField
                 control={form.control}
                 name="observations"
                 label="Observações"
                 placeholder="Observações"
+                disabled={!isEditing}
               />
 
               <div className="flex justify-end">

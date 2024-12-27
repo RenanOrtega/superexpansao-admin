@@ -12,8 +12,10 @@ export interface ImovelFilterParams extends GenericFilterParams {
   maxRentValue?: number;
   minSaleValue?: number;
   maxSaleValue?: number;
-  minIptuValue?: number;
-  maxIptuValue?: number;
+  minIptuMonthly?: number;
+  maxIptuMonthly?: number;
+  minIptuAnnual?: number;
+  maxIptuAnnual?: number;
   minSearchMeterage?: number;
   maxSearchMeterage?: number;
   minTotalArea?: number;

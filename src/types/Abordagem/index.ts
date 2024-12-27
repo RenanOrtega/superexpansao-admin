@@ -11,6 +11,7 @@ export interface Abordagem {
   approachType: string;
   lastApproachDate: Date;
   nextApproachDate: Date;
+  userEmail: string;
 }
 
 export interface AbordagemWithContato extends Abordagem {
@@ -23,6 +24,7 @@ export const abordagemSchema = z.object({
   comment: z.string().min(1, "Comentario é obrigatório"),
   contactAddressed: z.boolean().optional(),
   approachType: z.string().min(1, "Abordagem é obrigatório"),
+  userEmail: z.string().min(1, "Responsável é obrigatório"),
   lastApproachDate: z.coerce.date({
     required_error: "Última abordagem é obrigatória",
   }),

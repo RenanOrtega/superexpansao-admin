@@ -12,12 +12,14 @@ interface DateFormField<T extends FieldValues> {
   control: Control<T>;
   name: Path<T>;
   label: string;
+  disabled?: boolean;
 }
 
 export function DateFormField<T extends FieldValues>({
   control,
   name,
   label,
+  disabled,
 }: DateFormField<T>) {
   return (
     <FormField
@@ -34,6 +36,7 @@ export function DateFormField<T extends FieldValues>({
                   "w-full justify-start text-left font-normal",
                   !field.value && "text-muted-foreground"
                 )}
+                disabled={disabled}
               >
                 <CalendarIcon className="mr-2 h-4 w-4" />
                 {field.value ? (

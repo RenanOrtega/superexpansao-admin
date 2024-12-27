@@ -77,7 +77,7 @@ export function EmpresaActions({
     }
 
     handleFilterFormChange(
-      fieldName,
+      fieldName.replace("Date", ""),
       selectedDate ? format(selectedDate, "yyyy-MM-dd") : ""
     );
   };

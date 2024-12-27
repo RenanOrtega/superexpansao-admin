@@ -15,10 +15,10 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import { Proprietario } from "@/types/Proprietario";
-import { proprietarioService } from "@/services/proprietarioService";
+import { User } from "@/types/User";
+import { userService } from "@/services/userService";
 
-interface ProprietarioComboboxProps {
+interface UserComboboxProps {
   value?: string | null;
   onChange?: (value?: string | null) => void;
   placeholder?: string;
@@ -27,32 +27,31 @@ interface ProprietarioComboboxProps {
   disabled?: boolean;
 }
 
-export function ProprietarioCombobox({
+export function UserCombobox({
   value,
   onChange,
-  placeholder = "Selecionar proprietário",
-  label = "Proprietário",
+  placeholder = "Selecionar responsável",
+  label = "Responsável",
   className = "",
   disabled = false,
-}: ProprietarioComboboxProps) {
+}: UserComboboxProps) {
   const [open, setOpen] = useState(false);
-  const [proprietarios, setProprietarios] = useState<Proprietario[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const loadInitialProprietarios = async () => {
+    const loadInitialUsers = async () => {
       try {
-        const response = await proprietarioService.get({});
-        setProprietarios(response.items);
+        const response = await userService.get({});
+        setUsers(response.items);
       } catch (error) {
-        console.error("Erro ao buscar proprietários:", error);
-        setProprietarios([]);
+        setUsers([]);
       } finally {
         setIsLoading(false);
       }
     };
 
-    loadInitialProprietarios();
+    loadInitialUsers();
   }, []);
 
   const handleOpenChange = (newOpen: boolean) => {
@@ -65,35 +64,34 @@ export function ProprietarioCombobox({
     if (disabled) return;
     setIsLoading(true);
     try {
-      const response = await proprietarioService.get({ name: value });
-      setProprietarios(response.items);
+      const response = await userService.get({ email: value });
+      setUsers(response.items);
     } catch (error) {
-      console.error("Erro ao buscar proprietários:", error);
-      setProprietarios([]);
+      setUsers([]);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleSelect = (proprietarioId?: string) => {
+  const handleSelect = (email?: string) => {
     if (disabled) return;
-    const newValue = value === proprietarioId ? null : proprietarioId;
+    const newValue = value === email ? null : email;
+
     onChange?.(newValue);
     setOpen(false);
   };
 
-  const selectedProprietario =
-    proprietarios.find((p) => p.id === value) || null;
+  const selectedUser = users.find((p) => p.email === value) || null;
 
   return (
-    <div className={cn("space-y-1", className)}>
-      <label htmlFor="proprietario-combobox" className="text-sm font-medium">
+    <div className={cn("space-y-2", className)}>
+      <label htmlFor="user-combobox" className="text-sm font-medium">
         {label}
       </label>
       <Popover open={open} onOpenChange={handleOpenChange}>
         <PopoverTrigger asChild>
           <Button
-            id="proprietario-combobox"
+            id="user-combobox"
             variant="outline"
             role="combobox"
             aria-expanded={open}
@@ -102,8 +100,8 @@ export function ProprietarioCombobox({
           >
             {isLoading
               ? "Carregando..."
-              : selectedProprietario
-              ? selectedProprietario.name
+              : selectedUser
+              ? selectedUser.email
               : placeholder}
             <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
           </Button>
@@ -111,7 +109,7 @@ export function ProprietarioCombobox({
         <PopoverContent className="w-full p-0">
           <Command>
             <CommandInput
-              placeholder="Buscar proprietário..."
+              placeholder="Buscar usuário..."
               className="h-9"
               onValueChange={handleSearch}
               disabled={disabled}
@@ -121,23 +119,21 @@ export function ProprietarioCombobox({
                 <CommandEmpty>Carregando...</CommandEmpty>
               ) : (
                 <>
-                  {proprietarios.length === 0 && (
-                    <CommandEmpty>Nenhum proprietário encontrado.</CommandEmpty>
+                  {users.length === 0 && (
+                    <CommandEmpty>Nenhum usuário encontrado.</CommandEmpty>
                   )}
                   <CommandGroup>
-                    {proprietarios.map((proprietario) => (
+                    {users.map((user) => (
                       <CommandItem
-                        key={proprietario.id}
-                        value={proprietario.name}
-                        onSelect={() => handleSelect(proprietario.id)}
+                        key={user.id}
+                        value={user.email}
+                        onSelect={() => handleSelect(user.email)}
                       >
-                        {proprietario.name}
+                        {user.email}
                         <Check
                           className={cn(
                             "ml-auto h-4 w-4",
-                            value === proprietario.id
-                              ? "opacity-100"
-                              : "opacity-0"
+                            value === user.id ? "opacity-100" : "opacity-0"
                           )}
                         />
                       </CommandItem>

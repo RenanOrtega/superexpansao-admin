@@ -13,7 +13,8 @@ export interface Imovel {
   availability: string;
   rentValue: number;
   saleValue: number;
-  iptuValue: number;
+  iptuMonthly: number;
+  iptuAnnual: number;
   searchMeterage: number;
   totalArea: number;
   realEstate: string;
@@ -39,7 +40,8 @@ export const imovelSchema = z.object({
   availability: z.string().min(1, "Disponibilidade é obrigatório"),
   rentValue: z.coerce.number().min(1, "Valor do aluguel é obrigatório"),
   saleValue: z.coerce.number().optional(),
-  iptuValue: z.coerce.number().optional(),
+  iptuMonthly: z.coerce.number().optional(),
+  iptuAnnual: z.coerce.number().optional(),
   searchMeterage: z.coerce.number().min(1, "Metragem de busca é obrigatório"),
   totalArea: z.coerce.number().min(1, "Area total é obrigatório"),
   realEstate: z.string().optional(),
