@@ -1,5 +1,9 @@
 import { PaginationResponse } from "@/types/pagination";
-import { Mapeador, MapeadorFormData } from "../types/Mapeador";
+import {
+  Mapeador,
+  MapeadorFormData,
+  MapeadorWithHistorico,
+} from "../types/Mapeador";
 import endpoints from "./endpoints";
 import api from "./api";
 import { MapeadorFilterParams } from "@/types/Mapeador/filters";
@@ -39,7 +43,9 @@ export const mapeadorService = {
   },
 
   async getById(id: string) {
-    const response = await api.get<Mapeador>(`${endpoints.mapeador}/${id}`);
+    const response = await api.get<MapeadorWithHistorico>(
+      `${endpoints.mapeador}/${id}`
+    );
     return response.data;
   },
 };

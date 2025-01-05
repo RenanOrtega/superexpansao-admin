@@ -10,6 +10,7 @@ const endpoints = {
   contato: "/contato",
   abordagem: "/abordagem",
   user: "/user",
+  historicoMapeamento: "/historicoMapeamento",
 };
 
 export default endpoints;

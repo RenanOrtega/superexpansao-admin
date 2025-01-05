@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { HistoricoMapeamento } from "../HistoricoMapeamento";
 
 export interface Mapeador {
   id: string;
@@ -15,6 +16,10 @@ export interface Mapeador {
   updatedAt: Date;
   createdAt: Date;
   updatedBy: string;
+}
+
+export interface MapeadorWithHistorico extends Mapeador {
+  historicoMapeamentos: HistoricoMapeamento[];
 }
 
 export const mapeadorSchema = z.object({

@@ -18,6 +18,7 @@ import EmpresaPage from "@/pages/EmpresaPage";
 import { EmpresaDetails } from "@/components/Empresa/EmpresaDetails";
 import { ContatoDetails } from "@/components/Contato/ContatoDetails";
 import AbordagemDetails from "@/components/Abordagem/AbordagemDetails";
+import { HistoricoMapeamentoDetails } from "@/components/HistoricoMapeamento/HistoricoMapeamentoDetails";
 
 const Routes = () => {
   return (
@@ -28,6 +29,10 @@ const Routes = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="/mapeadores" element={<MapeadorPage />} />
           <Route path="/mapeadores/:id" element={<MapeadorDetails />} />
+          <Route
+            path="/mapeamento/:id"
+            element={<HistoricoMapeamentoDetails />}
+          />
           <Route path="/proprietarios" element={<ProprietarioPage />} />
           <Route path="/proprietarios/:id" element={<ProprietarioDetails />} />
           <Route path="/imoveis" element={<ImovelPage />} />

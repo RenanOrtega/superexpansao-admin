@@ -275,7 +275,7 @@ export function ContatoDetails() {
 
         <Container className="mt-5">
           <div className="flex flex-col md:flex-row justify-between">
-            <h2 className="text-2xl font-bold">Contatos</h2>
+            <h2 className="text-2xl font-bold">Abordagens</h2>
             <div className="flex flex-col md:flex-row gap-2 md:mb-5">
               <AbordagemCreateDialog
                 onCreate={handleAddAbordagem}

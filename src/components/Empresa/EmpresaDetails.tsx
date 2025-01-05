@@ -149,8 +149,9 @@ export function EmpresaDetails() {
 
       const matchesUpdatedAt =
         !filters.updatedAt ||
-        new Date(contato.updatedAt).toISOString().split("T")[0] ===
-          filters.updatedAt;
+        (contato.updatedAt &&
+          new Date(contato.updatedAt).toISOString().split("T")[0] ===
+            filters.updatedAt);
 
       return (
         matchesName &&

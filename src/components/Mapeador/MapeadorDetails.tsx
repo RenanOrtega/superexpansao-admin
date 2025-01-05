@@ -16,6 +16,22 @@ import { DateFormField } from "../DateFormFields";
 import LoadingPage from "../LoadingPage";
 import { LoadingButton } from "../LoadingButton";
 import { useToast } from "@/hooks/use-toast";
+import {
+  HistoricoMapeamento,
+  HistoricoMapeamentoFormData,
+} from "@/types/HistoricoMapeamento";
+import { HistoricoMapeamentoCreateDialog } from "../HistoricoMapeamento/HistoricoMapeamentoCreateDialog";
+import { historicoMapeamentoService } from "@/services/historicoMapeamentoService";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../ui/table";
+import HistoricoMapeamentoFilters from "../HistoricoMapeamento/HistoricoMapeamentoFilters";
+import { HistoricoMapeamentoFilterParams } from "@/types/HistoricoMapeamento/filters";
 
 export function MapeadorDetails() {
   const { toast } = useToast();
@@ -24,6 +40,14 @@ export function MapeadorDetails() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isButtonLoading, setIsButtonLoading] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [mappingHistory, setMappingHistory] = useState<HistoricoMapeamento[]>(
+    []
+  );
+  const [mapeadorId, setMapeadorId] = useState<string>("");
+  const [filters, setFilters] = useState<HistoricoMapeamentoFilterParams>({});
+  const [filteredMappingHistory, setFilteredMappingHistory] = useState<
+    HistoricoMapeamento[]
+  >([]);
 
   const form = useForm<z.infer<typeof mapeadorSchema>>({
     resolver: zodResolver(mapeadorSchema),
@@ -57,13 +81,16 @@ export function MapeadorDetails() {
           cameraType: response.cameraType,
           celphoneModel: response.celphoneModel,
         });
+        setMappingHistory(response.historicoMapeamentos);
+        setFilteredMappingHistory(response.historicoMapeamentos);
+        setMapeadorId(response.id);
         setIsLoading(false);
       } catch (error) {
         toast({
           variant: "destructive",
           title: "Algo deu errado.",
         });
-        navigate("/mapeadores");
+        navigate(-1);
       }
     };
 
@@ -88,6 +115,79 @@ export function MapeadorDetails() {
         title: "Algo deu errado.",
       });
     }
+  };
+
+  const handleAddMapping = async (
+    data: HistoricoMapeamentoFormData,
+    mapeadorId: string
+  ) => {
+    try {
+      var historicoMapeamentoCreated = await historicoMapeamentoService.create(
+        data,
+        mapeadorId
+      );
+      toast({
+        title: "Mapeamento criada com sucesso.",
+        className: "bg-green-400 dark:text-zinc-900",
+      });
+      setMappingHistory((prevMapping) => [
+        ...prevMapping,
+        historicoMapeamentoCreated,
+      ]);
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Algo deu errado.",
+      });
+    }
+  };
+
+  useEffect(() => {
+    const filtered = mappingHistory.filter((mapping) => {
+      const matchesMappingDate =
+        !filters.mappingDate ||
+        new Date(mapping.mappingDate).toISOString().split("T")[0] ===
+          filters.mappingDate;
+
+      const matchesCameraType =
+        !filters.cameraType ||
+        mapping.cameraType
+          .toLowerCase()
+          .includes(filters.cameraType.toLowerCase());
+
+      const matchesRouteLink =
+        !filters.routeLink ||
+        mapping.routeLink
+          .toLowerCase()
+          .includes(filters.routeLink.toLowerCase());
+
+      const matchesCreatedAtDate =
+        !filters.createdAt ||
+        new Date(mapping.createdAt).toISOString().split("T")[0] ===
+          filters.createdAt;
+
+      const matchesUpdatedAtDate =
+        !filters.updatedAt ||
+        (mapping.updatedAt &&
+          new Date(mapping.updatedAt).toISOString().split("T")[0] ===
+            filters.updatedAt);
+
+      return (
+        matchesMappingDate &&
+        matchesUpdatedAtDate &&
+        matchesCreatedAtDate &&
+        matchesCameraType &&
+        matchesRouteLink
+      );
+    });
+
+    setFilteredMappingHistory(filtered);
+  }, [filters, mappingHistory]);
+
+  const handleFilterMapeamentos = (
+    newFilters: HistoricoMapeamentoFilterParams
+  ) => {
+    setFilters(newFilters);
   };
 
   return (
@@ -202,6 +302,68 @@ export function MapeadorDetails() {
               </div>
             </form>
           </Form>
+        </Container>
+        <Container className="mt-5">
+          <div className="flex flex-col md:flex-row justify-between">
+            <h2 className="text-2xl font-bold">Histórico de mapeamento</h2>
+            <div className="flex flex-col md:flex-row gap-2 md:mb-5">
+              <HistoricoMapeamentoCreateDialog
+                onCreate={handleAddMapping}
+                mapeadorId={mapeadorId}
+              />
+              <HistoricoMapeamentoFilters onFilter={handleFilterMapeamentos} />
+            </div>
+          </div>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Data mapeamento</TableHead>
+                <TableHead>Tipo de camera</TableHead>
+                <TableHead>Link da rota</TableHead>
+                <TableHead>Valor</TableHead>
+                <TableHead className="text-center">Criado em</TableHead>
+                <TableHead className="text-center">
+                  Última atualização
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {filteredMappingHistory.map((mapping) => (
+                <TableRow
+                  key={mapping.id}
+                  className="hover:bg-gray-50 dark:hover:bg-zinc-700 cursor-pointer"
+                  onClick={() => navigate(`/mapeamento/${mapping.id}`)}
+                >
+                  <TableCell>
+                    {mapping.mappingDate
+                      ? new Date(mapping.mappingDate).toLocaleDateString(
+                          "pt-BR"
+                        )
+                      : "-"}
+                  </TableCell>
+                  <TableCell>{mapping.cameraType}</TableCell>
+                  <TableCell>{mapping.routeLink}</TableCell>
+                  <TableCell>{mapping.value}</TableCell>
+                  <TableCell className="text-center">
+                    {mapping.createdAt
+                      ? new Date(mapping.createdAt).toLocaleDateString("pt-BR")
+                      : "-"}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {mapping.updatedAt
+                      ? new Date(mapping.updatedAt).toLocaleDateString("pt-BR")
+                      : "-"}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+
+          {filteredMappingHistory.length === 0 && (
+            <div className="text-center text-gray-500 mt-4">
+              Nenhum mapeamento registrado.
+            </div>
+          )}
         </Container>
       </div>
     </LoadingPage>
