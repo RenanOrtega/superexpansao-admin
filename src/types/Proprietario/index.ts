@@ -7,7 +7,7 @@ export interface Proprietario {
   source: string;
   telephone: string;
   address: string;
-  neighboor: string;
+  neighborhood: string;
   city: string;
   state: string;
   email: string;
@@ -15,6 +15,7 @@ export interface Proprietario {
   createdAt: Date;
   updatedBy: string;
   observations: string;
+  cep: string;
 }
 
 export interface ProprietarioWithImoveis extends Proprietario {
@@ -27,11 +28,12 @@ export const proprietarioSchema = z.object({
   source: z.string().min(1, "Fonte é obrigatório"),
   telephone: z.string().regex(/^\(\d{2}\) \d{5}-\d{4}$/, "Telefone inválido"),
   address: z.string().min(1, "Logradouro é obrigatório"),
-  neighboor: z.string().min(1, "Bairro é obrigatório"),
+  neighborhood: z.string().min(1, "Bairro é obrigatório"),
   city: z.string().min(1, "Cidade é obrigatória"),
   state: z.string().min(1, "Estado é obrigatória"),
   email: z.union([z.literal(""), z.string().email("E-mail inválido")]),
   observations: z.string().optional(),
+  cep: z.string(),
 });
 
 export type ProprietarioFormData = z.infer<typeof proprietarioSchema>;

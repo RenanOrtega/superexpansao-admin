@@ -5,7 +5,7 @@ export interface ProprietarioFilterParams extends GenericFilterParams {
   source?: string;
   telephone?: string;
   address?: string;
-  neighboor?: string;
+  neighborhood?: string;
   city?: string;
   state?: string;
   email?: string;

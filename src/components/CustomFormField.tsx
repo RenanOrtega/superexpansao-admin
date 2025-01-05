@@ -17,6 +17,7 @@ interface CustomFormField<T extends FieldValues> {
   className?: string;
   onChange?: (value: string | number | undefined) => any;
   disabled?: boolean;
+  readOnly?: boolean;
 }
 
 export function CustomFormField<T extends FieldValues>({
@@ -28,6 +29,7 @@ export function CustomFormField<T extends FieldValues>({
   className = "w-full ",
   onChange,
   disabled,
+  readOnly,
 }: CustomFormField<T>) {
   return (
     <FormField
@@ -56,6 +58,7 @@ export function CustomFormField<T extends FieldValues>({
                 const processedValue = onChange ? onChange(value) : value;
                 field.onChange(processedValue);
               }}
+              readOnly={readOnly}
             />
           </FormControl>
           <FormMessage />

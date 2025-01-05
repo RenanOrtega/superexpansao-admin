@@ -17,6 +17,8 @@ import { LoadingButton } from "../LoadingButton";
 import Container from "../Container";
 import LoadingPage from "../LoadingPage";
 import { useToast } from "@/hooks/use-toast";
+import { Address } from "@/types/Address";
+import CepAutocomplete from "../CepAutocomplete";
 
 export function ProprietarioDetails() {
   const { toast } = useToast();
@@ -37,6 +39,7 @@ export function ProprietarioDetails() {
       city: "",
       observations: "",
       source: "",
+      cep: "",
     },
   });
 
@@ -56,11 +59,12 @@ export function ProprietarioDetails() {
           telephone: response.telephone,
           email: response.email,
           address: response.address,
-          neighboor: response.neighboor,
+          neighborhood: response.neighborhood,
           state: response.state,
           city: response.city,
           observations: response.observations,
           source: response.source,
+          cep: response.cep,
         });
 
         setImoveis(response.imoveis);
@@ -105,6 +109,14 @@ export function ProprietarioDetails() {
     return availabilityStyles[key] || "bg-gray-200";
   };
 
+  const handleAddressChange = (address: Address) => {
+    form.setValue("address", address.logradouro);
+    form.setValue("neighborhood", address.bairro);
+    form.setValue("city", address.cidade);
+    form.setValue("state", address.uf);
+    form.setValue("cep", address.cep);
+  };
+
   return (
     <LoadingPage isLoading={isLoading}>
       <div className="container mx-auto p-4">
@@ -136,7 +148,7 @@ export function ProprietarioDetails() {
                   console.error("Erros de validação:", errors);
                 }
               )}
-              className="space-y-8 "
+              className="space-y-4"
             >
               <div className="grid md:grid-cols-3 gap-4">
                 <CustomFormField
@@ -160,20 +172,30 @@ export function ProprietarioDetails() {
                 />
               </div>
 
-              <div className="grid md:grid-cols-4 gap-4">
+              <div className="grid md:grid-cols-2 gap-2">
+                <div className="w-full">
+                  <CepAutocomplete
+                    control={form.control}
+                    name="cep"
+                    onAddressChange={handleAddressChange}
+                    disabled={!isEditing}
+                  />
+                </div>
                 <CustomFormField
                   control={form.control}
                   name="address"
                   label="Logradouro"
                   placeholder="Logradouro"
                   disabled={!isEditing}
+                  readOnly
                 />
                 <CustomFormField
                   control={form.control}
-                  name="neighboor"
+                  name="neighborhood"
                   label="Bairro"
                   placeholder="Bairro"
                   disabled={!isEditing}
+                  readOnly
                 />
                 <CustomFormField
                   control={form.control}
@@ -181,6 +203,7 @@ export function ProprietarioDetails() {
                   label="Estado"
                   placeholder="Estado"
                   disabled={!isEditing}
+                  readOnly
                 />
                 <CustomFormField
                   control={form.control}
@@ -188,15 +211,16 @@ export function ProprietarioDetails() {
                   label="Cidade"
                   placeholder="Cidade"
                   disabled={!isEditing}
+                  readOnly
+                />
+                <CustomFormField
+                  control={form.control}
+                  name="source"
+                  label="Fonte"
+                  placeholder="Fonte"
+                  disabled={!isEditing}
                 />
               </div>
-              <CustomFormField
-                control={form.control}
-                name="source"
-                label="Fonte"
-                placeholder="Fonte"
-                disabled={!isEditing}
-              />
               <CustomFormField
                 control={form.control}
                 name="observations"

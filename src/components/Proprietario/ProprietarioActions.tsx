@@ -25,7 +25,7 @@ export function ProprietarioActions({
     source: activeFilters.source || "",
     telephone: activeFilters.telephone || "",
     address: activeFilters.address || "",
-    neighboor: activeFilters.neighboor || "",
+    neighborhood: activeFilters.neighborhood || "",
     city: activeFilters.city || "",
     state: activeFilters.state || "",
     email: activeFilters.email || "",
@@ -59,7 +59,7 @@ export function ProprietarioActions({
       source: "",
       telephone: "",
       address: "",
-      neighboor: "",
+      neighborhood: "",
       city: "",
       state: "",
       email: "",
@@ -182,16 +182,16 @@ export function ProprietarioActions({
                         placeholder="Bairro"
                         type="text"
                         onChange={(e) =>
-                          handleFilterFormChange("neighboor", e.target.value)
+                          handleFilterFormChange("neighborhood", e.target.value)
                         }
-                        value={filterForm.neighboor}
+                        value={filterForm.neighborhood}
                       />
                       <InputFilter
                         label="Cidade"
                         placeholder="Cidade"
                         type="text"
                         onChange={(e) =>
-                          handleFilterFormChange("neighboor", e.target.value)
+                          handleFilterFormChange("neighborhood", e.target.value)
                         }
                         value={filterForm.city}
                       />

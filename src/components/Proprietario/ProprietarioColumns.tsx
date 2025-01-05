@@ -24,7 +24,7 @@ export const columns: ColumnDef<Proprietario>[] = [
   },
   {
     header: "Bairro",
-    accessorKey: "neighboor",
+    accessorKey: "neighborhood",
   },
   {
     header: "Cidade",

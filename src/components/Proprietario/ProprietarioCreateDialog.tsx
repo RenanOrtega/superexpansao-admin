@@ -16,6 +16,8 @@ import { CustomFormField } from "../CustomFormField";
 import { DialogFooter } from "../ui/dialog";
 import TelephoneFormField from "../TelephoneFormField";
 import { useToast } from "@/hooks/use-toast";
+import { Address } from "@/types/Address";
+import CepAutocomplete from "../CepAutocomplete";
 
 export function ProprietarioCreateDialog({
   onCreate,
@@ -28,11 +30,12 @@ export function ProprietarioCreateDialog({
       source: "",
       telephone: "",
       address: "",
-      neighboor: "",
+      neighborhood: "",
       city: "",
       state: "",
       email: "",
       observations: "",
+      cep: "",
     },
   });
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -58,6 +61,14 @@ export function ProprietarioCreateDialog({
         title: "Algo deu errado.",
       });
     }
+  };
+
+  const handleAddressChange = (address: Address) => {
+    form.setValue("address", address.logradouro);
+    form.setValue("neighborhood", address.bairro);
+    form.setValue("city", address.cidade);
+    form.setValue("state", address.uf);
+    form.setValue("cep", address.cep);
   };
 
   return (
@@ -88,18 +99,27 @@ export function ProprietarioCreateDialog({
             label="Email"
             placeholder="Email"
           />
+          <div className="w-full">
+            <CepAutocomplete
+              onAddressChange={handleAddressChange}
+              control={form.control}
+              name="cep"
+            />
+          </div>
           <div className="flex gap-3">
             <CustomFormField
               control={form.control}
               name="address"
               label="Logradouro"
               placeholder="Logradouro"
+              readOnly
             />
             <CustomFormField
               control={form.control}
-              name="neighboor"
+              name="neighborhood"
               label="Bairro"
               placeholder="Bairro"
+              readOnly
             />
           </div>
           <div className="flex gap-3">
@@ -108,12 +128,14 @@ export function ProprietarioCreateDialog({
               name="city"
               label="Cidade"
               placeholder="Cidade"
+              readOnly
             />
             <CustomFormField
               control={form.control}
               name="state"
               label="Estado"
               placeholder="Estado"
+              readOnly
             />
           </div>
           <CustomFormField

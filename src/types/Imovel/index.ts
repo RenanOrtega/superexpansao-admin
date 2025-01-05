@@ -18,6 +18,7 @@ export interface Imovel {
   searchMeterage: number;
   totalArea: number;
   realEstate: string;
+  cep: string;
   updatedAt: Date;
   createdAt: Date;
   updatedBy: string;
@@ -45,6 +46,7 @@ export const imovelSchema = z.object({
   searchMeterage: z.coerce.number().min(1, "Metragem de busca é obrigatório"),
   totalArea: z.coerce.number().min(1, "Area total é obrigatório"),
   realEstate: z.string().optional(),
+  cep: z.string(),
 });
 
 export type ImovelFormData = z.infer<typeof imovelSchema>;

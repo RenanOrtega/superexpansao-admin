@@ -15,6 +15,8 @@ import { CustomFormField } from "../CustomFormField";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { ProprietarioCombobox } from "../Proprietario/ProprietarioCombobox";
 import SelectFormField from "../SelectFormField";
+import { Address } from "@/types/Address";
+import CepAutocomplete from "../CepAutocomplete";
 
 export function ImovelCreateDialog({ onCreate }: CreateImovelDialogProps) {
   const form = useForm<ImovelFormData>({
@@ -36,6 +38,7 @@ export function ImovelCreateDialog({ onCreate }: CreateImovelDialogProps) {
       saleValue: 0,
       searchMeterage: 0,
       totalArea: 0,
+      cep: "",
     },
   });
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -51,6 +54,15 @@ export function ImovelCreateDialog({ onCreate }: CreateImovelDialogProps) {
     await onCreate(data);
     form.reset();
     setIsDialogOpen(false);
+  };
+
+  const handleAddressChange = (address: Address) => {
+    form.setValue("address", address.logradouro);
+    form.setValue("neighborhood", address.bairro);
+    form.setValue("city", address.cidade);
+    form.setValue("state", address.uf);
+    form.setValue("cep", address.cep);
+    form.setValue("zone", address.regiao);
   };
 
   return (
@@ -73,11 +85,19 @@ export function ImovelCreateDialog({ onCreate }: CreateImovelDialogProps) {
               <TabsTrigger value="financial">Financeiro</TabsTrigger>
             </TabsList>
             <TabsContent value="location" className="flex flex-col gap-3">
+              <div className="w-full">
+                <CepAutocomplete
+                  onAddressChange={handleAddressChange}
+                  control={form.control}
+                  name="cep"
+                />
+              </div>
               <CustomFormField
                 control={form.control}
                 name="address"
                 label="Logradouro"
                 placeholder="Logradouro do Imóvel"
+                readOnly
               />
               <div className="flex gap-3">
                 <CustomFormField
@@ -85,12 +105,14 @@ export function ImovelCreateDialog({ onCreate }: CreateImovelDialogProps) {
                   name="city"
                   label="Cidade"
                   placeholder="Cidade"
+                  readOnly
                 />
                 <CustomFormField
                   control={form.control}
                   name="state"
                   label="Estado"
                   placeholder="Estado"
+                  readOnly
                 />
               </div>
               <div className="flex gap-3">
@@ -99,12 +121,14 @@ export function ImovelCreateDialog({ onCreate }: CreateImovelDialogProps) {
                   name="neighborhood"
                   label="Bairro"
                   placeholder="Bairro"
+                  readOnly
                 />
                 <CustomFormField
                   control={form.control}
                   name="zone"
                   label="Zona"
                   placeholder="Zona"
+                  readOnly
                 />
               </div>
             </TabsContent>

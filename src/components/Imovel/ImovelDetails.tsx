@@ -15,6 +15,8 @@ import Container from "../Container";
 import LoadingPage from "../LoadingPage";
 import { LoadingButton } from "../LoadingButton";
 import { useToast } from "@/hooks/use-toast";
+import { Address } from "@/types/Address";
+import CepAutocomplete from "../CepAutocomplete";
 
 export function ImovelDetails() {
   const { toast } = useToast();
@@ -44,6 +46,7 @@ export function ImovelDetails() {
       state: "",
       totalArea: 0,
       zone: "",
+      cep: "",
     },
   });
 
@@ -71,6 +74,7 @@ export function ImovelDetails() {
           state: response.state,
           totalArea: response.totalArea,
           zone: response.zone,
+          cep: response.cep,
         });
 
         setImovel(response);
@@ -104,6 +108,15 @@ export function ImovelDetails() {
     }
   };
 
+  const handleAddressChange = (address: Address) => {
+    form.setValue("address", address.logradouro);
+    form.setValue("neighborhood", address.bairro);
+    form.setValue("city", address.cidade);
+    form.setValue("state", address.uf);
+    form.setValue("cep", address.cep);
+    form.setValue("zone", address.regiao);
+  };
+
   return (
     <LoadingPage isLoading={isLoading}>
       <div className="container mx-auto p-4">
@@ -125,25 +138,35 @@ export function ImovelDetails() {
           </Button>
         </div>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
             <div className="flex flex-col md:flex-row gap-5">
               <Container className="flex-1">
                 <h2 className="font-bold mb-4 text-lg">Localização</h2>
-                <CustomFormField
-                  control={form.control}
-                  name="address"
-                  label="Logradouro"
-                  placeholder="Logradouro do Imóvel"
-                  className="mb-3"
-                  disabled={!isEditing}
-                />
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-3">
+                  <div className="w-full">
+                    <CepAutocomplete
+                      control={form.control}
+                      name="cep"
+                      onAddressChange={handleAddressChange}
+                      disabled={!isEditing}
+                    />
+                  </div>
+                  <CustomFormField
+                    control={form.control}
+                    name="address"
+                    label="Logradouro"
+                    placeholder="Logradouro do Imóvel"
+                    className="mb-3"
+                    disabled={!isEditing}
+                    readOnly
+                  />
                   <CustomFormField
                     control={form.control}
                     name="city"
                     label="Cidade"
                     placeholder="Cidade"
                     disabled={!isEditing}
+                    readOnly
                   />
                   <CustomFormField
                     control={form.control}
@@ -151,6 +174,7 @@ export function ImovelDetails() {
                     label="Estado"
                     placeholder="Estado"
                     disabled={!isEditing}
+                    readOnly
                   />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -160,6 +184,7 @@ export function ImovelDetails() {
                     label="Bairro"
                     placeholder="Bairro"
                     disabled={!isEditing}
+                    readOnly
                   />
                   <CustomFormField
                     control={form.control}
@@ -167,6 +192,7 @@ export function ImovelDetails() {
                     label="Zona"
                     placeholder="Zona"
                     disabled={!isEditing}
+                    readOnly
                   />
                 </div>
               </Container>
