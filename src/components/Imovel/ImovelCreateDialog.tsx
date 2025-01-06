@@ -97,7 +97,6 @@ export function ImovelCreateDialog({ onCreate }: CreateImovelDialogProps) {
                 name="address"
                 label="Logradouro"
                 placeholder="Logradouro do Imóvel"
-                readOnly
               />
               <div className="flex gap-3">
                 <CustomFormField
@@ -105,14 +104,12 @@ export function ImovelCreateDialog({ onCreate }: CreateImovelDialogProps) {
                   name="city"
                   label="Cidade"
                   placeholder="Cidade"
-                  readOnly
                 />
                 <CustomFormField
                   control={form.control}
                   name="state"
                   label="Estado"
                   placeholder="Estado"
-                  readOnly
                 />
               </div>
               <div className="flex gap-3">
@@ -121,14 +118,12 @@ export function ImovelCreateDialog({ onCreate }: CreateImovelDialogProps) {
                   name="neighborhood"
                   label="Bairro"
                   placeholder="Bairro"
-                  readOnly
                 />
                 <CustomFormField
                   control={form.control}
                   name="zone"
                   label="Zona"
                   placeholder="Zona"
-                  readOnly
                 />
               </div>
             </TabsContent>

@@ -187,7 +187,6 @@ export function ProprietarioDetails() {
                   label="Logradouro"
                   placeholder="Logradouro"
                   disabled={!isEditing}
-                  readOnly
                 />
                 <CustomFormField
                   control={form.control}
@@ -195,7 +194,6 @@ export function ProprietarioDetails() {
                   label="Bairro"
                   placeholder="Bairro"
                   disabled={!isEditing}
-                  readOnly
                 />
                 <CustomFormField
                   control={form.control}
@@ -203,7 +201,6 @@ export function ProprietarioDetails() {
                   label="Estado"
                   placeholder="Estado"
                   disabled={!isEditing}
-                  readOnly
                 />
                 <CustomFormField
                   control={form.control}
@@ -211,7 +208,6 @@ export function ProprietarioDetails() {
                   label="Cidade"
                   placeholder="Cidade"
                   disabled={!isEditing}
-                  readOnly
                 />
                 <CustomFormField
                   control={form.control}

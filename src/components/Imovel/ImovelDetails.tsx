@@ -158,7 +158,6 @@ export function ImovelDetails() {
                     placeholder="Logradouro do Imóvel"
                     className="mb-3"
                     disabled={!isEditing}
-                    readOnly
                   />
                   <CustomFormField
                     control={form.control}
@@ -166,7 +165,6 @@ export function ImovelDetails() {
                     label="Cidade"
                     placeholder="Cidade"
                     disabled={!isEditing}
-                    readOnly
                   />
                   <CustomFormField
                     control={form.control}
@@ -174,7 +172,6 @@ export function ImovelDetails() {
                     label="Estado"
                     placeholder="Estado"
                     disabled={!isEditing}
-                    readOnly
                   />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -184,7 +181,6 @@ export function ImovelDetails() {
                     label="Bairro"
                     placeholder="Bairro"
                     disabled={!isEditing}
-                    readOnly
                   />
                   <CustomFormField
                     control={form.control}
@@ -192,7 +188,6 @@ export function ImovelDetails() {
                     label="Zona"
                     placeholder="Zona"
                     disabled={!isEditing}
-                    readOnly
                   />
                 </div>
               </Container>

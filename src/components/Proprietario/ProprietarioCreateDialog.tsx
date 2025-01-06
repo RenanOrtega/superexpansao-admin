@@ -112,14 +112,12 @@ export function ProprietarioCreateDialog({
               name="address"
               label="Logradouro"
               placeholder="Logradouro"
-              readOnly
             />
             <CustomFormField
               control={form.control}
               name="neighborhood"
               label="Bairro"
               placeholder="Bairro"
-              readOnly
             />
           </div>
           <div className="flex gap-3">
@@ -128,14 +126,12 @@ export function ProprietarioCreateDialog({
               name="city"
               label="Cidade"
               placeholder="Cidade"
-              readOnly
             />
             <CustomFormField
               control={form.control}
               name="state"
               label="Estado"
               placeholder="Estado"
-              readOnly
             />
           </div>
           <CustomFormField

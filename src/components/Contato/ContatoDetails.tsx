@@ -313,7 +313,6 @@ export function ContatoDetails() {
                     <input
                       type="checkbox"
                       checked={abordagem.contactAddressed}
-                      readOnly
                       className="form-checkbox"
                     />
                   </TableCell>
