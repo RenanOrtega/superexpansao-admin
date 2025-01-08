@@ -15,16 +15,16 @@ jobs:
       - name: Login to Docker Hub
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
       - name: Build Docker Image
-        run: docker build -t renanortegadev/se-admin-react .
+        run: docker build -t barthsuperexpansao/se-admin-react .
       - name: Publish image to docker hub
-        run: docker push renanortegadev/se-admin-react:latest
+        run: docker push barthsuperexpansao/se-admin-react:latest
   deploy:
     needs: build
     runs-on: aws-ec2
     steps:
       - name: Pull image from docker hub
-        run: docker pull renanortegadev/se-admin-react:latest
+        run: docker pull barthsuperexpansao/se-admin-react:latest
       - name: Delete Old Container
         run: docker rm -f reactContainer
       - name: Run docker container
-        run: docker run -d -p 80:80 -p 443:443 --name reactContainer renanortegadev/se-admin-react
+        run: docker run -d -p 80:80 -p 443:443 --name reactContainer barthsuperexpansao/se-admin-react
