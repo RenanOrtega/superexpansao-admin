@@ -27,4 +27,7 @@ jobs:
       - name: Delete Old Container
         run: docker rm -f reactContainer
       - name: Run docker container
-        run: docker run -d -p 80:80 -p 443:443 --name reactContainer barthsuperexpansao/se-admin-react
+        run: docker run -d -p 80:80 -p 443:443 \
+          -v /etc/letsencrypt/live/admin.teste.com/fullchain.pem:/etc/nginx/certs/fullchain.pem \
+          -v /etc/letsencrypt/live/admin.teste.com/privkey.pem:/etc/nginx/certs/privkey.pem \
+          --name reactContainer barthsuperexpansao/se-admin-react
