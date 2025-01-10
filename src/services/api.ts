@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 import { authService } from "./authService";
 
-const API_BASE_URL = import.meta.env.VITE_API_URL;
+const API_BASE_URL = "http://se-admin-lb-271985348.us-east-1.elb.amazonaws.com";
 
 const api: AxiosInstance = axios.create({
   baseURL: API_BASE_URL,
