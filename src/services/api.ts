@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 import { authService } from "./authService";
 
-const API_BASE_URL = "https://api.superexpansao.com.br";
+const API_BASE_URL = "https://api.superexpansao.com.br/api";
 
 const api: AxiosInstance = axios.create({
   baseURL: API_BASE_URL,
