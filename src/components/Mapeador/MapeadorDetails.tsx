@@ -32,6 +32,7 @@ import {
 } from "../ui/table";
 import HistoricoMapeamentoFilters from "../HistoricoMapeamento/HistoricoMapeamentoFilters";
 import { HistoricoMapeamentoFilterParams } from "@/types/HistoricoMapeamento/filters";
+import { RoleBasedAccess } from "../RoleBasedAccess";
 
 export function MapeadorDetails() {
   const { toast } = useToast();
@@ -201,14 +202,16 @@ export function MapeadorDetails() {
           >
             <ArrowLeft size={16} /> Mapeadores
           </Button>
-          <Button
-            variant="outline"
-            onClick={() => setIsEditing(!isEditing)}
-            className="flex items-center gap-2"
-          >
-            <Edit size={16} />
-            {isEditing ? "Desabilitar edição" : "Habilitar edição"}
-          </Button>
+          <RoleBasedAccess allowedRoles={["Admin", "Moderador"]}>
+            <Button
+              variant="outline"
+              onClick={() => setIsEditing(!isEditing)}
+              className="flex items-center gap-2"
+            >
+              <Edit size={16} />
+              {isEditing ? "Desabilitar edição" : "Habilitar edição"}
+            </Button>
+          </RoleBasedAccess>
         </div>
         <Container>
           <Form {...form}>

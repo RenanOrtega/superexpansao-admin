@@ -27,6 +27,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import AbordagemFilters from "../Abordagem/AbordagemFilters";
 import { AbordagemFilterParams } from "@/types/Abordagem/filters";
+import { RoleBasedAccess } from "../RoleBasedAccess";
 
 export function ContatoDetails() {
   const { toast } = useToast();
@@ -177,14 +178,16 @@ export function ContatoDetails() {
           >
             <ArrowLeft size={16} /> Voltar
           </Button>
-          <Button
-            variant="outline"
-            onClick={() => setIsEditing(!isEditing)}
-            className="flex items-center gap-2"
-          >
-            <Edit size={16} />
-            {isEditing ? "Desabilitar edição" : "Habilitar edição"}
-          </Button>
+          <RoleBasedAccess allowedRoles={["Admin", "Moderador"]}>
+            <Button
+              variant="outline"
+              onClick={() => setIsEditing(!isEditing)}
+              className="flex items-center gap-2"
+            >
+              <Edit size={16} />
+              {isEditing ? "Desabilitar edição" : "Habilitar edição"}
+            </Button>
+          </RoleBasedAccess>
         </div>
         <Container>
           <Form {...form}>

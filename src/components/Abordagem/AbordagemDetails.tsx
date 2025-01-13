@@ -17,6 +17,7 @@ import { DateFormField } from "../DateFormFields";
 import { Form, FormField } from "../ui/form";
 import { UserCombobox } from "../User/UserCombobox";
 import SelectFormField from "../SelectFormField";
+import { RoleBasedAccess } from "../RoleBasedAccess";
 
 export default function AbordagemDetails() {
   const { toast } = useToast();
@@ -95,14 +96,16 @@ export default function AbordagemDetails() {
           >
             <ArrowLeft size={16} /> Voltar
           </Button>
-          <Button
-            variant="outline"
-            onClick={() => setIsEditing(!isEditing)}
-            className="flex items-center gap-2"
-          >
-            <Edit size={16} />
-            {isEditing ? "Desabilitar edição" : "Habilitar edição"}
-          </Button>
+          <RoleBasedAccess allowedRoles={["Admin", "Moderador"]}>
+            <Button
+              variant="outline"
+              onClick={() => setIsEditing(!isEditing)}
+              className="flex items-center gap-2"
+            >
+              <Edit size={16} />
+              {isEditing ? "Desabilitar edição" : "Habilitar edição"}
+            </Button>
+          </RoleBasedAccess>
         </div>
         <Container className="mb-5">
           <Form {...form}>

@@ -15,6 +15,7 @@ import SelectFormField from "../SelectFormField";
 import LoadingPage from "../LoadingPage";
 import { LoadingButton } from "../LoadingButton";
 import { useToast } from "@/hooks/use-toast";
+import { RoleBasedAccess } from "../RoleBasedAccess";
 
 export function PedidoDetails() {
   const { toast } = useToast();
@@ -133,14 +134,16 @@ export function PedidoDetails() {
         >
           <ArrowLeft size={16} /> Pedidos
         </Button>
-        <Button
-          variant="outline"
-          onClick={() => setIsEditing(!isEditing)}
-          className="flex items-center gap-2"
-        >
-          <Edit size={16} />
-          {isEditing ? "Desabilitar edição" : "Habilitar edição"}
-        </Button>
+        <RoleBasedAccess allowedRoles={["Admin", "Moderador"]}>
+          <Button
+            variant="outline"
+            onClick={() => setIsEditing(!isEditing)}
+            className="flex items-center gap-2"
+          >
+            <Edit size={16} />
+            {isEditing ? "Desabilitar edição" : "Habilitar edição"}
+          </Button>
+        </RoleBasedAccess>
       </div>
       <Form {...form}>
         <form

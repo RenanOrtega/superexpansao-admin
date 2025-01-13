@@ -92,8 +92,8 @@ export function UserTable() {
     <>
       <PageHeader
         Icon={UserRoundPen}
-        title="usuarios"
-        subtitle="Gerenciamento de usuarios."
+        title="Usuários"
+        subtitle="Gerenciamento de usuários."
       />
       <UserActions
         activeFilters={activeFilters}

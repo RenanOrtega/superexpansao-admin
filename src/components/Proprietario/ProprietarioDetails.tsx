@@ -19,6 +19,7 @@ import LoadingPage from "../LoadingPage";
 import { useToast } from "@/hooks/use-toast";
 import { Address } from "@/types/Address";
 import CepAutocomplete from "../CepAutocomplete";
+import { RoleBasedAccess } from "../RoleBasedAccess";
 
 export function ProprietarioDetails() {
   const { toast } = useToast();
@@ -128,14 +129,16 @@ export function ProprietarioDetails() {
           >
             <ArrowLeft size={16} /> Proprietarios
           </Button>
-          <Button
-            variant="outline"
-            onClick={() => setIsEditing(!isEditing)}
-            className="flex items-center gap-2"
-          >
-            <Edit size={16} />{" "}
-            {isEditing ? "Desabilitar edição" : "Habilitar edição"}
-          </Button>
+          <RoleBasedAccess allowedRoles={["Admin", "Moderador"]}>
+            <Button
+              variant="outline"
+              onClick={() => setIsEditing(!isEditing)}
+              className="flex items-center gap-2"
+            >
+              <Edit size={16} />
+              {isEditing ? "Desabilitar edição" : "Habilitar edição"}
+            </Button>
+          </RoleBasedAccess>
         </div>
         <Container>
           <Form {...form}>

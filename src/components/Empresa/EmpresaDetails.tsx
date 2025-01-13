@@ -28,6 +28,7 @@ import { useToast } from "@/hooks/use-toast";
 import ContatoFilters from "../Contato/ContatoFilters";
 import { ContatoFilterParams } from "@/types/Contato/filters";
 import { format } from "date-fns";
+import { RoleBasedAccess } from "../RoleBasedAccess";
 
 export function EmpresaDetails() {
   const { toast } = useToast();
@@ -184,14 +185,16 @@ export function EmpresaDetails() {
           >
             <ArrowLeft size={16} /> Clientes
           </Button>
-          <Button
-            variant="outline"
-            onClick={() => setIsEditing(!isEditing)}
-            className="flex items-center gap-2"
-          >
-            <Edit size={16} />
-            {isEditing ? "Desabilitar edição" : "Habilitar edição"}
-          </Button>
+          <RoleBasedAccess allowedRoles={["Admin", "Moderador"]}>
+            <Button
+              variant="outline"
+              onClick={() => setIsEditing(!isEditing)}
+              className="flex items-center gap-2"
+            >
+              <Edit size={16} />
+              {isEditing ? "Desabilitar edição" : "Habilitar edição"}
+            </Button>
+          </RoleBasedAccess>
         </div>
         <Container className="mb-5">
           <Form {...form}>

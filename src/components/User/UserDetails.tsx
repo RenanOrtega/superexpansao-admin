@@ -14,6 +14,7 @@ import { LoadingButton } from "../LoadingButton";
 import Container from "../Container";
 import LoadingPage from "../LoadingPage";
 import { useToast } from "@/hooks/use-toast";
+import { RoleBasedAccess } from "../RoleBasedAccess";
 
 export function UserDetails() {
   const { toast } = useToast();
@@ -84,14 +85,16 @@ export function UserDetails() {
           >
             <ArrowLeft size={16} /> Usuarios
           </Button>
-          <Button
-            variant="outline"
-            onClick={() => setIsEditing(!isEditing)}
-            className="flex items-center gap-2"
-          >
-            <Edit size={16} />
-            {isEditing ? "Desabilitar edição" : "Habilitar edição"}
-          </Button>
+          <RoleBasedAccess allowedRoles={["Admin", "Moderador"]}>
+            <Button
+              variant="outline"
+              onClick={() => setIsEditing(!isEditing)}
+              className="flex items-center gap-2"
+            >
+              <Edit size={16} />
+              {isEditing ? "Desabilitar edição" : "Habilitar edição"}
+            </Button>
+          </RoleBasedAccess>
         </div>
         <Container>
           <Form {...form}>

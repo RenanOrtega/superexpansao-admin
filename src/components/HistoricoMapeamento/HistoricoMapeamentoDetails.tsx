@@ -14,6 +14,7 @@ import LoadingPage from "../LoadingPage";
 import { CustomFormField } from "../CustomFormField";
 import { useToast } from "@/hooks/use-toast";
 import { DateFormField } from "../DateFormFields";
+import { RoleBasedAccess } from "../RoleBasedAccess";
 
 export function HistoricoMapeamentoDetails() {
   const { toast } = useToast();
@@ -84,14 +85,16 @@ export function HistoricoMapeamentoDetails() {
           >
             <ArrowLeft size={16} /> Mapeador
           </Button>
-          <Button
-            variant="outline"
-            onClick={() => setIsEditing(!isEditing)}
-            className="flex items-center gap-2"
-          >
-            <Edit size={16} />
-            {isEditing ? "Desabilitar edição" : "Habilitar edição"}
-          </Button>
+          <RoleBasedAccess allowedRoles={["Admin", "Moderador"]}>
+            <Button
+              variant="outline"
+              onClick={() => setIsEditing(!isEditing)}
+              className="flex items-center gap-2"
+            >
+              <Edit size={16} />
+              {isEditing ? "Desabilitar edição" : "Habilitar edição"}
+            </Button>
+          </RoleBasedAccess>
         </div>
         <Container className="mb-5">
           <Form {...form}>

@@ -17,6 +17,7 @@ import { LoadingButton } from "../LoadingButton";
 import { useToast } from "@/hooks/use-toast";
 import { Address } from "@/types/Address";
 import CepAutocomplete from "../CepAutocomplete";
+import { RoleBasedAccess } from "../RoleBasedAccess";
 
 export function ImovelDetails() {
   const { toast } = useToast();
@@ -128,14 +129,16 @@ export function ImovelDetails() {
           >
             <ArrowLeft size={16} /> Imóveis
           </Button>
-          <Button
-            variant="outline"
-            onClick={() => setIsEditing(!isEditing)}
-            className="flex items-center gap-2"
-          >
-            <Edit size={16} />
-            {isEditing ? "Desabilitar edição" : "Habilitar edição"}
-          </Button>
+          <RoleBasedAccess allowedRoles={["Admin", "Moderador"]}>
+            <Button
+              variant="outline"
+              onClick={() => setIsEditing(!isEditing)}
+              className="flex items-center gap-2"
+            >
+              <Edit size={16} />
+              {isEditing ? "Desabilitar edição" : "Habilitar edição"}
+            </Button>
+          </RoleBasedAccess>
         </div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
