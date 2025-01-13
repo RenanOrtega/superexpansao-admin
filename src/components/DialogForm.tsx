@@ -24,11 +24,11 @@ export function DialogForm({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
-      <DialogContent className="max-h-screen">
+      <DialogContent className="max-h-[90vh] flex flex-col">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
         </DialogHeader>
-        {children}
+        <div className="flex-1 overflow-y-auto pr-2">{children}</div>
       </DialogContent>
     </Dialog>
   );
