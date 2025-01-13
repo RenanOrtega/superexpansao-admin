@@ -25,13 +25,19 @@ export const viaCepService = {
   async getByCep(cep: string): Promise<Address> {
     const cleanCep = cep.replace(/\D/g, "");
 
+    console.log(cleanCep);
+
     if (cleanCep.length !== 8) {
+      console.log(cleanCep.length);
       throw new Error("CEP inválido");
     }
 
     const response = await viaCepApi.get<ViaCepResponse>(`/${cleanCep}/json`);
 
+    console.log(response);
+
     if (response.data.erro) {
+      console.log(response.data);
       throw new Error("CEP não encontrado");
     }
 
