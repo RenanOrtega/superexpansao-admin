@@ -1,5 +1,5 @@
 import { Address } from "@/types/Address";
-import axios from "axios";
+import axios, { AxiosInstance } from "axios";
 
 interface ViaCepResponse {
   cep: string;
@@ -12,6 +12,15 @@ interface ViaCepResponse {
   erro?: boolean;
 }
 
+const API_BASE_URL = import.meta.env.VITE_VIACEP_URL;
+
+const api: AxiosInstance = axios.create({
+  baseURL: API_BASE_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
 export const viaCepService = {
   async getByCep(cep: string): Promise<Address> {
     const cleanCep = cep.replace(/\D/g, "");
@@ -21,9 +30,7 @@ export const viaCepService = {
     }
 
     try {
-      const response = await axios.get<ViaCepResponse>(
-        `https://viacep.com.br/ws/${cleanCep}/json`
-      );
+      const response = await api.get<ViaCepResponse>(`${cleanCep}/json`);
 
       if (response.data.erro) {
         throw new Error("CEP não encontrado");
