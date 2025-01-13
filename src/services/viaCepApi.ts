@@ -1,15 +1,6 @@
 import { Address } from "@/types/Address";
 import axios from "axios";
 
-const VIACEP_URL = "https://viacep.com.br/ws";
-
-const viaCepApi = axios.create({
-  baseURL: VIACEP_URL,
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
-
 interface ViaCepResponse {
   cep: string;
   logradouro: string;
@@ -30,7 +21,9 @@ export const viaCepService = {
     }
 
     try {
-      const response = await viaCepApi.get<ViaCepResponse>(`/${cleanCep}/json`);
+      const response = await axios.get<ViaCepResponse>(
+        `https://viacep.com.br/ws/${cleanCep}/json`
+      );
 
       if (response.data.erro) {
         throw new Error("CEP não encontrado");
