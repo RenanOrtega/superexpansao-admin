@@ -1,8 +1,7 @@
 import { Address } from "@/types/Address";
 import axios from "axios";
 
-const VIACEP_URL =
-  import.meta.env.VITE_VIACEP_URL || "https://viacep.com.br/ws";
+const VIACEP_URL = "https://viacep.com.br/ws";
 
 const viaCepApi = axios.create({
   baseURL: VIACEP_URL,
