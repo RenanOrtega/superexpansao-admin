@@ -54,7 +54,12 @@ export const columns: ColumnDef<Mapeador>[] = [
   {
     header: "Último Mapeamento",
     accessorKey: "lastMapping",
-    cell: ({ row }) => format(row.getValue("lastMapping"), "dd/MM/yyyy"),
+    cell: ({ row }) => {
+      const lastMapping: string = row.getValue("lastMapping");
+      return lastMapping
+        ? format(row.getValue("lastMapping"), "dd/MM/yyyy")
+        : "-";
+    },
   },
   {
     header: "Observações",
