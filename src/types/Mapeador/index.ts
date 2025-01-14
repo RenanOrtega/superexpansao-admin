@@ -32,9 +32,7 @@ export const mapeadorSchema = z.object({
   celphoneModel: z.string().min(1, "Celular é obrigatório"),
   pix: z.string().optional(),
   observations: z.string().optional(),
-  lastMapping: z.coerce.date({
-    required_error: "Último Mapeamento é obrigatório",
-  }),
+  lastMapping: z.coerce.date().optional(),
 });
 
 export type MapeadorFormData = z.infer<typeof mapeadorSchema>;
