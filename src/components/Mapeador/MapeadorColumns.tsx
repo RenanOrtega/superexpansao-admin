@@ -34,9 +34,10 @@ export const columns: ColumnDef<Mapeador>[] = [
         Carro: "bg-blue-500 text-white dark:text-zinc-900",
       };
 
+      const displayText = vehicle || "Não inserido";
       const backgroundColor = vehicleStyles[vehicle] || "bg-gray-200";
 
-      return <CustomTag text={vehicle} className={backgroundColor} />;
+      return <CustomTag text={displayText} className={backgroundColor} />;
     },
   },
   {
